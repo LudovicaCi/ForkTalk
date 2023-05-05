@@ -1,4 +1,4 @@
-package it.unipi.inginf.lsdb.group15.forktalk.data_structures;
+package it.unipi.inginf.lsdb.group15.forktalk.model;
 
 public class Review {
     private int id;
