@@ -9,17 +9,19 @@ public class User {
     private String password;
     private String origin;
     private int number_review;
-    private List<Restaurant> restaurantList;
-    private List<User> following;
+    private ArrayList<Restaurant> restaurantList;
+    private ArrayList<User> following;
+    private ArrayList<Review> reviews;
 
-    public User(int id, String username, String password, String origin, int number_review) {
+    public User(int id, String username, String password, String origin, int number_review, ArrayList<Restaurant> restaurantList, ArrayList<User> following, ArrayList<Review> reviews) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.origin = origin;
         this.number_review = number_review;
-        restaurantList = new ArrayList<>();
-        following = new ArrayList<>();
+        this.restaurantList = restaurantList;
+        this.following = following;
+        this.reviews = reviews;
     }
 
     public int getId() {
@@ -38,21 +40,51 @@ public class User {
         return origin;
     }
 
-    public int getNumber_review() { return number_review; }
-
-    public List<Restaurant> getRestaurantList() {
-        return restaurantList;
+    public int getNumber_review() {
+        return number_review;
     }
 
-    public void addRestaurantToList(Restaurant restaurant) {
-        restaurantList.add(restaurant);
+    public ArrayList<Restaurant> getRestaurantList() {
+        return restaurantList;
     }
 
     public List<User> getFollowing() {
         return following;
     }
 
-    public void followUser(User user) {
-        following.add(user);
+    public ArrayList<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public void setNumber_review(int number_review) {
+        this.number_review = number_review;
+    }
+
+    public void setRestaurantList(ArrayList<Restaurant> restaurantList) {
+        this.restaurantList = restaurantList;
+    }
+
+    public void setFollowing(ArrayList<User> following) {
+        this.following = following;
+    }
+
+    public void setReviews(ArrayList<Review> reviews) {
+        this.reviews = reviews;
     }
 }

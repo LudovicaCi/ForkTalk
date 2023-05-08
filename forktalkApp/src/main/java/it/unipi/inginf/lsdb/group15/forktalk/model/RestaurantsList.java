@@ -3,37 +3,37 @@ package it.unipi.inginf.lsdb.group15.forktalk.model;
 import java.util.ArrayList;
 
 public class RestaurantsList {
-    String Title;
-    ArrayList<Restaurant> Restaurants;
-    String User_Creator;
+    private String title;
+    private ArrayList<Restaurant> restaurants;
+    private String username;
 
     public RestaurantsList(String title, ArrayList<Restaurant> restaurants, String user_Creator) {
-        Title = title;
-        Restaurants = restaurants;
-        User_Creator = user_Creator;
+        this.title = title;
+        this.restaurants = restaurants;
+        username = user_Creator;
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public ArrayList<Restaurant> getRestaurants() {
-        return Restaurants;
+        return restaurants;
     }
 
-    public String getUser_Creator() {
-        return User_Creator;
+    public String getUsername() {
+        return username;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public void setRestaurants(ArrayList<Restaurant> restaurants) {
-        Restaurants = restaurants;
+        this.restaurants = restaurants;
     }
 
-    public void setUser_Creator(String user_Creator) {
-        User_Creator = user_Creator;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

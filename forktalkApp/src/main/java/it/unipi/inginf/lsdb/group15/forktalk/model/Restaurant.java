@@ -24,11 +24,9 @@ public class Restaurant {
     private String url_menu;
     private double rest_rating;
     private int number_review;
-    private List<Review> reviews;
+    private ArrayList<Review> reviews;
 
-    public Restaurant(int id, String name, String location, String country, String region, String province, String city, String address, String awards, String price_level,
-                      double priceRange, String cuisine, double rating_excellence, double rating_very_good, double rating_neutral, double rating_poor, double rating_terrible,
-                      String url_menu, double rest_rating, int number_review) {
+    public Restaurant(int id, String name, String location, String country, String region, String province, String city, String address, String awards, String price_level, double priceRange, String cuisine, double rating_excellence, double rating_very_good, double rating_neutral, double rating_poor, double rating_terrible, String url_menu, double rest_rating, int number_review, ArrayList<Review> reviews) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -49,7 +47,7 @@ public class Restaurant {
         this.url_menu = url_menu;
         this.rest_rating = rest_rating;
         this.number_review = number_review;
-        reviews = new ArrayList<>();
+        this.reviews = reviews;
     }
 
     public int getId() {
@@ -128,6 +126,90 @@ public class Restaurant {
 
     public List<Review> getReviews() {
         return reviews;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setAwards(String awards) {
+        this.awards = awards;
+    }
+
+    public void setPrice_level(String price_level) {
+        this.price_level = price_level;
+    }
+
+    public void setPriceRange(double priceRange) {
+        this.priceRange = priceRange;
+    }
+
+    public void setCuisine(String cuisine) {
+        this.cuisine = cuisine;
+    }
+
+    public void setRating_excellence(double rating_excellence) {
+        this.rating_excellence = rating_excellence;
+    }
+
+    public void setRating_very_good(double rating_very_good) {
+        this.rating_very_good = rating_very_good;
+    }
+
+    public void setRating_neutral(double rating_neutral) {
+        this.rating_neutral = rating_neutral;
+    }
+
+    public void setRating_poor(double rating_poor) {
+        this.rating_poor = rating_poor;
+    }
+
+    public void setRating_terrible(double rating_terrible) {
+        this.rating_terrible = rating_terrible;
+    }
+
+    public void setUrl_menu(String url_menu) {
+        this.url_menu = url_menu;
+    }
+
+    public void setRest_rating(double rest_rating) {
+        this.rest_rating = rest_rating;
+    }
+
+    public void setNumber_review(int number_review) {
+        this.number_review = number_review;
+    }
+
+    public void setReviews(ArrayList<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public void addReview(Review review) {
