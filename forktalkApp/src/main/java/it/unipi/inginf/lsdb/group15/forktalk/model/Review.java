@@ -5,7 +5,7 @@ import java.util.Date;
 public class Review {
     private int id;
     private Date timestamp;
-    private String username;
+    private String author_name;
     private double rating;
     private Float rating_value;
     private Float rating_service;
@@ -16,10 +16,10 @@ public class Review {
     private String content;
     private String content_clean;
 
-    public Review(int id, Date timestamp, String username, double rating, Float rating_value, Float rating_service, Float rating_atmosphere, Float rating_food, String title, String title_clean, String content, String content_clean) {
+    public Review(int id, Date timestamp, String author_name, double rating, Float rating_value, Float rating_service, Float rating_atmosphere, Float rating_food, String title, String title_clean, String content, String content_clean) {
         this.id = id;
         this.timestamp = timestamp;
-        this.username = username;
+        this.author_name = author_name;
         this.rating = rating;
         this.rating_value = rating_value;
         this.rating_service = rating_service;
@@ -40,7 +40,7 @@ public class Review {
     }
 
     public String getUsername() {
-        return username;
+        return author_name;
     }
 
     public double getRating() {
@@ -88,7 +88,7 @@ public class Review {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.author_name = username;
     }
 
     public void setRating(double rating) {
