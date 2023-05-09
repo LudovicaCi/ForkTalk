@@ -1,7 +1,6 @@
-package it.unipi.inginf.lsdb.group15.forktalk.model;
+package it.unipi.inginf.lsdb.group15.forktalk.entity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Administrator {
     private ArrayList<Restaurant> restaurants;
