@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
-    private int id;
+    private String restaurant_username;
+    private String password;
     private String name;
     private String location;
     private String country;
@@ -26,8 +27,12 @@ public class Restaurant {
     private int number_review;
     private ArrayList<Review> reviews;
 
-    public Restaurant(int id, String name, String location, String country, String region, String province, String city, String address, String awards, String price_level, double priceRange, String cuisine, double rating_excellence, double rating_very_good, double rating_neutral, double rating_poor, double rating_terrible, String url_menu, double rest_rating, int number_review, ArrayList<Review> reviews) {
-        this.id = id;
+    public Restaurant(String restaurant_username, String password, String name, String location, String country, String region, String province,
+                      String city, String address, String awards, String price_level, double priceRange, String cuisine,
+                      double rating_excellence, double rating_very_good, double rating_neutral, double rating_poor, double rating_terrible,
+                      String url_menu, double rest_rating, int number_review, ArrayList<Review> reviews) {
+        this.restaurant_username = restaurant_username;
+        this.password = password;
         this.name = name;
         this.location = location;
         this.country = country;
@@ -50,86 +55,12 @@ public class Restaurant {
         this.reviews = reviews;
     }
 
-    public int getId() {
-        return id;
+    public void setRestaurant_username(String restaurant_username) {
+        this.restaurant_username = restaurant_username;
     }
 
-    public String getName() {return name;}
-
-    public String getLocation() {
-        return location;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getAwards() {
-        return awards;
-    }
-
-    public String getPriceLevel() {
-        return price_level;
-    }
-
-    public Double getPriceRange() { return priceRange; }
-
-    public String getCuisine() {
-        return cuisine;
-    }
-
-    public double getRating_excellence() {
-        return rating_excellence;
-    }
-
-    public double getRating_very_good() {
-        return rating_very_good;
-    }
-
-    public double getRating_neutral() {
-        return rating_neutral;
-    }
-
-    public double getRating_poor() {
-        return rating_poor;
-    }
-
-    public double getRating_terrible() {
-        return rating_terrible;
-    }
-
-    public String getUrlMenu() {
-        return url_menu;
-    }
-
-    public double getRestRating() {
-        return rest_rating;
-    }
-
-    public int getNumberReview() {return number_review; }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setName(String name) {
@@ -212,7 +143,91 @@ public class Restaurant {
         this.reviews = reviews;
     }
 
-    public void addReview(Review review) {
-        reviews.add(review);
+    public String getRestaurant_username() {
+        return restaurant_username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getAwards() {
+        return awards;
+    }
+
+    public String getPrice_level() {
+        return price_level;
+    }
+
+    public double getPriceRange() {
+        return priceRange;
+    }
+
+    public String getCuisine() {
+        return cuisine;
+    }
+
+    public double getRating_excellence() {
+        return rating_excellence;
+    }
+
+    public double getRating_very_good() {
+        return rating_very_good;
+    }
+
+    public double getRating_neutral() {
+        return rating_neutral;
+    }
+
+    public double getRating_poor() {
+        return rating_poor;
+    }
+
+    public double getRating_terrible() {
+        return rating_terrible;
+    }
+
+    public String getUrl_menu() {
+        return url_menu;
+    }
+
+    public double getRest_rating() {
+        return rest_rating;
+    }
+
+    public int getNumber_review() {
+        return number_review;
+    }
+
+    public ArrayList<Review> getReviews() {
+        return reviews;
     }
 }
