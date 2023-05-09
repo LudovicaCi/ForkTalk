@@ -1,4 +1,4 @@
-package it.unipi.inginf.lsdb.group15.forktalk.entity;
+package it.unipi.inginf.lsdb.group15.forktalk.entities;
 
 import java.util.ArrayList;
 import java.util.List;
