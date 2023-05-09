@@ -1,6 +1,4 @@
-package it.unipi.inginf.lsdb.group15.forktalk.entities;
-
-import java.util.ArrayList;
+package it.unipi.inginf.lsdb.group15.forktalk.model;
 
 public class Administrator {
     private String username;

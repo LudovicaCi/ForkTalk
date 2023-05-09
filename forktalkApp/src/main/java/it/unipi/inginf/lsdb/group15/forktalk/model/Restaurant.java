@@ -1,7 +1,6 @@
-package it.unipi.inginf.lsdb.group15.forktalk.entities;
+package it.unipi.inginf.lsdb.group15.forktalk.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Restaurant {
     private String restaurant_username;

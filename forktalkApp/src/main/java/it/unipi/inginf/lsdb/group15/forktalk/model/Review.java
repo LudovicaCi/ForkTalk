@@ -1,4 +1,4 @@
-package it.unipi.inginf.lsdb.group15.forktalk.entities;
+package it.unipi.inginf.lsdb.group15.forktalk.model;
 
 import java.util.Date;
 
