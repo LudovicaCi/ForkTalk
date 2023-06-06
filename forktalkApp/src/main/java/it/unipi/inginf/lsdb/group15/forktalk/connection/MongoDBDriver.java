@@ -5,8 +5,6 @@ import com.mongodb.ConnectionString;
 import org.bson.Document;
 
 public class MongoDBDriver {
-    private final String clusterAddress = "mongodb://10.1.1.18:27017,10.1.1.19:27017,10.1.1.20:27017/" +
-            "?retryWrites=true&w=1&readPreferences=nearest&wtimeout=10000";
     private static MongoClient mongoClient;
     private static MongoDatabase db;
 
@@ -16,6 +14,8 @@ public class MongoDBDriver {
     public void connectToCluster(){
         try {
             //Create a mongoDB client
+            String clusterAddress = "mongodb://10.1.1.18:27017,10.1.1.19:27017,10.1.1.20:27017/" +
+                    "?retryWrites=true&w=1&readPreferences=nearest&wtimeout=10000";
             mongoClient = MongoClients.create(clusterAddress);
 
             //Connect to db database
@@ -23,7 +23,7 @@ public class MongoDBDriver {
 
             //Select the collection Users e Restaurants
             userCollection = db.getCollection("Users");
-            //userCollection = db.getCollection("Restaurants");
+            restaurantCollection = db.getCollection("Restaurants");
 
             System.out.println("Connessione al database locale avvenuta con successo.");
         }catch (Exception e) {
@@ -45,7 +45,7 @@ public class MongoDBDriver {
 
             // Select the "Users" collection
             userCollection = db.getCollection("Users");
-            //userCollection = db.getCollection("Restaurants");
+            restaurantCollection = db.getCollection("Restaurants");
 
             System.out.println("Connessione al database locale avvenuta con successo.");
         } catch (Exception e) {
@@ -58,8 +58,15 @@ public class MongoDBDriver {
     public static void openConnection() {
         connectToLocal();
 
-        System.out.println("**************** USER ******************");
+        for (String name : db.listCollectionNames()) {
+            System.out.println(name);
+        }
+
+        System.out.println("**************** USERS ******************");
         System.out.println(userCollection.countDocuments());
+
+        System.out.println("**************** RESTAURANTS ******************");
+        System.out.println(restaurantCollection.countDocuments());
 
     }
 
