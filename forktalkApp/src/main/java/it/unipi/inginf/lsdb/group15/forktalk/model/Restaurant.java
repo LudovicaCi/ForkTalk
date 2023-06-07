@@ -3,59 +3,36 @@ package it.unipi.inginf.lsdb.group15.forktalk.model;
 import java.util.ArrayList;
 
 public class Restaurant {
-    private String restaurant_username;
+    private String restaurant_id;
     private String password;
     private String name;
-    private String location;
+    private ArrayList<Double> coordinates;
     private String country;
-    private String region;
-    private String province;
+    private String county;
+    private String district;
     private String city;
     private String address;
-    private String awards;
-    private String price_level;
-    private double priceRange;
-    private String cuisine;
-    private double rating_excellence;
-    private double rating_very_good;
-    private double rating_neutral;
-    private double rating_poor;
-    private double rating_terrible;
-    private String url_menu;
-    private double rest_rating;
-    private int number_review;
-    private ArrayList<Review> reviews;
+    private String street_number;
+    private String postcode;
+    private double price;
 
-    public Restaurant(String restaurant_username, String password, String name, String location, String country, String region, String province,
-                      String city, String address, String awards, String price_level, double priceRange, String cuisine,
-                      double rating_excellence, double rating_very_good, double rating_neutral, double rating_poor, double rating_terrible,
-                      String url_menu, double rest_rating, int number_review, ArrayList<Review> reviews) {
-        this.restaurant_username = restaurant_username;
+    public Restaurant(String restaurant_id, String password, String name, ArrayList<Double> coordinates, String location, String country, String county, String district, String city, String address, String street_number, String postcode, double price, ArrayList<String> restaurant_tag, ArrayList<Review> reviews) {
+        this.restaurant_id = restaurant_id;
         this.password = password;
         this.name = name;
-        this.location = location;
+        this.coordinates = coordinates;
         this.country = country;
-        this.region = region;
-        this.province = province;
+        this.county = county;
+        this.district = district;
         this.city = city;
         this.address = address;
-        this.awards = awards;
-        this.price_level = price_level;
-        this.priceRange = priceRange;
-        this.cuisine = cuisine;
-        this.rating_excellence = rating_excellence;
-        this.rating_very_good = rating_very_good;
-        this.rating_neutral = rating_neutral;
-        this.rating_poor = rating_poor;
-        this.rating_terrible = rating_terrible;
-        this.url_menu = url_menu;
-        this.rest_rating = rest_rating;
-        this.number_review = number_review;
-        this.reviews = reviews;
+        this.street_number = street_number;
+        this.postcode = postcode;
+        this.price = price;
     }
 
-    public void setRestaurant_username(String restaurant_username) {
-        this.restaurant_username = restaurant_username;
+    public void setRestaurant_id(String restaurant_id) {
+        this.restaurant_id = restaurant_id;
     }
 
     public void setPassword(String password) {
@@ -66,20 +43,20 @@ public class Restaurant {
         this.name = name;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setCoordinates(ArrayList<Double> coordinates) {
+        this.coordinates = coordinates;
     }
 
     public void setCountry(String country) {
         this.country = country;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public void setCounty(String county) {
+        this.county = county;
     }
 
-    public void setProvince(String province) {
-        this.province = province;
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public void setCity(String city) {
@@ -90,60 +67,20 @@ public class Restaurant {
         this.address = address;
     }
 
-    public void setAwards(String awards) {
-        this.awards = awards;
+    public void setStreet_number(String street_number) {
+        this.street_number = street_number;
     }
 
-    public void setPrice_level(String price_level) {
-        this.price_level = price_level;
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 
-    public void setPriceRange(double priceRange) {
-        this.priceRange = priceRange;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public void setCuisine(String cuisine) {
-        this.cuisine = cuisine;
-    }
-
-    public void setRating_excellence(double rating_excellence) {
-        this.rating_excellence = rating_excellence;
-    }
-
-    public void setRating_very_good(double rating_very_good) {
-        this.rating_very_good = rating_very_good;
-    }
-
-    public void setRating_neutral(double rating_neutral) {
-        this.rating_neutral = rating_neutral;
-    }
-
-    public void setRating_poor(double rating_poor) {
-        this.rating_poor = rating_poor;
-    }
-
-    public void setRating_terrible(double rating_terrible) {
-        this.rating_terrible = rating_terrible;
-    }
-
-    public void setUrl_menu(String url_menu) {
-        this.url_menu = url_menu;
-    }
-
-    public void setRest_rating(double rest_rating) {
-        this.rest_rating = rest_rating;
-    }
-
-    public void setNumber_review(int number_review) {
-        this.number_review = number_review;
-    }
-
-    public void setReviews(ArrayList<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public String getRestaurant_username() {
-        return restaurant_username;
+    public String getRestaurant_id() {
+        return restaurant_id;
     }
 
     public String getPassword() {
@@ -154,20 +91,20 @@ public class Restaurant {
         return name;
     }
 
-    public String getLocation() {
-        return location;
+    public ArrayList<Double> getCoordinates() {
+        return coordinates;
     }
 
     public String getCountry() {
         return country;
     }
 
-    public String getRegion() {
-        return region;
+    public String getCounty() {
+        return county;
     }
 
-    public String getProvince() {
-        return province;
+    public String getDistrict() {
+        return district;
     }
 
     public String getCity() {
@@ -178,55 +115,15 @@ public class Restaurant {
         return address;
     }
 
-    public String getAwards() {
-        return awards;
+    public String getStreet_number() {
+        return street_number;
     }
 
-    public String getPrice_level() {
-        return price_level;
+    public String getPostcode() {
+        return postcode;
     }
 
-    public double getPriceRange() {
-        return priceRange;
-    }
-
-    public String getCuisine() {
-        return cuisine;
-    }
-
-    public double getRating_excellence() {
-        return rating_excellence;
-    }
-
-    public double getRating_very_good() {
-        return rating_very_good;
-    }
-
-    public double getRating_neutral() {
-        return rating_neutral;
-    }
-
-    public double getRating_poor() {
-        return rating_poor;
-    }
-
-    public double getRating_terrible() {
-        return rating_terrible;
-    }
-
-    public String getUrl_menu() {
-        return url_menu;
-    }
-
-    public double getRest_rating() {
-        return rest_rating;
-    }
-
-    public int getNumber_review() {
-        return number_review;
-    }
-
-    public ArrayList<Review> getReviews() {
-        return reviews;
+    public double getPrice() {
+        return price;
     }
 }
