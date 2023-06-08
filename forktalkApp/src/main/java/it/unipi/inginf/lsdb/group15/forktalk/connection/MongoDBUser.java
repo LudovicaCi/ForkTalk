@@ -1,8 +1,10 @@
 package it.unipi.inginf.lsdb.group15.forktalk.connection;
 
 import com.mongodb.MongoException;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
+import it.unipi.inginf.lsdb.group15.forktalk.model.GeneralUser;
 import it.unipi.inginf.lsdb.group15.forktalk.model.User;
 
 import static com.mongodb.client.model.Filters.*;
@@ -22,18 +24,29 @@ public class MongoDBUser {
         return cursor.hasNext();
 
     }
+    /*public Boolean userExists(String usr, String eml)
+    {
+        MongoCollection<Document> collection = getDatabase().getCollection("Users");
+        try(MongoCursor cursor = collection.find(or(eq("email", eml),eq("username",usr))).limit(1).iterator())
+        {
+            if (cursor.hasNext()) {
+                return true;
+            }
+        }
 
-    public boolean registrationUser(User u) {
+        return false;
+    }
+    */
+    public boolean registrationUser(GeneralUser u) {
         if (userAlreadyPresent(u.getUsername())) {
-            Utility.infoBox("Please, choose another username and try again.",
-                    "Error", "Username already used!");
+            System.out.println("This Username is already taken, choose a different one");
             return false;
         }
 
 
-        Document User = new Document("username", u.getUsername())
+        Document User = new Document("username", GeneralUser.getUsername())
                 .append("password", u.getPassword())
-                .append("origin", u.getOrigin());
+                .append("origin", User.getOrigin());
         try {
             userCollection.insertOne(User);
             return true;
@@ -42,6 +55,8 @@ public class MongoDBUser {
             return false;
         }
     }
+
+
         //find user by username
         public Document findUserByUsername (String username){
             cursor = userCollection.find(Filters.eq("username", username)).iterator();
@@ -65,5 +80,7 @@ public class MongoDBUser {
     }
 
     private static class Utility {
+        public static void infoBox(String s, String error, String s1) {
+        }
     }
 }
