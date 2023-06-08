@@ -6,7 +6,7 @@ import it.unipi.inginf.lsdb.group15.forktalk.model.User;
 import org.bson.Document;
 
 public class MongoDBDriver {
-    private static MongoClient mongoClient;
+    static MongoClient mongoClient;
     private static MongoDatabase db;
 
 
