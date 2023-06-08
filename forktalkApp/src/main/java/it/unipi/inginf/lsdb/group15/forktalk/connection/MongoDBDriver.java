@@ -2,18 +2,20 @@ package it.unipi.inginf.lsdb.group15.forktalk.connection;
 
 import com.mongodb.client.*;
 import com.mongodb.ConnectionString;
+import it.unipi.inginf.lsdb.group15.forktalk.model.User;
 import org.bson.Document;
 
 public class MongoDBDriver {
     private static MongoClient mongoClient;
     private static MongoDatabase db;
 
+
     static MongoCollection<Document> userCollection;
     static MongoCollection<Document> restaurantCollection;
 
     public void connectToCluster(){
         try {
-            //Create a mongoDB client
+            //Create a mongodbDB client
             String clusterAddress = "mongodb://10.1.1.18:27017,10.1.1.19:27017,10.1.1.20:27017/" +
                     "?retryWrites=true&w=1&readPreferences=nearest&wtimeout=10000";
             mongoClient = MongoClients.create(clusterAddress);
@@ -24,7 +26,8 @@ public class MongoDBDriver {
             //Select the collection Users e Restaurants
             userCollection = db.getCollection("Users");
             restaurantCollection = db.getCollection("Restaurants");
-
+            // Create a cursor
+            MongoCursor<Document> cursor;
             System.out.println("Connessione al database locale avvenuta con successo.");
         }catch (Exception e) {
             System.err.println("Si è verificato un errore durante la connessione al database locale:");
@@ -71,23 +74,33 @@ public class MongoDBDriver {
     }
 
     public static void closeConnection() {
+
         mongoClient.close();
     }
-
+    private static User<Document> printDocuments() {
+        return doc -> System.out.println(doc.toJson());
+    }
     //******************************************************************************************************************
     //                              CRUD OPERATIONS
     //******************************************************************************************************************
 
     //registrazione utente
-    public void registrationUser(){
+    /*public void registrationUser(){
 
     }
+    public boolean registrationUser(User u) {
 
-    //trovare un utente tramite username
+        if (userAlreadyPresent(u.getUsername())) {
+            Utility.infoBox("Please, choose another username and try again.",
+                    "Error", "Username already used!");
+            return false;
+        }
+
+        //trovare un utente tramite username
     public void findUserByUsername(String username){
 
     }
-
+    */
     //******************************************************************************************************************
     //                              ANALYTICS
     //******************************************************************************************************************
