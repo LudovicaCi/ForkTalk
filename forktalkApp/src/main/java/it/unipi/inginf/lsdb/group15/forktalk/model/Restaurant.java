@@ -162,8 +162,10 @@ public class Restaurant extends GeneralUser{
         return restaurantReviews;
     }
 
-    public static void addReservation(Reservation reservations) {
+    /*public static void addReservation(Reservation reservations) {
         reservations.add(reservations);
         // Perform any additional logic related to the reservation
     }
+
+     */
 }

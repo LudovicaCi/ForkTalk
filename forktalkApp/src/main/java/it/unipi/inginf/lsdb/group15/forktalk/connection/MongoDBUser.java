@@ -126,12 +126,14 @@ public class MongoDBUser {
         }
     }
 
-    public void makeReservation(String restaurantName, String clientUsername, String restaurantUsername, Date date, int people) {
+    /*public void makeReservation(String restaurantName, String clientUsername, String restaurantUsername, Date date, int people) {
         // Create a new reservation object
         Reservation reservation = new Reservation(this, restaurantName, clientUsername, restaurantUsername, date, people);
         Restaurant.addReservation(reservation);
     }
+
+     */
     }
 
-}
+
 

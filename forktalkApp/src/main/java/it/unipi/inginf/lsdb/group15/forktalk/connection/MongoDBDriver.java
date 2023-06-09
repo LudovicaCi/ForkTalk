@@ -13,7 +13,7 @@ public class MongoDBDriver {
     static MongoCollection<Document> userCollection;
     static MongoCollection<Document> restaurantCollection;
 
-    public void connectToCluster(){
+    public void connectToCluster() {
         try {
             //Create a mongodbDB client
             String clusterAddress = "mongodb://10.1.1.18:27017,10.1.1.19:27017,10.1.1.20:27017/" +
@@ -29,7 +29,7 @@ public class MongoDBDriver {
             // Create a cursor
             MongoCursor<Document> cursor;
             System.out.println("Connessione al database locale avvenuta con successo.");
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("Si è verificato un errore durante la connessione al database locale:");
             e.printStackTrace();
         }
@@ -77,12 +77,5 @@ public class MongoDBDriver {
 
         mongoClient.close();
     }
-
-    //******************************************************************************************************************
-    //                              CRUD OPERATIONS
-    //******************************************************************************************************************
-
-        //******************************************************************************************************************
-    //                              ANALYTICS
-    //******************************************************************************************************************
 }
+
