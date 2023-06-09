@@ -14,12 +14,12 @@ public class User extends GeneralUser{
 
     // COSTRUTTORE
     public User(int id,String nome, String cognome, String email, String username, String password, String origin, ArrayList<Restaurant> restaurantList, ArrayList<Reservation> reservations, int role) {
+        super (email, username, password);
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
         this.origin = origin;
-        super (username, password);
-        setRole(1);
+        this.role = role;
     }
     // METODI GET
     public int getId() {

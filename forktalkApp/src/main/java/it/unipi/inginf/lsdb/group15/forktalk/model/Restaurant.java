@@ -2,8 +2,11 @@ package it.unipi.inginf.lsdb.group15.forktalk.model;
 
 import java.util.ArrayList;
 
-public class Restaurant {
-    private String restaurant_id;
+public class Restaurant extends GeneralUser{
+    private ArrayList<Reservation> restaurantReservations;
+    private ArrayList<String> restaurantTag;
+    private ArrayList<String> restaurantReviews;
+    private String restaurantId;
     private String password;
     private String name;
     private ArrayList<Double> coordinates;
@@ -12,13 +15,13 @@ public class Restaurant {
     private String district;
     private String city;
     private String address;
-    private String street_number;
+    private String streetNumber;
     private String postcode;
     private double price;
 
-    public Restaurant(String restaurant_id, String password, String name, ArrayList<Double> coordinates, String location, String country, String county, String district, String city, String address, String street_number, String postcode, double price, ArrayList<String> restaurant_tag, ArrayList<Review> reviews) {
-        this.restaurant_id = restaurant_id;
-        this.password = password;
+    public Restaurant(String username, String email, String restaurantId, String password, String name, ArrayList<Double> coordinates, String location, String country, String county, String district, String city, String address, String streetNumber, String postcode, double price,ArrayList<Reservation> restaurantReservations, ArrayList<String> restaurantTag, ArrayList<String> reviews) {
+        super (email, username, password);
+        this.restaurantId = restaurantId;
         this.name = name;
         this.coordinates = coordinates;
         this.country = country;
@@ -26,28 +29,36 @@ public class Restaurant {
         this.district = district;
         this.city = city;
         this.address = address;
-        this.street_number = street_number;
+        this.streetNumber = streetNumber;
         this.postcode = postcode;
         this.price = price;
+        this.restaurantReservations = restaurantReservations;
+        this.restaurantTag= restaurantTag;
+        this.restaurantReviews= reviews;
     }
 
-    public void setRestaurant_id(String restaurant_id) {
-        this.restaurant_id = restaurant_id;
+    //METODI SET
+    public void restaurantId(String restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     public void setPassword(String password) {
+
         this.password = password;
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
     public void setCoordinates(ArrayList<Double> coordinates) {
+
         this.coordinates = coordinates;
     }
 
     public void setCountry(String country) {
+
         this.country = country;
     }
 
@@ -67,8 +78,8 @@ public class Restaurant {
         this.address = address;
     }
 
-    public void setStreet_number(String street_number) {
-        this.street_number = street_number;
+    public void setStreetNumber(String streetNumber) {
+        this.streetNumber = streetNumber;
     }
 
     public void setPostcode(String postcode) {
@@ -79,8 +90,20 @@ public class Restaurant {
         this.price = price;
     }
 
-    public String getRestaurant_id() {
-        return restaurant_id;
+    public void setRestaurantReservations(ArrayList<Reservation> restaurantReservations) {
+        this.restaurantReservations = restaurantReservations;
+    }
+
+    public void setRestaurantTag(ArrayList<String> restaurantTag) {
+        this.restaurantTag = restaurantTag;
+    }
+    public void setRestaurantReviews(ArrayList<String> restaurantReviews) {
+        this.restaurantReviews = restaurantReviews;
+    }
+
+    //METODI GET
+    public String getRestaurantId() {
+        return restaurantId;
     }
 
     public String getPassword() {
@@ -115,8 +138,8 @@ public class Restaurant {
         return address;
     }
 
-    public String getStreet_number() {
-        return street_number;
+    public String getStreetNumber() {
+        return streetNumber;
     }
 
     public String getPostcode() {
@@ -125,5 +148,22 @@ public class Restaurant {
 
     public double getPrice() {
         return price;
+    }
+
+    public ArrayList<Reservation> getRestaurantReservations() {
+        return restaurantReservations;
+    }
+
+    public ArrayList<String> getRestaurantTag() {
+        return restaurantTag;
+    }
+
+    public ArrayList<String> getRestaurantReviews() {
+        return restaurantReviews;
+    }
+
+    public static void addReservation(Reservation reservations) {
+        reservations.add(reservations);
+        // Perform any additional logic related to the reservation
     }
 }

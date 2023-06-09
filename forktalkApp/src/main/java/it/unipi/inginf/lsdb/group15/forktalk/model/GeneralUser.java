@@ -9,12 +9,6 @@ public abstract class GeneralUser {
     private String password;
     private String email;
 
-    public GeneralUser(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
-
     // METODI GET
     public String getUsername() {
 
@@ -41,11 +35,18 @@ public abstract class GeneralUser {
 
         this.email = email;
     }
+    //TO STRING
     @Override
     public String toString() {
         return "RegisteredUser{" +
                 "username=" + username +
                 ", password='" + password +
                 ", email='"+ email;
+    }
+    //COSTRUTTORE
+    public GeneralUser(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
 }

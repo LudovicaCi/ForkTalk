@@ -1,49 +1,63 @@
 package it.unipi.inginf.lsdb.group15.forktalk.model;
 
+import it.unipi.inginf.lsdb.group15.forktalk.connection.MongoDBUser;
+
 import java.util.Date;
 
 public class Reservation {
-    private String restaurant_name;
-    private String client_username;
-    private String restaurant_username;
+    private String restaurantName;
+    private String clientUsername;
+    private String restaurantUsername;
     private Date date;
+    private int people;
 
-    public Reservation(String restaurant_name, String client_username, String restaurant_username, Date date) {
-        this.restaurant_name = restaurant_name;
-        this.client_username = client_username;
-        this.restaurant_username = restaurant_username;
+    public Reservation(MongoDBUser mongoDBUser, String restaurantName, String clientUsername, String restaurantUsername, Date date, int people) {
+        this.restaurantName = restaurantName;
+        this.clientUsername = clientUsername;
+        this.restaurantUsername = restaurantUsername;
         this.date = date;
+        this.people = people;
+    }
+    // METODI SET
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
-    public void setRestaurant_name(String restaurant_name) {
-        this.restaurant_name = restaurant_name;
+    public void setClientUsername(String clientUsername) {
+        this.clientUsername = clientUsername;
     }
 
-    public void setClient_username(String client_username) {
-        this.client_username = client_username;
-    }
-
-    public void setRestaurant_username(String restaurant_username) {
-        this.restaurant_username = restaurant_username;
+    public void setRestaurantUsername(String restaurantUsername) {
+        this.restaurantUsername = restaurantUsername;
     }
 
     public void setDate(Date date) {
         this.date = date;
     }
 
-    public String getRestaurant_name() {
-        return restaurant_name;
+    public void setPeople(int people) {
+        this.people = people;
+    }
+    // METODI GET
+
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
-    public String getClient_username() {
-        return client_username;
+    public String getClientUsername() {
+        return clientUsername;
     }
 
-    public String getRestaurant_username() {
-        return restaurant_username;
+    public String getRestaurantUsername() {
+        return restaurantUsername;
     }
 
     public Date getDate() {
         return date;
+    }
+
+    public int getPeople() {
+        return people;
     }
 }

@@ -77,31 +77,12 @@ public class MongoDBDriver {
 
         mongoClient.close();
     }
-    private static User<Document> printDocuments() {
-        return doc -> System.out.println(doc.toJson());
-    }
+
     //******************************************************************************************************************
     //                              CRUD OPERATIONS
     //******************************************************************************************************************
 
-    //registrazione utente
-    /*public void registrationUser(){
-
-    }
-    public boolean registrationUser(User u) {
-
-        if (userAlreadyPresent(u.getUsername())) {
-            Utility.infoBox("Please, choose another username and try again.",
-                    "Error", "Username already used!");
-            return false;
-        }
-
-        //trovare un utente tramite username
-    public void findUserByUsername(String username){
-
-    }
-    */
-    //******************************************************************************************************************
+        //******************************************************************************************************************
     //                              ANALYTICS
     //******************************************************************************************************************
 }

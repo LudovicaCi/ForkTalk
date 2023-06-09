@@ -6,6 +6,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
 import it.unipi.inginf.lsdb.group15.forktalk.model.GeneralUser;
+import it.unipi.inginf.lsdb.group15.forktalk.model.Reservation;
+import it.unipi.inginf.lsdb.group15.forktalk.model.Restaurant;
 import it.unipi.inginf.lsdb.group15.forktalk.model.User;
 import static com.mongodb.client.model.Accumulators.sum;
 import static com.mongodb.client.model.Filters.*;
@@ -14,12 +16,12 @@ import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Projections.*;
 import static com.mongodb.client.model.Sorts.descending;
 import java.lang.*;
+import java.util.Date;
 import java.util.regex.*;
     import it.unipi.inginf.lsdb.group15.forktalk.connection.MongoDBDriver;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
-import javax.swing.text.Document;
 
 import static it.unipi.inginf.lsdb.group15.forktalk.connection.MongoDBDriver.mongoClient;
 import static it.unipi.inginf.lsdb.group15.forktalk.connection.MongoDBDriver.userCollection;
@@ -122,6 +124,13 @@ public class MongoDBUser {
             e.printStackTrace();
             return false; // or throw a custom exception if desired
         }
+    }
+
+    public void makeReservation(String restaurantName, String clientUsername, String restaurantUsername, Date date, int people) {
+        // Create a new reservation object
+        Reservation reservation = new Reservation(this, restaurantName, clientUsername, restaurantUsername, date, people);
+        Restaurant.addReservation(reservation);
+    }
     }
 
 }
