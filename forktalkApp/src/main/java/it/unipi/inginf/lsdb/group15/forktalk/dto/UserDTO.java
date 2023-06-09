@@ -8,8 +8,10 @@ public class UserDTO extends GeneralUserDTO{
     private String origin;
     private int role;
 
+    private int nfollowers;
 
 
+    //------------------------------------- ------------------------------------- -------------------------------------
     // METODI GET
     public int getId() {
         return id;
@@ -30,6 +32,10 @@ public class UserDTO extends GeneralUserDTO{
     public int getRole() {
         return role;
     }
+
+    public int getNfollowers() {return nfollowers;}
+
+    //------------------------------------- ------------------------------------- -------------------------------------
     // METODI SET
     public void setUsername(String username) {
 
@@ -39,7 +45,6 @@ public class UserDTO extends GeneralUserDTO{
 
         super.setPassword(password);
     }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -58,5 +63,23 @@ public class UserDTO extends GeneralUserDTO{
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public void setNfollowers(int nfollowers) {this.nfollowers = nfollowers;}
+
+    //------------------------------------- ------------------------------------- -------------------------------------
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id='" + id + '\'' +
+                ", username='" + GeneralUserDTO.getUsername() + '\'' +
+                ", firstName='" + nome + '\'' +
+                ", lastName='" + cognome + '\'' +
+                ", email='" + GeneralUserDTO.getEmail() + '\'' +
+                ", phoneNumber='" + origin + '\'' +
+                ", address='" + role + '\'' +
+                ", nFollowers='" + nfollowers + '\'' +
+                '}';
+
     }
 }

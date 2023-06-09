@@ -6,7 +6,7 @@ public class GeneralUserDTO {
     private String email;
 
     // METODI GET
-    public String getUsername() {
+    public static String getUsername() {
 
         return username;
     }
@@ -16,7 +16,7 @@ public class GeneralUserDTO {
         return password;
     }
 
-    public String getEmail() {
+    public static String getEmail() {
 
         return email;
     }

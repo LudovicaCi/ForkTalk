@@ -21,6 +21,7 @@ public class RestaurantDTO extends GeneralUserDTO{
     private String postcode;
     private double price;
 
+    //------------------------------------- ------------------------------------- -------------------------------------
     //METODI SET
     public void restaurantId(String restaurantId) {
         this.restaurantId = restaurantId;
@@ -84,7 +85,7 @@ public class RestaurantDTO extends GeneralUserDTO{
     public void setRestaurantReviews(ArrayList<String> restaurantReviews) {
         this.restaurantReviews = restaurantReviews;
     }
-
+    //------------------------------------- ------------------------------------- -------------------------------------
     //METODI GET
     public String getRestaurantId() {
         return restaurantId;
@@ -146,4 +147,23 @@ public class RestaurantDTO extends GeneralUserDTO{
         return restaurantReviews;
     }
 
+    @Override
+    public String toString() {
+        return "RestaurantDTO{" +
+                "id='" + restaurantId + '\'' +
+                ", name='" + name + '\'' +
+                ", coordinates='" + coordinates + '\'' +
+                ", country=" + country +
+                ", county='" + county + '\'' +
+                ", district='" + district + '\'' +
+                ", city=" + city +
+                ", address='" + address + '\'' +
+                ", streetNumber=" + streetNumber +
+                ", postcode='" + postcode + '\'' +
+                ", price='" + price + '\'' +
+                ", restaurantReservations=" + restaurantReservations +
+                ", restaurantTag='" + restaurantTag + '\'' +
+                ", restaurantReviews=" + restaurantReviews +
+                '}';
+    }
 }

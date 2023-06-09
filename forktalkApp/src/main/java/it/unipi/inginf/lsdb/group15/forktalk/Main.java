@@ -1,26 +1,25 @@
 package it.unipi.inginf.lsdb.group15.forktalk;
 
-import it.unipi.inginf.lsdb.group15.forktalk.connection.MongoDBAdministrator;
-import it.unipi.inginf.lsdb.group15.forktalk.connection.MongoDBDriver;
-import it.unipi.inginf.lsdb.group15.forktalk.connection.MongoDBRestaurant;
-import it.unipi.inginf.lsdb.group15.forktalk.connection.MongoDBUser;
-import it.unipi.inginf.lsdb.group15.forktalk.model.User;
+import it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBAdministratorDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBDriverDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBRestaurantDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBUserDAO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
-    private static final MongoDBDriver mdb = new MongoDBDriver();
-    private static final MongoDBUser mdbuser = new MongoDBUser();
-    private static final MongoDBAdministrator mdbadmin = new MongoDBAdministrator();
-    private static final MongoDBRestaurant mdbrest = new MongoDBRestaurant();
+    private static final MongoDBDriverDAO mdb = new MongoDBDriverDAO();
+    private static final MongoDBUserDAO mdbuser = new MongoDBUserDAO();
+    private static final MongoDBAdministratorDAO mdbadmin = new MongoDBAdministratorDAO();
+    private static final MongoDBRestaurantDAO mdbrest = new MongoDBRestaurantDAO();
     private static InputStreamReader input = new InputStreamReader(System.in);
 
     private static BufferedReader tastiera = new BufferedReader(input);
 
     public static void main(String[] args) throws IOException {
-        MongoDBDriver.openConnection();
+        MongoDBDriverDAO.openConnection();
         ;
         while (true) {
 
@@ -72,7 +71,7 @@ public class Main {
                                 }
 
 
-            MongoDBDriver.closeConnection();
+            MongoDBDriverDAO.closeConnection();
 
 
         }

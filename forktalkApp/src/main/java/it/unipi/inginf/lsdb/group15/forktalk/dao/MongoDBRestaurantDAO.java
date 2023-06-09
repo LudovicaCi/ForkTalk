@@ -1,18 +1,15 @@
-package it.unipi.inginf.lsdb.group15.forktalk.connection;
+package it.unipi.inginf.lsdb.group15.forktalk.dao;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.model.GeneralUser;
-import it.unipi.inginf.lsdb.group15.forktalk.model.Restaurant;
-import it.unipi.inginf.lsdb.group15.forktalk.model.User;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import static it.unipi.inginf.lsdb.group15.forktalk.connection.MongoDBDriver.*;
+import static it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBDriverDAO.*;
 
-public class MongoDBRestaurant {
+public class MongoDBRestaurantDAO {
     // METODO LOGIN RISTORANTE
     public boolean loginRestaurant(String username, String password) {
         try {

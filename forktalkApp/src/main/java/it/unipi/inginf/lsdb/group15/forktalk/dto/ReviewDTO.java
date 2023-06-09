@@ -9,7 +9,9 @@ public class ReviewDTO {
     private String title;
     private String content;
 
+    //------------------------------------- -------------------------------------
     //METODI GET
+
     public int getId() {
         return id;
     }
@@ -30,6 +32,7 @@ public class ReviewDTO {
         return content;
     }
 
+    //------------------------------------- -------------------------------------
     //METODI SET
 
     public void setId(int id) {
@@ -50,5 +53,16 @@ public class ReviewDTO {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    //------------------------------------- -------------------------------------
+
+    @Override
+    public String toString() {
+        return "ReviewDTO{" +
+                "restaurantID='" + id + '\'' +
+                ", rate=" + rating +
+                ", review='" + content + '\'' +
+                '}';
     }
 }

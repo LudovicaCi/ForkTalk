@@ -1,17 +1,16 @@
-package it.unipi.inginf.lsdb.group15.forktalk.connection;
+package it.unipi.inginf.lsdb.group15.forktalk.dao;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.DeleteResult;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.model.Restaurant;
-import it.unipi.inginf.lsdb.group15.forktalk.model.User;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import static it.unipi.inginf.lsdb.group15.forktalk.connection.MongoDBDriver.*;
+import static it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBDriverDAO.*;
 
-public class MongoDBAdministrator {
+public class MongoDBAdministratorDAO {
 
     public boolean loginAdmin(String username, String password) {
         try {
@@ -74,7 +73,22 @@ public class MongoDBAdministrator {
         } else return false;
     }
 
-    public boolean deleteUser(UserDTO user) {
+    public void removeUser(UserDTO user)
+    {
+        try
+        {
+            MongoCollection<Document> collection = mongoClient.getDatabase("ForkTalk").getCollection("Users");
+            DeleteResult result = collection.deleteOne(Filters.eq("username", user.getUsername()));
+        }
+        catch (Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
+
+    }
+
+
+    /*public boolean deleteUser(UserDTO user) {
         if (userCollection.countDocuments(new Document("username", user.getUsername())) == 1) {
             Document doc = new Document()
                     .append("username", user.getUsername());
@@ -86,6 +100,8 @@ public class MongoDBAdministrator {
             return false;
         }
     }
+
+     */
 
     //******************************************************************************************************************
     //                              RESTAURANT

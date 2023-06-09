@@ -1,12 +1,11 @@
-package it.unipi.inginf.lsdb.group15.forktalk.connection;
+package it.unipi.inginf.lsdb.group15.forktalk.dao;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.*;
 import com.mongodb.ConnectionString;
-import it.unipi.inginf.lsdb.group15.forktalk.model.User;
 import org.bson.Document;
 
-public class MongoDBDriver {
+public class MongoDBDriverDAO {
     static MongoClient mongoClient;
     private static MongoDatabase db;
 
