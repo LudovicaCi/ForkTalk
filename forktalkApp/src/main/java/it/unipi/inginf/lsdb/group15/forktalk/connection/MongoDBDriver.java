@@ -1,5 +1,6 @@
 package it.unipi.inginf.lsdb.group15.forktalk.connection;
 
+import com.mongodb.MongoException;
 import com.mongodb.client.*;
 import com.mongodb.ConnectionString;
 import it.unipi.inginf.lsdb.group15.forktalk.model.User;
@@ -29,7 +30,7 @@ public class MongoDBDriver {
             // Create a cursor
             MongoCursor<Document> cursor;
             System.out.println("Connessione al database locale avvenuta con successo.");
-        } catch (Exception e) {
+        } catch (MongoException e) {
             System.err.println("Si è verificato un errore durante la connessione al database locale:");
             e.printStackTrace();
         }
@@ -51,7 +52,7 @@ public class MongoDBDriver {
             restaurantCollection = db.getCollection("Restaurants");
 
             System.out.println("Connessione al database locale avvenuta con successo.");
-        } catch (Exception e) {
+        } catch (MongoException e) {
             System.err.println("Si è verificato un errore durante la connessione al database locale:");
             e.printStackTrace();
         }

@@ -5,6 +5,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.model.GeneralUser;
 import it.unipi.inginf.lsdb.group15.forktalk.model.Reservation;
 import it.unipi.inginf.lsdb.group15.forktalk.model.Restaurant;
@@ -45,7 +46,7 @@ public class MongoDBUser {
             // Check if any documents were found
             return documents.iterator().hasNext();
         }
-        catch (Exception e) {
+        catch (MongoException e) {
             // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
@@ -53,7 +54,7 @@ public class MongoDBUser {
         }
     }
 
-    public boolean addUser(User user)
+    public boolean addUser(UserDTO user)
     {
         if (userCollection.countDocuments(new Document("username", user.getUsername())) == 0) {
             Document doc = new Document()

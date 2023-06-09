@@ -1,7 +1,9 @@
 package it.unipi.inginf.lsdb.group15.forktalk.connection;
 
+import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.model.GeneralUser;
 import it.unipi.inginf.lsdb.group15.forktalk.model.Restaurant;
 import it.unipi.inginf.lsdb.group15.forktalk.model.User;
@@ -28,7 +30,7 @@ public class MongoDBRestaurant {
             // Check if a matching user document was found
             return restaurantDocument != null;
         }
-        catch (Exception e) {
+        catch (MongoException e) {
             // Handle any exceptions that occur during the database operation
             System.out.println("Username and Password are invalid");
             e.printStackTrace();
@@ -38,7 +40,7 @@ public class MongoDBRestaurant {
 
     }
     //METODO PER AGGIUNGERE UN RISTORANTE
-    public boolean addRestaurant(Restaurant rest) {
+    public boolean addRestaurant(RestaurantDTO rest) {
         if (restaurantCollection.countDocuments(new Document("username", rest.getUsername())) == 0) {
             Document doc = new Document()
                     .append("_id", rest.getRestaurantId())

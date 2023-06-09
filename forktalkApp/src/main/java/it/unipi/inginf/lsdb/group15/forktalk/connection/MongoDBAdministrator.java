@@ -2,6 +2,8 @@ package it.unipi.inginf.lsdb.group15.forktalk.connection;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.model.Restaurant;
 import it.unipi.inginf.lsdb.group15.forktalk.model.User;
 import org.bson.Document;
@@ -33,7 +35,7 @@ public class MongoDBAdministrator {
         }
     }
 
-    public boolean upgradeUser(User user) {
+    public boolean upgradeUser(UserDTO user) {
         if (userCollection.countDocuments(new Document("id", user.getId())) == 1) {
             if (user.getRole() == 2) {
                 System.out.println("User " + user.getNome() + " " + user.getCognome() + " is already an admin.");
@@ -56,7 +58,7 @@ public class MongoDBAdministrator {
     //******************************************************************************************************************
     //                              USER
     //******************************************************************************************************************
-    public boolean addUser(User user) {
+    public boolean addUser(UserDTO user) {
         if (userCollection.countDocuments(new Document("username", user.getUsername())) == 0) {
             Document doc = new Document()
                     .append("_id", user.getId())
@@ -72,7 +74,7 @@ public class MongoDBAdministrator {
         } else return false;
     }
 
-    public boolean deleteUser(User user) {
+    public boolean deleteUser(UserDTO user) {
         if (userCollection.countDocuments(new Document("username", user.getUsername())) == 1) {
             Document doc = new Document()
                     .append("username", user.getUsername());
@@ -88,7 +90,7 @@ public class MongoDBAdministrator {
     //******************************************************************************************************************
     //                              RESTAURANT
     //******************************************************************************************************************
-    public boolean deleteRestaurant(Restaurant rest) {
+    public boolean deleteRestaurant(RestaurantDTO rest) {
         if (restaurantCollection.countDocuments(new Document("restaurantId", rest.getRestaurantId())) == 1) {
             Document doc = new Document()
                     .append("restaurantId", rest.getRestaurantId());

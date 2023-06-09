@@ -18,46 +18,4 @@ public class Reservation {
         this.date = date;
         this.people = people;
     }
-    // METODI SET
-
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
-    }
-
-    public void setClientUsername(String clientUsername) {
-        this.clientUsername = clientUsername;
-    }
-
-    public void setRestaurantUsername(String restaurantUsername) {
-        this.restaurantUsername = restaurantUsername;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public void setPeople(int people) {
-        this.people = people;
-    }
-    // METODI GET
-
-    public String getRestaurantName() {
-        return restaurantName;
-    }
-
-    public String getClientUsername() {
-        return clientUsername;
-    }
-
-    public String getRestaurantUsername() {
-        return restaurantUsername;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public int getPeople() {
-        return people;
-    }
 }
