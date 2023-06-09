@@ -1,9 +1,9 @@
 package it.unipi.inginf.lsdb.group15.forktalk.dto;
 
 public class GeneralUserDTO {
-    private String username;
+    private static String username;
     private String password;
-    private String email;
+    private static String email;
 
     // METODI GET
     public static String getUsername() {
