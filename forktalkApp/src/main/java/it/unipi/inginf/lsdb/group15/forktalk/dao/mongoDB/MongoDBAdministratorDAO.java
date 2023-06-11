@@ -1,4 +1,4 @@
-package it.unipi.inginf.lsdb.group15.forktalk.dao;
+package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
@@ -8,7 +8,7 @@ import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBDriverDAO.*;
+import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBDriverDAO.*;
 
 public class MongoDBAdministratorDAO {
 

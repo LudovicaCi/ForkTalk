@@ -1,13 +1,14 @@
-package it.unipi.inginf.lsdb.group15.forktalk.dao;
+package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.GeneralUserDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBDriverDAO.*;
+import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBDriverDAO.*;
 
 public class MongoDBRestaurantDAO {
     // METODO LOGIN RISTORANTE
@@ -38,12 +39,12 @@ public class MongoDBRestaurantDAO {
     }
     //METODO PER AGGIUNGERE UN RISTORANTE
     public boolean addRestaurant(RestaurantDTO rest) {
-        if (restaurantCollection.countDocuments(new Document("username", rest.getUsername())) == 0) {
+        if (restaurantCollection.countDocuments(new Document("username", GeneralUserDTO.getUsername())) == 0) {
             Document doc = new Document()
                     .append("_id", rest.getRestaurantId())
-                    .append("username", rest.getUsername())
+                    .append("username", GeneralUserDTO.getUsername())
                     .append("password", rest.getPassword())
-                    .append("email", rest.getEmail())
+                    .append("email", GeneralUserDTO.getEmail())
                     .append("name", rest.getName())
                     .append("coordinates", rest.getCoordinates())
                     .append("country", rest.getCountry())

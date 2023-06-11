@@ -15,4 +15,46 @@ public class Review {
         this.rating = rating;
         this.content = content;
     }
+
+    //GET
+    public int getId() {
+        return id;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    //SET
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

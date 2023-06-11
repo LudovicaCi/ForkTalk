@@ -37,11 +37,125 @@ public class Restaurant extends GeneralUser{
         this.restaurantReviews= reviews;
     }
 
-
-    /*public static void addReservation(Reservation reservations) {
-        reservations.add(reservations);
-        // Perform any additional logic related to the reservation
+    //GET
+    public ArrayList<Reservation> getRestaurantReservations() {
+        return restaurantReservations;
     }
 
-     */
+    public ArrayList<String> getRestaurantTag() {
+        return restaurantTag;
+    }
+
+    public ArrayList<String> getRestaurantReviews() {
+        return restaurantReviews;
+    }
+
+    public String getRestaurantId() {
+        return restaurantId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<Double> getCoordinates() {
+        return coordinates;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getStreetNumber() {
+        return streetNumber;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    //SET
+    public void setRestaurantReservations(ArrayList<Reservation> restaurantReservations) {
+        this.restaurantReservations = restaurantReservations;
+    }
+
+    public void setRestaurantTag(ArrayList<String> restaurantTag) {
+        this.restaurantTag = restaurantTag;
+    }
+
+    public void setRestaurantReviews(ArrayList<String> restaurantReviews) {
+        this.restaurantReviews = restaurantReviews;
+    }
+
+    public void setRestaurantId(String restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCoordinates(ArrayList<Double> coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setStreetNumber(String streetNumber) {
+        this.streetNumber = streetNumber;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }

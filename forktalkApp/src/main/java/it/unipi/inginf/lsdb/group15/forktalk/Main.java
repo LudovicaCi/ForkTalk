@@ -1,9 +1,9 @@
 package it.unipi.inginf.lsdb.group15.forktalk;
 
-import it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBAdministratorDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBDriverDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBRestaurantDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBUserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBAdministratorDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBDriverDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBRestaurantDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBUserDAO;
 
 import java.io.BufferedReader;
 import java.io.IOException;

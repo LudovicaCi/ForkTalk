@@ -1,4 +1,4 @@
-package it.unipi.inginf.lsdb.group15.forktalk.dao;
+package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
@@ -8,6 +8,7 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.GeneralUserDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
 
 import static com.mongodb.client.model.Sorts.ascending;
@@ -18,11 +19,11 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBDriverDAO.mongoClient;
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.MongoDBDriverDAO.userCollection;
+import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBDriverDAO.mongoClient;
+import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBDriverDAO.userCollection;
 import static javax.management.Query.*;
 
-public class MongoDBUserDAO {
+public class MongoDBUserDAO extends MongoDBDriverDAO {
     MongoCursor<Document> cursor;
     //check if the username is already present
 
@@ -50,14 +51,14 @@ public class MongoDBUserDAO {
 
     public boolean addUser(UserDTO user)
     {
-        if (userCollection.countDocuments(new Document("username", user.getUsername())) == 0) {
+        if (userCollection.countDocuments(new Document("username", GeneralUserDTO.getUsername())) == 0) {
             Document doc = new Document()
                     .append("_id", user.getId())
                     .append("nome", user.getNome())
                     .append("cognome", user.getCognome())
-                    .append("username", user.getUsername())
-                    .append("password", user.getPassword())
-                    .append("email", user.getEmail())
+                    .append("username", GeneralUserDTO.getUsername())
+                    .append("password", GeneralUserDTO.getPassword())
+                    .append("email", GeneralUserDTO.getEmail())
                     .append("role", user.getRole());                    ;
             userCollection.insertOne(doc);
             return true;
@@ -89,8 +90,6 @@ public class MongoDBUserDAO {
         }
 
     }
-
-
 
         //find user by username
     public Document findUserByUsername (String username){
@@ -129,7 +128,7 @@ public class MongoDBUserDAO {
     public Boolean userExists(String usr, String eml)
     {
         MongoCollection<Document> collection =  mongoClient.getDatabase("ForkTalk").getCollection("Users");
-        try(MongoCursor cursor = collection.find(or(eq("email", eml),eq("username",usr))).limit(1).iterator())
+        try(MongoCursor<Document> cursor = collection.find(or(eq("email", eml),eq("username",usr))).limit(1).iterator())
         {
             if (cursor.hasNext()) {
                 return true;
@@ -144,7 +143,7 @@ public class MongoDBUserDAO {
         MongoCollection<Document> collection = mongoClient.getDatabase("ForkTalk").getCollection("Users");
         UserDTO userDTO = new UserDTO();
 
-        try(MongoCursor cursor = collection.find(and(eq("email", eml),eq("password",psw))).limit(1).iterator())
+        try(MongoCursor<Document> cursor = collection.find(or(eq("email", eml),eq("username",psw))).limit(1).iterator());
         {
             if (cursor.hasNext())
             {
@@ -156,7 +155,7 @@ public class MongoDBUserDAO {
                 userDTO.setNome(res.get("firstname") != null ? res.get("firstname").toString() : "Firstname not available");
                 userDTO.setCognome(res.get("lastname") != null ? res.get("lastname").toString() : "Lastname not available");
                 userDTO.setPassword(res.get("password") != null ? res.get("password").toString() : "Password not available");
-                userDTO.setEmail(res.get("email") != null ? res.get("email").toString() : "EMail not available");
+                GeneralUserDTO.setEmail(res.get("email") != null ? res.get("email").toString() : "EMail not available");
                 userDTO.setOrigin(res.get("origin") != null ? res.get("origin").toString() : "Origin not available");
 
                 return userDTO;
@@ -186,11 +185,11 @@ public class MongoDBUserDAO {
             InsertOneResult result = collection.insertOne(
                     new Document()
                             .append("_id", id)
-                            .append("username", user.getUsername())
+                            .append("username", GeneralUserDTO.getUsername())
                             .append("firstname", user.getNome())
                             .append("lastname", user.getCognome())
-                            .append("password" ,user.getPassword())
-                            .append("email", user.getEmail())
+                            .append("password" , GeneralUserDTO.getPassword())
+                            .append("email", GeneralUserDTO.getEmail())
                             .append("origin", user.getOrigin()));
 
 //          A questo punto se sono riuscito ad inserire un utente, questo
@@ -202,11 +201,11 @@ public class MongoDBUserDAO {
                 UserDTO userDTO = new UserDTO();
 
                 userDTO.setId(Integer.parseInt(id.toString()));
-                userDTO.setUsername(user.getUsername());
+                userDTO.setUsername(GeneralUserDTO.getUsername());
                 userDTO.setNome(user.getNome());
                 userDTO.setCognome(user.getCognome());
-                userDTO.setPassword(user.getPassword());
-                userDTO.setEmail(user.getEmail());
+                userDTO.setPassword(GeneralUserDTO.getPassword());
+                GeneralUserDTO.setEmail(GeneralUserDTO.getEmail());
                 userDTO.setOrigin(user.getOrigin());
 
 
