@@ -1,9 +1,8 @@
-package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
+/*package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.GeneralUserDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -66,3 +65,4 @@ public class MongoDBRestaurantDAO {
         }
     }
 }
+*/

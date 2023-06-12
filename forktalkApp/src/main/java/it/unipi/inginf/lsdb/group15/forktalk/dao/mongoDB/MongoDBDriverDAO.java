@@ -1,18 +1,22 @@
 package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
 
+import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoException;
 import com.mongodb.client.*;
 import com.mongodb.ConnectionString;
 import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
 
 public class MongoDBDriverDAO {
+    //    -------------------------------------
     static MongoClient mongoClient;
     private static MongoDatabase db;
-
-
     static MongoCollection<Document> userCollection;
     static MongoCollection<Document> restaurantCollection;
+    //    -------------------------------------
 
+    // Opens a connection to the MongoDB cluster
     public void connectToCluster() {
         try {
             //Create a mongodbDB client
@@ -26,15 +30,15 @@ public class MongoDBDriverDAO {
             //Select the collection Users e Restaurants
             userCollection = db.getCollection("Users");
             restaurantCollection = db.getCollection("Restaurants");
-            // Create a cursor
-            MongoCursor<Document> cursor;
-            System.out.println("Connessione al database locale avvenuta con successo.");
+
+            System.out.println("Successfully connected to the database.");
         } catch (MongoException e) {
-            System.err.println("Si è verificato un errore durante la connessione al database locale:");
+            System.err.println("An error occurred while connecting to the database:");
             e.printStackTrace();
         }
     }
 
+    // Opens a connection to the local MongoDB database
     public static void connectToLocal() {
         try {
             // Create connection string
@@ -50,18 +54,19 @@ public class MongoDBDriverDAO {
             userCollection = db.getCollection("Users");
             restaurantCollection = db.getCollection("Restaurants");
 
-            System.out.println("Connessione al database locale avvenuta con successo.");
+            System.out.println("Successfully connected to the local database.");
         } catch (MongoException e) {
-            System.err.println("Si è verificato un errore durante la connessione al database locale:");
+            System.err.println("An error occurred while connecting to the local database:");
             e.printStackTrace();
         }
     }
 
-
+    // Opens a connection to the database (local or cluster)
     public static void openConnection() {
-        connectToLocal();
+        try {
+            connectToLocal();
 
-        for (String name : db.listCollectionNames()) {
+        /*for (String name : db.listCollectionNames()) {
             System.out.println(name);
         }
 
@@ -69,13 +74,22 @@ public class MongoDBDriverDAO {
         System.out.println(userCollection.countDocuments());
 
         System.out.println("**************** RESTAURANTS ******************");
-        System.out.println(restaurantCollection.countDocuments());
-
+        System.out.println(restaurantCollection.countDocuments()); */
+        } catch (Exception e) {
+            System.err.println("ERROR: Failed to open the database connection.");
+            e.printStackTrace();
+        }
     }
 
+    // Closes the database connection
     public static void closeConnection() {
-
-        mongoClient.close();
+        try {
+            mongoClient.close();
+        } catch (Exception e) {
+            System.err.println("ERROR: Failed to close the database connection.");
+            e.printStackTrace();
+        }
     }
+
 }
 

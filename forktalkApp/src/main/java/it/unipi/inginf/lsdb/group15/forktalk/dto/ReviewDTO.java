@@ -3,14 +3,25 @@ package it.unipi.inginf.lsdb.group15.forktalk.dto;
 import java.util.Date;
 
 public class ReviewDTO {
+    //    -------------------------------------
     private int id;
     private Date timestamp;
     private int rating;
-    private String title;
     private String content;
+    private String reviewer;
+    //    -------------------------------------
 
-    //------------------------------------- -------------------------------------
-    //METODI GET
+    /* ********* CONSTRUCTOR ********* */
+
+    public ReviewDTO(int id, Date timestamp, int rating, String content, String reviewer) {
+        this.id = id;
+        this.timestamp = timestamp;
+        this.rating = rating;
+        this.content = content;
+        this.reviewer = reviewer;
+    }
+
+    /* ********* GET METHOD ********* */
 
     public int getId() {
         return id;
@@ -20,20 +31,19 @@ public class ReviewDTO {
         return timestamp;
     }
 
-    public double getRating() {
+    public int getRating() {
         return rating;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public String getContent() {
         return content;
     }
 
-    //------------------------------------- -------------------------------------
-    //METODI SET
+    public String getReviewer() {
+        return reviewer;
+    }
+
+    /* ********* SET METHOD ********* */
 
     public void setId(int id) {
         this.id = id;
@@ -47,22 +57,24 @@ public class ReviewDTO {
         this.rating = rating;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public void setContent(String content) {
         this.content = content;
     }
 
-    //------------------------------------- -------------------------------------
+    public void setReviewer(String reviewer) {
+        this.reviewer = reviewer;
+    }
+
+    /* ********* TO STRING METHOD ********* */
 
     @Override
     public String toString() {
         return "ReviewDTO{" +
-                "restaurantID='" + id + '\'' +
-                ", rate=" + rating +
-                ", review='" + content + '\'' +
+                "id=" + id +
+                ", timestamp=" + timestamp +
+                ", rating=" + rating +
+                ", content='" + content + '\'' +
+                ", reviewer='" + reviewer + '\'' +
                 '}';
     }
 }

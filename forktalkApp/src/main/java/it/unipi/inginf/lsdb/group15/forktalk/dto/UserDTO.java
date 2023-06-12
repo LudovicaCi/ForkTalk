@@ -1,85 +1,151 @@
 package it.unipi.inginf.lsdb.group15.forktalk.dto;
 
-public class UserDTO extends GeneralUserDTO{
-    private int id;
-    private String nome;
-    private String cognome;
+import java.util.ArrayList;
 
+public class UserDTO {
+    //    -------------------------------------
+    private String email;
+    private String username;
+    private String password;
+    private String name;
+    private String surname;
     private String origin;
-    private int role;
+    private int suspended; //0 if the account is not suspended 1 otherwise
+    private int role; //1 if normal user and 2 if admin
+    private ArrayList<ReservationDTO> reservations;
+    private ArrayList<RestaurantsListDTO> restaurantLists;
+    //    -------------------------------------
 
-    private int nfollowers;
+    /* ********* CONSTRUCTOR ********* */
 
-
-    //------------------------------------- ------------------------------------- -------------------------------------
-    // METODI GET
-    public int getId() {
-        return id;
+    public UserDTO() {
     }
 
-    public String getNome() {
-        return nome;
+    public UserDTO(String email, String username, String password, String name, String surname, String origin) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.origin = origin;
+        this.suspended = 0;
+        this.role = 1;
+        this.reservations = null;
+        this.restaurantLists = null;
     }
 
-    public String getCognome() {
-        return cognome;
+    public UserDTO(String email, String username, String password, String name, String surname, String origin, ArrayList<ReservationDTO> reservations, ArrayList<RestaurantsListDTO> restaurantLists) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.origin = origin;
+        this.suspended = 0;
+        this.role = 1;
+        this.reservations = reservations;
+        this.restaurantLists = restaurantLists;
+    }
+
+    /* ********* GET METHOD ********* */
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
     }
 
     public String getOrigin() {
         return origin;
     }
 
+    public int getSuspended() {
+        return suspended;
+    }
+
     public int getRole() {
         return role;
     }
 
-    public int getNfollowers() {return nfollowers;}
+    public ArrayList<ReservationDTO> getReservations() {
+        return reservations;
+    }
 
-    //------------------------------------- ------------------------------------- -------------------------------------
-    // METODI SET
+    public ArrayList<RestaurantsListDTO> getRestaurantLists() {
+        return restaurantLists;
+    }
+
+    /* ********* SET METHOD ********* */
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setUsername(String username) {
-
-        super.setUsername(username);
+        this.username = username;
     }
+
     public void setPassword(String password) {
-
-        super.setPassword(password);
-    }
-    public void setId(int id) {
-        this.id = id;
+        this.password = password;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setCognome(String cognome) {
-        this.cognome = cognome;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public void setOrigin(String origin) {
         this.origin = origin;
     }
 
+    public void setSuspended(int suspended) {
+        this.suspended = suspended;
+    }
+
     public void setRole(int role) {
         this.role = role;
     }
 
-    public void setNfollowers(int nfollowers) {this.nfollowers = nfollowers;}
+    public void setReservations(ArrayList<ReservationDTO> reservations) {
+        this.reservations = reservations;
+    }
 
-    //------------------------------------- ------------------------------------- -------------------------------------
+    public void setRestaurantLists(ArrayList<RestaurantsListDTO> restaurantLists) {
+        this.restaurantLists = restaurantLists;
+    }
+
+    /* ********* TO STRING METHOD ********* */
+
     @Override
     public String toString() {
         return "UserDTO{" +
-                "id='" + id + '\'' +
-                ", username='" + GeneralUserDTO.getUsername() + '\'' +
-                ", firstName='" + nome + '\'' +
-                ", lastName='" + cognome + '\'' +
-                ", email='" + GeneralUserDTO.getEmail() + '\'' +
-                ", phoneNumber='" + origin + '\'' +
-                ", address='" + role + '\'' +
-                ", nFollowers='" + nfollowers + '\'' +
+                "email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", origin='" + origin + '\'' +
+                ", suspended=" + suspended +
+                ", role=" + role +
+                ", reservations=" + reservations +
+                ", restaurantLists=" + restaurantLists +
                 '}';
-
     }
 }

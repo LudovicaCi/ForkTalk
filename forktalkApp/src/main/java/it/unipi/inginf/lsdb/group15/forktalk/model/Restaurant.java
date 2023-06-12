@@ -3,59 +3,53 @@ package it.unipi.inginf.lsdb.group15.forktalk.model;
 import java.util.ArrayList;
 
 public class Restaurant extends GeneralUser{
-    private ArrayList<Reservation> restaurantReservations;
-    private ArrayList<String> restaurantTag;
-    private ArrayList<String> restaurantReviews;
-    private String restaurantId;
-    private String password;
+    //    -------------------------------------
+    private String id;
     private String name;
     private ArrayList<Double> coordinates;
+    private ArrayList<String> location;
     private String country;
     private String county;
     private String district;
     private String city;
     private String address;
     private String streetNumber;
-    private String postcode;
-    private double price;
+    private String postCode;
+    private int price;
+    private ArrayList<String> features;
+    private double rating;
+    private ArrayList<Review> reviews;
+    //    -------------------------------------
 
-    public Restaurant(String username, String email, String restaurantId, String password, String name, ArrayList<Double> coordinates, String location, String country, String county, String district, String city, String address, String streetNumber, String postcode, double price,ArrayList<Reservation> restaurantReservations, ArrayList<String> restaurantTag, ArrayList<String> reviews) {
-        super (email, username, password);
-        this.restaurantId = restaurantId;
+    /* ********* CONSTRUCTOR ********* */
+
+    public Restaurant(String username, String password, String email, boolean isRestaurant, String id, String name, ArrayList<Double> coordinates, ArrayList<String> location, String country, String county, String district, String city, String address, String streetNumber, String postCode, int price, ArrayList<String> features, double rating, ArrayList<Review> reviews) {
+        super(username, password, email, isRestaurant);
+        this.id = id;
         this.name = name;
         this.coordinates = coordinates;
+        this.location = location;
         this.country = country;
         this.county = county;
         this.district = district;
         this.city = city;
         this.address = address;
         this.streetNumber = streetNumber;
-        this.postcode = postcode;
+        this.postCode = postCode;
         this.price = price;
-        this.restaurantReservations = restaurantReservations;
-        this.restaurantTag= restaurantTag;
-        this.restaurantReviews= reviews;
+        this.features = features;
+        this.rating = rating;
+        this.reviews = reviews;
     }
 
-    //GET
-    public ArrayList<Reservation> getRestaurantReservations() {
-        return restaurantReservations;
+    public Restaurant(String restaurantName) {
+        super();
     }
 
-    public ArrayList<String> getRestaurantTag() {
-        return restaurantTag;
-    }
+    /* ********* GET METHOD ********* */
 
-    public ArrayList<String> getRestaurantReviews() {
-        return restaurantReviews;
-    }
-
-    public String getRestaurantId() {
-        return restaurantId;
-    }
-
-    public String getPassword() {
-        return password;
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -64,6 +58,10 @@ public class Restaurant extends GeneralUser{
 
     public ArrayList<Double> getCoordinates() {
         return coordinates;
+    }
+
+    public ArrayList<String> getLocation() {
+        return location;
     }
 
     public String getCountry() {
@@ -90,33 +88,30 @@ public class Restaurant extends GeneralUser{
         return streetNumber;
     }
 
-    public String getPostcode() {
-        return postcode;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    //SET
-    public void setRestaurantReservations(ArrayList<Reservation> restaurantReservations) {
-        this.restaurantReservations = restaurantReservations;
+    public ArrayList<String> getFeatures() {
+        return features;
     }
 
-    public void setRestaurantTag(ArrayList<String> restaurantTag) {
-        this.restaurantTag = restaurantTag;
+    public double getRating() {
+        return rating;
     }
 
-    public void setRestaurantReviews(ArrayList<String> restaurantReviews) {
-        this.restaurantReviews = restaurantReviews;
+    public ArrayList<Review> getReviews() {
+        return reviews;
     }
 
-    public void setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId;
-    }
+    /* ********* SET METHOD ********* */
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -125,6 +120,10 @@ public class Restaurant extends GeneralUser{
 
     public void setCoordinates(ArrayList<Double> coordinates) {
         this.coordinates = coordinates;
+    }
+
+    public void setLocation(ArrayList<String> location) {
+        this.location = location;
     }
 
     public void setCountry(String country) {
@@ -151,11 +150,23 @@ public class Restaurant extends GeneralUser{
         this.streetNumber = streetNumber;
     }
 
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
+    }
+
+    public void setFeatures(ArrayList<String> features) {
+        this.features = features;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public void setReviews(ArrayList<Review> reviews) {
+        this.reviews = reviews;
     }
 }
