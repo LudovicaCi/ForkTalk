@@ -19,6 +19,8 @@ public class UserDTO {
     /* ********* CONSTRUCTOR ********* */
 
     public UserDTO() {
+        this.reservations = new ArrayList<>();
+        this.restaurantLists = new ArrayList<>();
     }
 
     public UserDTO(String email, String username, String password, String name, String surname, String origin) {

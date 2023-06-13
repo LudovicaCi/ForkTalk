@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ReviewDTO {
     //    -------------------------------------
-    private int id;
+    private String id;
     private Date timestamp;
     private int rating;
     private String content;
@@ -13,7 +13,7 @@ public class ReviewDTO {
 
     /* ********* CONSTRUCTOR ********* */
 
-    public ReviewDTO(int id, Date timestamp, int rating, String content, String reviewer) {
+    public ReviewDTO(String id, Date timestamp, int rating, String content, String reviewer) {
         this.id = id;
         this.timestamp = timestamp;
         this.rating = rating;
@@ -21,9 +21,13 @@ public class ReviewDTO {
         this.reviewer = reviewer;
     }
 
+    public ReviewDTO() {
+
+    }
+
     /* ********* GET METHOD ********* */
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -45,7 +49,7 @@ public class ReviewDTO {
 
     /* ********* SET METHOD ********* */
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -19,6 +19,11 @@ public class RestaurantsListDTO {
 
     public RestaurantsListDTO(String title) {
         this.title = title;
+        this.restaurants = new ArrayList<>();
+    }
+
+    public RestaurantsListDTO() {
+        this.restaurants = new ArrayList<>();
     }
 
     /* ********* GET METHOD ********* */

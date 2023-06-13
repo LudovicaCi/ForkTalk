@@ -1,32 +1,47 @@
 package it.unipi.inginf.lsdb.group15.forktalk.dto;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.annotations.SerializedName;
 
 public class RestaurantDTO{
     //    -------------------------------------
+    @SerializedName("rest_id")
     private String id;
+
     private String email;
     private String username;
     private String password;
+
+    @SerializedName("restaurant_name")
     private String name;
-    private ArrayList<Double> coordinates;
+
+    private ArrayList<String> coordinates;
     private ArrayList<String> location;
     private String country;
     private String county;
     private String district;
     private String city;
     private String address;
+
+    @SerializedName("street_number")
     private String streetNumber;
     private String postCode;
     private int price;
+
+    @SerializedName("tag")
     private ArrayList<String> features;
-    private double rating;
+    private ArrayList<ReservationDTO> reservations;
+
+    @SerializedName("rest_rating")
+    private int rating;
     private ArrayList<ReviewDTO> reviews;
     //    -------------------------------------
 
     /* ********* CONSTRUCTOR ********* */
 
-    public RestaurantDTO(String id, String email, String username, String password, String name, ArrayList<Double> coordinates, ArrayList<String> location, String country, String county, String district, String city, String address, String streetNumber, String postCode, int price, ArrayList<String> features, double rating, ArrayList<ReviewDTO> reviews) {
+    public RestaurantDTO(String id, String email, String username, String password, String name, ArrayList<String> coordinates, ArrayList<String> location, String country, String county, String district, String city, String address, String streetNumber, String postCode, int price, ArrayList<String> features, ArrayList<ReservationDTO> reservations, int rating, ArrayList<ReviewDTO> reviews) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -43,6 +58,7 @@ public class RestaurantDTO{
         this.postCode = postCode;
         this.price = price;
         this.features = features;
+        this.reservations = reservations;
         this.rating = rating;
         this.reviews = reviews;
     }
@@ -51,6 +67,15 @@ public class RestaurantDTO{
         this.id = id;
         this.name = name;
     }
+
+    public RestaurantDTO(){
+        this.coordinates = new ArrayList<>();
+        this.location = new ArrayList<>();
+        this.features = new ArrayList<>();
+        this.reviews = new ArrayList<>();
+        this.reservations = new ArrayList<>();
+    }
+
 
     /* ********* GET METHOD ********* */
 
@@ -74,7 +99,7 @@ public class RestaurantDTO{
         return name;
     }
 
-    public ArrayList<Double> getCoordinates() {
+    public ArrayList<String> getCoordinates() {
         return coordinates;
     }
 
@@ -118,12 +143,16 @@ public class RestaurantDTO{
         return features;
     }
 
-    public double getRating() {
+    public int getRating() {
         return rating;
     }
 
     public ArrayList<ReviewDTO> getReviews() {
         return reviews;
+    }
+
+    public ArrayList<ReservationDTO> getReservations() {
+        return reservations;
     }
 
     /* ********* SET METHOD ********* */
@@ -148,7 +177,7 @@ public class RestaurantDTO{
         this.name = name;
     }
 
-    public void setCoordinates(ArrayList<Double> coordinates) {
+    public void setCoordinates(ArrayList<String> coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -192,7 +221,7 @@ public class RestaurantDTO{
         this.features = features;
     }
 
-    public void setRating(double rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
@@ -200,29 +229,37 @@ public class RestaurantDTO{
         this.reviews = reviews;
     }
 
+    public void setReservations(ArrayList<ReservationDTO> reservations) {
+        this.reservations = reservations;
+    }
+
     /* ********* TO STRING METHOD ********* */
 
     @Override
     public String toString() {
-        return "RestaurantDTO{" +
-                "id='" + id + '\'' +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", coordinates=" + coordinates +
-                ", location=" + location +
-                ", country='" + country + '\'' +
-                ", county='" + county + '\'' +
-                ", district='" + district + '\'' +
-                ", city='" + city + '\'' +
-                ", address='" + address + '\'' +
-                ", streetNumber='" + streetNumber + '\'' +
-                ", postCode='" + postCode + '\'' +
-                ", price=" + price +
-                ", features=" + features +
-                ", rating=" + rating +
-                ", reviews=" + reviews +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("RestaurantDTO{").append('\n');
+        sb.append("id='").append(id).append('\'').append(',').append('\n');
+        sb.append("email='").append(email).append('\'').append(',').append('\n');
+        sb.append("username='").append(username).append('\'').append(',').append('\n');
+        sb.append("password='").append(password).append('\'').append(',').append('\n');
+        sb.append("name='").append(name).append('\'').append(',').append('\n');
+        sb.append("coordinates=").append(coordinates).append(',').append('\n');
+        sb.append("location=").append(location).append(',').append('\n');
+        sb.append("country='").append(country).append('\'').append(',').append('\n');
+        sb.append("county='").append(county).append('\'').append(',').append('\n');
+        sb.append("district='").append(district).append('\'').append(',').append('\n');
+        sb.append("city='").append(city).append('\'').append(',').append('\n');
+        sb.append("address='").append(address).append('\'').append(',').append('\n');
+        sb.append("streetNumber='").append(streetNumber).append('\'').append(',').append('\n');
+        sb.append("postCode='").append(postCode).append('\'').append(',').append('\n');
+        sb.append("price=").append(price).append(',').append('\n');
+        sb.append("features=").append(features).append(',').append('\n');
+        sb.append("reservations=").append(reservations).append(',').append('\n');
+        sb.append("rating=").append(rating).append(',').append('\n');
+        sb.append("reviews=").append(reviews).append('\n');
+        sb.append('}');
+
+        return sb.toString();
     }
 }

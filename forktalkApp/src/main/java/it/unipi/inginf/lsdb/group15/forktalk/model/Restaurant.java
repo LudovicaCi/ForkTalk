@@ -42,8 +42,9 @@ public class Restaurant extends GeneralUser{
         this.reviews = reviews;
     }
 
-    public Restaurant(String restaurantName) {
-        super();
+    public Restaurant(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     /* ********* GET METHOD ********* */
@@ -168,5 +169,15 @@ public class Restaurant extends GeneralUser{
 
     public void setReviews(ArrayList<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    /* ********* TO STRING METHOD ********* */
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

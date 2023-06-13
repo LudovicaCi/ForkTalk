@@ -46,6 +46,23 @@ public class ReservationDTO {
         this.people = people;
     }
 
+    public ReservationDTO(Date date, String restaurantId, String restaurantName, String restaurantCity, String restaurantAddress, int people) {
+        this.restaurantID = restaurantId;
+        this.restaurantName = restaurantName;
+        this.restaurantCity = restaurantCity;
+        this.restaurantAddress = restaurantAddress;
+        this.date = date;
+        this.people = people;
+    }
+
+    public ReservationDTO(Date date, String clientName, String clientUsername, String clientSurname, int people) {
+        this.clientUsername = clientUsername;
+        this.clientName = clientName;
+        this.clientSurname = clientSurname;
+        this.date = date;
+        this.people = people;
+    }
+
     /* ********* GET METHOD ********* */
 
     public String getClientUsername() {

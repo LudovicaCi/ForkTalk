@@ -1,22 +1,26 @@
 package it.unipi.inginf.lsdb.group15.forktalk;
 
 import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBDriverDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBRestaurantDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBUserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.ReservationDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantsListDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.model.Restaurant;
 import it.unipi.inginf.lsdb.group15.forktalk.model.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBUserDAO.getRestaurantListsOfUser;
+import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBUserDAO.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         MongoDBDriverDAO.openConnection();
         //login: FUNZIONA
-       /* UserDTO userDTO = MongoDBUserDAO.loginUser("ianmW7519KN", "cbzuu0Bq");
+        /*UserDTO userDTO = MongoDBUserDAO.loginUser("ianmW7519KN", "cbzuu0Bq");
         String userDTOString = userDTO.toString();  // Assegna la rappresentazione in forma di stringa a una variabile
         System.out.println(userDTOString); */
 
@@ -44,23 +48,74 @@ public class Main {
         //System.out.println(MongoDBUserDAO.deleteRestaurantListFromUser(MongoDBUserDAO.getUserByUsername("filo87"), "Favorite Sushi Restaurant"));
 
         //get RestaurantsList: FUNZIONA
-        /*ArrayList<RestaurantsListDTO> restaurantLists = getRestaurantListsOfUser(MongoDBUserDAO.getUserByUsername("filo87"));
+        /*ArrayList<String> titles = getRestaurantListsOfUser(MongoDBUserDAO.getUserByUsername("filo87"));
 
-        if (restaurantLists != null) {
-            for (RestaurantsListDTO list : restaurantLists) {
-                System.out.println(list.toString());
+        if (titles != null) {
+            for (String title : titles) {
+                System.out.println(title);
             }
         } else {
             System.err.println("ERROR: Failed to retrieve restaurant lists.");
-        } */
+        }*/
 
         //add a restaurant to a restaurants list
-        RestaurantDTO new_rest = new RestaurantDTO("g10259438-d19087750", "Band of Burgers");
+        //RestaurantDTO new_rest = new RestaurantDTO("g10259438-d19087750", "Band of Burgers");
         //System.out.println(MongoDBUserDAO.addRestaurantToList(MongoDBUserDAO.getUserByUsername("filo87"), "Best London Fast Food", new_rest));
 
 
         //delete a restaurant from a restaurants list
         //System.out.println(MongoDBUserDAO.removeRestaurantFromList(MongoDBUserDAO.getUserByUsername("filo87"), "Best London Fast Food", new_rest.getId()));
+
+        //get restaurants from a list given a title: FUNZIONA
+        /*RestaurantsListDTO restaurantsList = getRestaurantsFromLists(MongoDBUserDAO.getUserByUsername("filo87"), "Best London Fast Food");
+
+        if (restaurantsList == null) {
+            System.out.println("Error occurred while retrieving the restaurant list.");
+            return;
+        }
+
+        if (restaurantsList.getTitle() == null) {
+            System.out.println("List with the given title not found.");
+            return;
+        }
+
+        System.out.println("Restaurant List: " + restaurantsList.getTitle());
+        System.out.println("Restaurants:");
+
+        List<Restaurant> restaurants = restaurantsList.getRestaurants();
+        if (restaurants.isEmpty()) {
+            System.out.println("No restaurants found in the list.");
+        } else {
+            for (Restaurant restaurant : restaurants) {
+                System.out.println("ID: " + restaurant.getId() + ", Name: " + restaurant.getName());
+            }
+        } */
+
+        //get reservation
+        /*UserDTO user = MongoDBUserDAO.getUserByUsername("ianmW7519KN");
+        ArrayList<ReservationDTO> reservations = getReservations(user);
+
+        if (reservations != null) {
+            // Stampa l'elenco delle prenotazioni dell'utente
+            System.out.println("Elenco prenotazioni utente:");
+            for (ReservationDTO reservation : reservations) {
+                System.out.println(reservation.toString());
+            }
+        } else {
+            System.out.println("Non sono state trovate prenotazioni per l'utente.");
+        }*/
+
+        /* ******** RESTAURANT TEST QUERY ******** */
+
+        //login restaurant
+        RestaurantDTO rest = MongoDBRestaurantDAO.loginRestaurant("band-of-burgers_695", "f9R3j^u^@x");
+        assert rest != null;
+        String restDTOString = rest.toString();  // Assegna la rappresentazione in forma di stringa a una variabile
+        System.out.println(restDTOString);
+
+        //get Restaurant Reservation
+
+
         MongoDBDriverDAO.closeConnection();
     }
 
