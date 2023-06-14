@@ -12,8 +12,10 @@ import it.unipi.inginf.lsdb.group15.forktalk.model.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBRestaurantDAO.*;
 import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBUserDAO.*;
 
 public class Main {
@@ -108,13 +110,126 @@ public class Main {
         /* ******** RESTAURANT TEST QUERY ******** */
 
         //login restaurant
-        RestaurantDTO rest = MongoDBRestaurantDAO.loginRestaurant("band-of-burgers_695", "f9R3j^u^@x");
+        /*RestaurantDTO rest = MongoDBRestaurantDAO.loginRestaurant("band-of-burgers_695", "f9R3j^u^@x");
         assert rest != null;
         String restDTOString = rest.toString();  // Assegna la rappresentazione in forma di stringa a una variabile
-        System.out.println(restDTOString);
+        System.out.println(restDTOString);*/
 
-        //get Restaurant Reservation
+        //get Restaurants by Name: FUNZIONA
+        // Effettua il login come ristorante
+        /*String restaurantName = "Band of Burgers";
 
+        // Chiama la funzione per ottenere i ristoranti corrispondenti al nome
+        List<RestaurantDTO> restaurants = getRestaurantsByName(restaurantName);
+
+        // Stampa i ristoranti trovati
+        if (restaurants != null) {
+            for (RestaurantDTO restaurant : restaurants) {
+                System.out.println("ID: " + restaurant.getId());
+                System.out.println("Nome: " + restaurant.getName());
+                System.out.println("Email: " + restaurant.getEmail());
+                System.out.println("Username: " + restaurant.getUsername());
+                System.out.println("Password: " + restaurant.getPassword());
+                System.out.println("Country: " + restaurant.getCountry());
+                System.out.println("County: " + restaurant.getCounty());
+                System.out.println("District: " + restaurant.getDistrict());
+                System.out.println("City: " + restaurant.getCity());
+                System.out.println("Address: " + restaurant.getAddress());
+                System.out.println("Street Number: " + restaurant.getStreetNumber());
+                System.out.println("Postcode: " + restaurant.getPostCode());
+                System.out.println("Price: " + restaurant.getPrice());
+                System.out.println("Features: " + restaurant.getFeatures());
+                System.out.println("Location: " + restaurant.getLocation());
+                System.out.println("Rating: " + restaurant.getRating());
+                System.out.println("Coordinates: " + restaurant.getCoordinates());
+                System.out.println("Reservations: " + restaurant.getReservations());
+                System.out.println("Reviews: " + restaurant.getReviews());
+
+                System.out.println("--------------------");
+            }
+        } else {
+            System.out.println("Nessun ristorante trovato.");
+        } */
+
+        //get Restaurant by Username
+        // Effettua il login come ristorante
+        /*String username = "band-of-burgers_695";
+
+        // Chiama la funzione per ottenere il ristorante corrispondente allo username
+        RestaurantDTO restaurant = getRestaurantByUsername(username);
+
+        // Stampa il ristorante trovato
+        if (restaurant != null) {
+            System.out.println("ID: " + restaurant.getId());
+            System.out.println("Nome: " + restaurant.getName());
+            System.out.println("Email: " + restaurant.getEmail());
+            System.out.println("Username: " + restaurant.getUsername());
+            System.out.println("Password: " + restaurant.getPassword());
+            System.out.println("Country: " + restaurant.getCountry());
+            System.out.println("County: " + restaurant.getCounty());
+            System.out.println("District: " + restaurant.getDistrict());
+            System.out.println("City: " + restaurant.getCity());
+            System.out.println("Address: " + restaurant.getAddress());
+            System.out.println("Street Number: " + restaurant.getStreetNumber());
+            System.out.println("Postcode: " + restaurant.getPostCode());
+            System.out.println("Price: " + restaurant.getPrice());
+            System.out.println("Features: " + restaurant.getFeatures());
+            System.out.println("Location: " + restaurant.getLocation());
+            System.out.println("Rating: " + restaurant.getRating());
+            System.out.println("Coordinates: " + restaurant.getCoordinates());
+            System.out.println("Reservations: " + restaurant.getReservations());
+            System.out.println("Reviews: " + restaurant.getReviews());
+        } else {
+            System.out.println("Nessun ristorante trovato.");
+        } */
+
+        RestaurantDTO restaurant = new RestaurantDTO();
+        restaurant.setId("123456");
+        restaurant.setName("Ristorante Italiano");
+        restaurant.setEmail("info@ristoranteitaliano.com");
+        restaurant.setUsername("italianrestaurant");
+        restaurant.setPassword("password123");
+        restaurant.setCountry("Italy");
+        restaurant.setCounty("Lombardy");
+        restaurant.setDistrict("Milan");
+        restaurant.setCity("Milan");
+        restaurant.setAddress("Via Roma 123");
+        restaurant.setStreetNumber("123");
+        restaurant.setPostCode("12345");
+        restaurant.setPrice(3);
+
+        // Aggiunta delle caratteristiche
+        ArrayList<String> features = new ArrayList<>();
+        features.add("Italian Cuisine");
+        features.add("Pizza");
+        features.add("Pasta");
+        restaurant.setFeatures(features);
+
+        // Aggiunta della posizione
+        ArrayList<String> location = new ArrayList<>();
+        location.add("40.7128° N");
+        location.add("74.0060° W");
+        restaurant.setLocation(location);
+
+        restaurant.setRating(4);
+
+        // Aggiunta delle coordinate
+        ArrayList<String> coordinates = new ArrayList<>();
+        coordinates.add("40.7128");
+        coordinates.add("74.0060");
+        restaurant.setCoordinates(coordinates);
+
+        // Aggiunta del ristorante al database
+        //System.out.println(addRestaurant(restaurant));
+
+        //delete a restaurant: FUNZIONA
+        //System.out.println(deleteRestaurantByUsername("italianrestaurant"));
+
+        //update a restaurant
+        /*restaurant.setPrice(10);
+        restaurant.setCity("Rome");
+
+        System.out.println(updateRestaurant(restaurant));*/
 
         MongoDBDriverDAO.closeConnection();
     }

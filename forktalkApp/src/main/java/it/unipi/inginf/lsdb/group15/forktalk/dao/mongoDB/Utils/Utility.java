@@ -15,6 +15,73 @@ import java.util.List;
 import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils.GsonUtils.parseTimestamp;
 
 public class Utility {
+
+    /**
+     * Packs the coordinates into a list of MongoDB Documents.
+     *
+     * @param coordinates The list of coordinates [latitude, longitude].
+     * @return The list of MongoDB Documents representing the coordinates.
+     */
+    public static List<Document> packCoordinates(List<String> coordinates) {
+        List<Document> coordinatesDocuments = new ArrayList<>();
+
+            Document coordinateDocument = new Document()
+                    .append("latitude", coordinates.get(0))
+                    .append("longitude", coordinates.get(1));
+
+            coordinatesDocuments.add(coordinateDocument);
+
+
+        return coordinatesDocuments;
+    }
+
+    /**
+     * Packs the restaurant reservations into a list of MongoDB Documents.
+     *
+     * @param reservations The list of ReservationDTO objects representing the reservations.
+     * @return The list of MongoDB Documents representing the reservations.
+     */
+    public static List<Document> packRestaurantReservations(List<ReservationDTO> reservations) {
+        List<Document> reservationsDocuments = new ArrayList<>();
+
+        for (ReservationDTO reservation : reservations) {
+            Document reservationDocument = new Document()
+                    .append("date", reservation.getDate())
+                    .append("client_username", reservation.getClientUsername())
+                    .append("client_name", reservation.getClientName())
+                    .append("client_surname", reservation.getClientSurname())
+                    .append("number of person", reservation.getPeople());
+
+            reservationsDocuments.add(reservationDocument);
+        }
+
+        return reservationsDocuments;
+    }
+
+    /**
+     * Packs the reviews into a list of MongoDB Documents.
+     *
+     * @param reviews The list of ReviewDTO objects representing the reviews.
+     * @return The list of MongoDB Documents representing the reviews.
+     */
+    public static List<Document> packReviews(List<ReviewDTO> reviews) {
+        List<Document> reviewsDocuments = new ArrayList<>();
+
+        for (ReviewDTO review : reviews) {
+            Document reviewDocument = new Document()
+                    .append("review_id", review.getId())
+                    .append("review_date", review.getTimestamp())
+                    .append("review_rating", review.getRating())
+                    .append("review_content", review.getContent())
+                    .append("reviewer_pseudo", review.getReviewer());
+
+            reviewsDocuments.add(reviewDocument);
+        }
+
+        return reviewsDocuments;
+    }
+
+
     public static RestaurantsListDTO unpackOneRestaurantList(Document document) {
         try {
             // Retrieve the title of the restaurant list
@@ -45,7 +112,12 @@ public class Utility {
         }
     }
 
-
+    /**
+     * Unpacks a single restaurant list from a MongoDB Document.
+     *
+     * @param document The MongoDB Document representing the restaurant list.
+     * @return The RestaurantsListDTO object representing the unpacked restaurant list.
+     */
     public static ReservationDTO unpackOneUserReservation(Document document) {
         try {
             // Retrieve values from the document
@@ -86,7 +158,12 @@ public class Utility {
         }
     }
 
-
+    /**
+     * Unpacks a single restaurant reservation from a MongoDB Document.
+     *
+     * @param document The MongoDB Document representing the restaurant reservation.
+     * @return The ReservationDTO object representing the unpacked restaurant reservation.
+     */
     public static ArrayList<String> unpackOneCoordinates(Document document) {
         ArrayList<String> coordinate = new ArrayList<>();
 
@@ -103,7 +180,12 @@ public class Utility {
         return coordinate;
     }
 
-
+    /**
+     * Unpacks a single review from a MongoDB Document.
+     *
+     * @param document The MongoDB Document representing the review.
+     * @return The ReviewDTO object representing the unpacked review.
+     */
     public static ReviewDTO unpackOneReview(Document document) {
         ReviewDTO review = new ReviewDTO();
         try {

@@ -1,12 +1,9 @@
 package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
 
-import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoException;
 import com.mongodb.client.*;
 import com.mongodb.ConnectionString;
 import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistries;
-import org.bson.codecs.configuration.CodecRegistry;
 
 public class MongoDBDriverDAO {
     //    -------------------------------------
@@ -16,7 +13,9 @@ public class MongoDBDriverDAO {
     static MongoCollection<Document> restaurantCollection;
     //    -------------------------------------
 
-    // Opens a connection to the MongoDB cluster
+    /**
+     * Connects to the MongoDB cluster and initializes the necessary collections.
+     */
     public void connectToCluster() {
         try {
             //Create a mongodbDB client
@@ -38,7 +37,9 @@ public class MongoDBDriverDAO {
         }
     }
 
-    // Opens a connection to the local MongoDB database
+    /**
+     * Connects to the local MongoDB instance and initializes the necessary collections.
+     */
     public static void connectToLocal() {
         try {
             // Create connection string
@@ -61,27 +62,31 @@ public class MongoDBDriverDAO {
         }
     }
 
-    // Opens a connection to the database (local or cluster)
+    /**
+     * Opens the database connection by connecting to the MongoDB instance.
+     */
     public static void openConnection() {
         try {
             connectToLocal();
 
-        /*for (String name : db.listCollectionNames()) {
-            System.out.println(name);
-        }
+            /*for (String name : db.listCollectionNames()) {
+                System.out.println(name);
+            }
 
-        System.out.println("**************** USERS ******************");
-        System.out.println(userCollection.countDocuments());
+            System.out.println("**************** USERS ******************");
+            System.out.println(userCollection.countDocuments());
 
-        System.out.println("**************** RESTAURANTS ******************");
-        System.out.println(restaurantCollection.countDocuments()); */
+            System.out.println("**************** RESTAURANTS ******************");
+            System.out.println(restaurantCollection.countDocuments()); */
         } catch (Exception e) {
             System.err.println("ERROR: Failed to open the database connection.");
             e.printStackTrace();
         }
     }
 
-    // Closes the database connection
+    /**
+     * Closes the database connection.
+     */
     public static void closeConnection() {
         try {
             mongoClient.close();
