@@ -1,6 +1,7 @@
 package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
 
 import com.google.gson.GsonBuilder;
+import com.mongodb.MongoException;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -48,7 +49,7 @@ public class MongoDBUserDAO extends MongoDBDriverDAO {
             } else {
                 return false;
             }
-        } catch (Exception e) {
+        } catch (MongoException e) {
             // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
@@ -70,7 +71,7 @@ public class MongoDBUserDAO extends MongoDBDriverDAO {
             DeleteResult result = userCollection.deleteOne(filter);
 
             return result.getDeletedCount() > 0;
-        } catch (Exception e) {
+        } catch (MongoException e) {
             // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
@@ -105,7 +106,7 @@ public class MongoDBUserDAO extends MongoDBDriverDAO {
 
             // Check if the update was successful
             return updateResult.getModifiedCount() > 0;
-        } catch (Exception e) {
+        } catch (MongoException e) {
             // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
@@ -163,7 +164,7 @@ public class MongoDBUserDAO extends MongoDBDriverDAO {
                 // Nessun utente corrispondente
                 System.out.println("Incorrect username or password!");
             }
-        } catch (Exception e) {
+        } catch (MongoException e) {
             e.printStackTrace();
         }
 
@@ -195,7 +196,7 @@ public class MongoDBUserDAO extends MongoDBDriverDAO {
 
             // Convert the userDocument to JSON and deserialize it into a UserDTO object using Gson
             return gson.fromJson(gson.toJson(userDocument), UserDTO.class);
-        } catch (Exception e) {
+        } catch (MongoException e) {
             // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return null;
@@ -233,7 +234,7 @@ public class MongoDBUserDAO extends MongoDBDriverDAO {
             );
 
             return true;
-        } catch (Exception e) {
+        } catch (MongoException e) {
             // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
@@ -282,7 +283,7 @@ public class MongoDBUserDAO extends MongoDBDriverDAO {
                 System.err.println("ERROR: Reading list not found.");
                 return false;
             }
-        } catch (Exception e) {
+        } catch (MongoException e) {
             // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
@@ -320,7 +321,7 @@ public class MongoDBUserDAO extends MongoDBDriverDAO {
             }
 
             return titles;
-        } catch (Exception e) {
+        } catch (MongoException e) {
             // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return null;
@@ -376,7 +377,7 @@ public class MongoDBUserDAO extends MongoDBDriverDAO {
 
             // If the list with the given title is not found, return an empty restaurant list
             return new RestaurantsListDTO();
-        } catch (Exception e) {
+        } catch (MongoException e) {
             e.printStackTrace();
             return null;
         }
@@ -434,7 +435,7 @@ public class MongoDBUserDAO extends MongoDBDriverDAO {
             userCollection.replaceOne(Filters.eq("username", user.getUsername()), userDocument);
 
             return true;
-        } catch (Exception e) {
+        } catch (MongoException e) {
             // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
@@ -509,7 +510,7 @@ public class MongoDBUserDAO extends MongoDBDriverDAO {
             userCollection.replaceOne(Filters.eq("username", user.getUsername()), userDocument);
 
             return true;
-        } catch (Exception e) {
+        } catch (MongoException e) {
             // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
@@ -543,7 +544,7 @@ public class MongoDBUserDAO extends MongoDBDriverDAO {
                 }
             }
             return result;
-        } catch (Exception e) {
+        } catch (MongoException e) {
             System.err.println("ERROR: An error occurred while retrieving reservations.");
             e.printStackTrace();
             return null;
