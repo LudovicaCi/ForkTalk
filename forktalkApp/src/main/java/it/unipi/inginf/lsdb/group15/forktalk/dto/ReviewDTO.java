@@ -5,7 +5,7 @@ import java.util.Date;
 public class ReviewDTO {
     //    -------------------------------------
     private String id;
-    private Date timestamp;
+    private String timestamp;
     private int rating;
     private String content;
     private String reviewer;
@@ -13,7 +13,7 @@ public class ReviewDTO {
 
     /* ********* CONSTRUCTOR ********* */
 
-    public ReviewDTO(String id, Date timestamp, int rating, String content, String reviewer) {
+    public ReviewDTO(String id, String timestamp, int rating, String content, String reviewer) {
         this.id = id;
         this.timestamp = timestamp;
         this.rating = rating;
@@ -31,7 +31,7 @@ public class ReviewDTO {
         return id;
     }
 
-    public Date getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
@@ -53,7 +53,7 @@ public class ReviewDTO {
         this.id = id;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
