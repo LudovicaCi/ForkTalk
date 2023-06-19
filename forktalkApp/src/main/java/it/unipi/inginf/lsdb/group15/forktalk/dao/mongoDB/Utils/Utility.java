@@ -41,8 +41,8 @@ public class Utility {
      * @param reservations The list of ReservationDTO objects representing the reservations.
      * @return The list of MongoDB Documents representing the reservations.
      */
-    public static List<Document> packRestaurantReservations(List<ReservationDTO> reservations) {
-        List<Document> reservationsDocuments = new ArrayList<>();
+    public static ArrayList<Document> packRestaurantReservations(ArrayList<ReservationDTO> reservations) {
+        ArrayList<Document> reservationsDocuments = new ArrayList<>();
 
         for (ReservationDTO reservation : reservations) {
             Document reservationDocument = new Document()
@@ -56,6 +56,45 @@ public class Utility {
         }
 
         return reservationsDocuments;
+    }
+
+    public static Document packRestaurantOneReservation(ReservationDTO reservation){
+
+        return new Document()
+                .append("date", reservation.getDate())
+                .append("client_username", reservation.getClientUsername())
+                .append("client_name", reservation.getClientName())
+                .append("client_surname", reservation.getClientSurname())
+                .append("number of person", reservation.getPeople());
+    }
+
+    public static ArrayList<Document> packUserReservations(ArrayList<ReservationDTO> reservations) {
+        ArrayList<Document> reservationsDocuments = new ArrayList<>();
+
+        for (ReservationDTO reservation : reservations) {
+            Document reservationDocument = new Document()
+                    .append("date", reservation.getDate())
+                    .append("restaurant_id", reservation.getRestaurantID())
+                    .append("restaurant_name", reservation.getRestaurantName())
+                    .append("restaurant_city", reservation.getRestaurantCity())
+                    .append("restaurant_address", reservation.getRestaurantAddress())
+                    .append("number of person", reservation.getPeople());
+
+            reservationsDocuments.add(reservationDocument);
+        }
+
+        return reservationsDocuments;
+    }
+
+    public static Document packUserOneReservation(ReservationDTO reservation){
+
+        return new Document()
+                .append("date", reservation.getDate())
+                .append("restaurant_id", reservation.getRestaurantID())
+                .append("restaurant_name", reservation.getRestaurantName())
+                .append("restaurant_city", reservation.getRestaurantCity())
+                .append("restaurant_address", reservation.getRestaurantAddress())
+                .append("number of person", reservation.getPeople());
     }
 
     /**
@@ -117,7 +156,6 @@ public class Utility {
         try {
             // Retrieve values from the document
             String dateStr = document.getString("date");
-            Date date = parseTimestamp(dateStr);
 
             String restaurantId = document.getString("restaurant_id");
             String restaurantName = document.getString("restaurant_name");
@@ -125,7 +163,7 @@ public class Utility {
             String restaurantAddress = document.getString("restaurant_address");
             int numberOfPerson = document.getInteger("number of person");
 
-            return new ReservationDTO(date, restaurantId, restaurantName, restaurantCity, restaurantAddress, numberOfPerson);
+            return new ReservationDTO(dateStr, restaurantId, restaurantName, restaurantCity, restaurantAddress, numberOfPerson);
         } catch (MongoException e) {
             System.err.println("An error occurred while unpacking the user reservation:");
             e.printStackTrace();
@@ -138,14 +176,13 @@ public class Utility {
         try {
             // Retrieve values from the document
             String dateStr = document.getString("date");
-            Date date = parseTimestamp(dateStr);
 
             String clientUsername = document.getString("client_username");
             String clientName = document.getString("client_name");
             String clientSurname = document.getString("client_surname");
             int numberOfPerson = document.getInteger("number of person");
 
-            return new ReservationDTO(date, clientName, clientUsername, clientSurname, numberOfPerson);
+            return new ReservationDTO(dateStr, clientName, clientUsername, clientSurname, numberOfPerson);
         } catch (MongoException e) {
             System.err.println("An error occurred while unpacking the restaurant reservation:" + e.getMessage());
             e.printStackTrace();

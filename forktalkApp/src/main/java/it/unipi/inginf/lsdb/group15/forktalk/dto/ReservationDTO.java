@@ -5,36 +5,20 @@ import com.google.gson.annotations.SerializedName;
 
 public class ReservationDTO {
     //    -------------------------------------
-    @SerializedName("client_username")
     private String clientUsername;
-
-    @SerializedName("client_name")
     private String clientName;
-
-    @SerializedName("client_surname")
     private String clientSurname;
-
-    @SerializedName("restaurant_id")
     private String restaurantID;
-
-    @SerializedName("restaurant_name")
     private String restaurantName;
-
-    @SerializedName("restaurant_city")
     private String restaurantCity;
-
-    @SerializedName("restaurant_address")
     private String restaurantAddress;
-
-    private Date date;
-
-    @SerializedName("number of person")
+    private String date;
     private int people;
     //    -------------------------------------
 
     /* ********* CONSTRUCTOR ********* */
 
-    public ReservationDTO(String clientUsername, String clientName, String clientSurname, String restaurantID, String restaurantName, String restaurantUsername, String restaurantCity, String restaurantAddress, Date date, int people) {
+    public ReservationDTO(String clientUsername, String clientName, String clientSurname, String restaurantID, String restaurantName, String restaurantCity, String restaurantAddress, String date, int people) {
         this.clientUsername = clientUsername;
         this.clientName = clientName;
         this.clientSurname = clientSurname;
@@ -46,7 +30,7 @@ public class ReservationDTO {
         this.people = people;
     }
 
-    public ReservationDTO(Date date, String restaurantId, String restaurantName, String restaurantCity, String restaurantAddress, int people) {
+    public ReservationDTO(String date, String restaurantId, String restaurantName, String restaurantCity, String restaurantAddress, int people) {
         this.restaurantID = restaurantId;
         this.restaurantName = restaurantName;
         this.restaurantCity = restaurantCity;
@@ -55,12 +39,24 @@ public class ReservationDTO {
         this.people = people;
     }
 
-    public ReservationDTO(Date date, String clientName, String clientUsername, String clientSurname, int people) {
+    public ReservationDTO(String date, String clientName, String clientUsername, String clientSurname, int people) {
         this.clientUsername = clientUsername;
         this.clientName = clientName;
         this.clientSurname = clientSurname;
         this.date = date;
         this.people = people;
+    }
+
+    public ReservationDTO(String date) {
+        this.date = date;
+        this.clientUsername = null;
+        this.clientName = null;
+        this.clientSurname = null;
+        this.restaurantID = null;
+        this.restaurantName = null;
+        this.restaurantCity = null;
+        this.restaurantAddress = null;
+        this.people = 0;
     }
 
     /* ********* GET METHOD ********* */
@@ -93,7 +89,7 @@ public class ReservationDTO {
         return restaurantAddress;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -131,7 +127,7 @@ public class ReservationDTO {
         this.restaurantAddress = restaurantAddress;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

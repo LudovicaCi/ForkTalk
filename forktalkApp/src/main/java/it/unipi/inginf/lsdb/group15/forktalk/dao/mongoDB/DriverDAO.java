@@ -5,7 +5,7 @@ import com.mongodb.client.*;
 import com.mongodb.ConnectionString;
 import org.bson.Document;
 
-public class MongoDBDriverDAO {
+public class DriverDAO {
     //    -------------------------------------
     static MongoClient mongoClient;
     private static MongoDatabase db;
