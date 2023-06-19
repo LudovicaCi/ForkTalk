@@ -1,5 +1,6 @@
 package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils;
 
+import com.mongodb.MongoException;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.ReservationDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantsListDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.ReviewDTO;
@@ -7,7 +8,6 @@ import it.unipi.inginf.lsdb.group15.forktalk.model.Restaurant;
 
 import org.bson.Document;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -59,26 +59,21 @@ public class Utility {
     }
 
     /**
-     * Packs the reviews into a list of MongoDB Documents.
+     * Packs the review into a MongoDB Document.
      *
-     * @param reviews The list of ReviewDTO objects representing the reviews.
-     * @return The list of MongoDB Documents representing the reviews.
+     * @param review The ReviewDTO object representing the review.
+     * @return TheMongoDB Documents representing the review.
      */
-    public static List<Document> packReviews(List<ReviewDTO> reviews) {
-        List<Document> reviewsDocuments = new ArrayList<>();
+    public static Document packOneReview(ReviewDTO review) {
 
-        for (ReviewDTO review : reviews) {
-            Document reviewDocument = new Document()
-                    .append("review_id", review.getId())
-                    .append("review_date", review.getTimestamp())
-                    .append("review_rating", review.getRating())
-                    .append("review_content", review.getContent())
-                    .append("reviewer_pseudo", review.getReviewer());
+        Document reviewDocument = new Document()
+                .append("review_id", review.getId())
+                .append("review_date", review.getTimestamp())
+                .append("review_rating", review.getRating())
+                .append("review_content", review.getContent())
+                .append("reviewer_pseudo", review.getReviewer());
 
-            reviewsDocuments.add(reviewDocument);
-        }
-
-        return reviewsDocuments;
+        return reviewDocument;
     }
 
 
@@ -105,7 +100,7 @@ public class Utility {
                 }
             }
             return r_list;
-        } catch (Exception e) {
+        } catch (MongoException e) {
             System.err.println("An error occurred while unpacking the restaurant list:");
             e.printStackTrace();
             return null;
@@ -131,7 +126,7 @@ public class Utility {
             int numberOfPerson = document.getInteger("number of person");
 
             return new ReservationDTO(date, restaurantId, restaurantName, restaurantCity, restaurantAddress, numberOfPerson);
-        } catch (Exception e) {
+        } catch (MongoException e) {
             System.err.println("An error occurred while unpacking the user reservation:");
             e.printStackTrace();
             return null;
@@ -151,7 +146,7 @@ public class Utility {
             int numberOfPerson = document.getInteger("number of person");
 
             return new ReservationDTO(date, clientName, clientUsername, clientSurname, numberOfPerson);
-        } catch (Exception e) {
+        } catch (MongoException e) {
             System.err.println("An error occurred while unpacking the restaurant reservation:" + e.getMessage());
             e.printStackTrace();
             return null;
@@ -171,7 +166,7 @@ public class Utility {
             // Extract the longitude and latitude from the document
             coordinate.add(document.getString("longitude"));
             coordinate.add(document.getString("latitude"));
-        } catch (Exception e) {
+        } catch (MongoException e) {
             // Print the error message and stack trace
             System.err.println("An error occurred while unpacking of coordinates: " + e.getMessage());
             e.printStackTrace();
@@ -192,14 +187,13 @@ public class Utility {
             // Recupera i campi dalla recensione
             review.setId(document.getString("review_id"));
             String reviewDateStr = document.getString("review_date");
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            review.setTimestamp(dateFormat.parse(reviewDateStr));
+            review.setTimestamp(reviewDateStr);
             review.setRating(document.getInteger("review_rating"));
             review.setContent(document.getString("review_content"));
             review.setReviewer(document.getString("reviewer_pseudo"));
 
             return review;
-        } catch (Exception e) {
+        } catch (MongoException e) {
             System.err.println("An error occurred while unpacking the restaurant review:" + e.getMessage());
             e.printStackTrace();
             return null;

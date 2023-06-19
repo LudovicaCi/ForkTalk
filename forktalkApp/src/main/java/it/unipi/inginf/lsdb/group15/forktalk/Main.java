@@ -3,17 +3,13 @@ package it.unipi.inginf.lsdb.group15.forktalk;
 import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBDriverDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBRestaurantDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBUserDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.ReservationDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantsListDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.*;
 import it.unipi.inginf.lsdb.group15.forktalk.model.Restaurant;
 import it.unipi.inginf.lsdb.group15.forktalk.model.User;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBRestaurantDAO.*;
 import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBUserDAO.*;
@@ -183,7 +179,7 @@ public class Main {
             System.out.println("Nessun ristorante trovato.");
         } */
 
-        RestaurantDTO restaurant = new RestaurantDTO();
+        /*RestaurantDTO restaurant = new RestaurantDTO();
         restaurant.setId("123456");
         restaurant.setName("Ristorante Italiano");
         restaurant.setEmail("info@ristoranteitaliano.com");
@@ -230,6 +226,23 @@ public class Main {
         restaurant.setCity("Rome");
 
         System.out.println(updateRestaurant(restaurant));*/
+
+        //retrieve reviews: FUNZIONA
+        //System.out.println(getReviews("band-of-burgers_695"));ù
+
+        //write a review: FUNZIONA
+        /*Date date = new Date();
+
+        // Crea un'istanza di SimpleDateFormat con il pattern "yyyy-MM-dd"
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Utilizza il formato per formattare la data
+        String formattedDate = dateFormat.format(date);
+
+        System.out.println("Data formattata: " + formattedDate);
+        ReviewDTO newReview = new ReviewDTO("dfsj3423", formattedDate, 5, "Amazing!!!", "artymart");
+
+        System.out.println(writeReview(newReview,"band-of-burgers_695")); */
 
         MongoDBDriverDAO.closeConnection();
     }

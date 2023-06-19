@@ -78,7 +78,7 @@ public class MongoDBDriverDAO {
 
             System.out.println("**************** RESTAURANTS ******************");
             System.out.println(restaurantCollection.countDocuments()); */
-        } catch (Exception e) {
+        } catch (MongoException e) {
             System.err.println("ERROR: Failed to open the database connection.");
             e.printStackTrace();
         }
@@ -90,7 +90,7 @@ public class MongoDBDriverDAO {
     public static void closeConnection() {
         try {
             mongoClient.close();
-        } catch (Exception e) {
+        } catch (MongoException e) {
             System.err.println("ERROR: Failed to close the database connection.");
             e.printStackTrace();
         }

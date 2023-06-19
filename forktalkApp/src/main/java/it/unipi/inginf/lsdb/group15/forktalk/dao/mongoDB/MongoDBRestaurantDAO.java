@@ -3,9 +3,12 @@ package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
 import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.ReviewDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import java.util.ArrayList;
@@ -240,7 +243,6 @@ public class MongoDBRestaurantDAO extends MongoDBDriverDAO {
                 return false;
             }
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             System.out.println("An error occurred while deleting the restaurant.");
             e.printStackTrace();
             return false;
@@ -318,7 +320,6 @@ public class MongoDBRestaurantDAO extends MongoDBDriverDAO {
 
             return restaurants;
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             System.out.println("An error occurred while retrieving the restaurants");
             e.printStackTrace();
             return null;
@@ -394,10 +395,101 @@ public class MongoDBRestaurantDAO extends MongoDBDriverDAO {
                 return null; // Return null if no matching restaurant document was found
             }
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             System.out.println("An error occurred while retrieving the restaurant");
             e.printStackTrace();
             return null;
         }
     }
+
+    /**
+     * Retrieves the reviews of a restaurant based on the specified username.
+     *
+     * @param username The username of the restaurant to be retrieved.
+     * @return An ArrayList of reviews matching the specified username, or null if no matching restaurant is found or an error occurs.
+     */
+    public static ArrayList<ReviewDTO> getReviews(String username){
+        try{
+            // Create a filter to match the username
+            Bson filter = Filters.eq("username", username);
+
+            // Use the filter to find a matching restaurant document in the collection
+            Document restaurantDocument = restaurantCollection.find(filter).first();
+
+            // Retrieve reviews
+            assert restaurantDocument != null;
+            List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
+
+            if (reviewsDocuments != null) {
+                ArrayList<ReviewDTO> reviews = new ArrayList<>();
+                for (Document doc : reviewsDocuments) {
+                    reviews.add(unpackOneReview(doc));
+                }
+                return reviews;
+            }
+        }catch (MongoException e){
+            System.out.println("An error occurred while retrieving the reviews of the given restaurant");
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    /**
+     * Writes a new review to the "reviews" key of a document in the collection, preserving existing reviews.
+     *
+     * @param review   The review to be written.
+     * @param username The username of the user associated with the restaurant document.
+     * @return True if the review was written successfully, false otherwise.
+     */
+    public static boolean writeReview(ReviewDTO review, String username) {
+        try {
+            // Create a filter to match the username
+            Bson filter = Filters.eq("username", username);
+
+            // Find the matching restaurant document in the collection
+            Document restaurantDocument = restaurantCollection.find(filter).first();
+
+            // Retrieve the existing reviews from the restaurant document
+            assert restaurantDocument != null;
+            List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
+
+            // Create a new document for the review
+            Document reviewDoc = packOneReview(review);
+
+            // Add the new review to the existing reviews
+            reviewsDocuments.add(reviewDoc);
+
+            if(restaurantDocument.get("rest_rating") == null){
+                restaurantDocument.append("rest_rating", review.getRating());
+            }else{
+                System.out.println((int)restaurantDocument.get("rest_rating"));
+                System.out.println(review.getRating());
+                System.out.println(reviewsDocuments.size());
+                int newRate = (int)(((int)restaurantDocument.get("rest_rating") + review.getRating()) / reviewsDocuments.size());
+                restaurantDocument.append("rest_rating", newRate);
+            }
+
+            // Update the restaurant document with the updated reviews list
+            restaurantDocument.append("reviews", reviewsDocuments);
+
+            // Perform the update operation to update the restaurant document in the collection
+            UpdateResult result = restaurantCollection.updateOne(filter, new Document("$set", restaurantDocument));
+
+            // Check if the update was successful
+            if (result.getModifiedCount() > 0) {
+                System.out.println("Review added successfully.");
+                return true;
+            } else {
+                System.out.println("No matching restaurant document found.");
+                return false;
+            }
+        } catch (MongoException e) {
+            System.out.println("An error occurred while writing the new review");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    //TODO: write delete review method
+
 }
