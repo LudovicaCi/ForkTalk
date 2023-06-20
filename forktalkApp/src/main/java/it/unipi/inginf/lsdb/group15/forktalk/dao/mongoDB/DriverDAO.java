@@ -43,7 +43,7 @@ public class DriverDAO {
     public static void connectToLocal() {
         try {
             // Create connection string
-            ConnectionString uri = new ConnectionString("mongodb://localhost:27017");
+            ConnectionString uri = new ConnectionString("mongodb://localhost:27017/?retryWrites=false");
 
             // Create a MongoDB client
             mongoClient = MongoClients.create(uri);

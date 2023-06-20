@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.ReservationDAO.deleteReservation;
 import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.RestaurantDAO.*;
 
 public class Main {
@@ -261,16 +262,24 @@ public class Main {
         //System.out.println(setMaxClient(25, Objects.requireNonNull(getRestaurantByUsername("basmati-tandoori_832"))));
 
         //add free slots: FUNZIONA
-        //System.out.println(addFreeSlot(getRestaurantByUsername("basmati-tandoori_832")));
+        //System.out.println(addFreeSlot(getRestaurantByUsername("band-of-burgers_695")));
 
         //get free slots by date: FUNZIONA
-        /*ArrayList<String> availableSlots = getFreeSlotsByDate(getRestaurantByUsername("basmati-tandoori_832"), "2023-06-29");
-        for(String time: availableSlots){
-            System.out.println(time);
+        /*ArrayList<String> availableSlots = getFreeSlotsByDate(getRestaurantByUsername("band-of-burgers_695"), "2023-06-28");
+        if(availableSlots == null || availableSlots.size() == 0)
+            System.out.println("Slots not available");
+        else {
+            for (String time : availableSlots) {
+                System.out.println(time);
+            }
         }*/
 
-        //make a reservation
-        System.out.println(ReservationDAO.makeReservation(UserDAO.getUserByUsername("filo87"), getRestaurantByUsername("basmati-tandoori_832")));
+        //make a reservation:
+        System.out.println(ReservationDAO.makeLocalReservation(UserDAO.getUserByUsername("filo87"), getRestaurantByUsername("band-of-burgers_695")));
+
+        //delete a reservation:
+        //ReservationDTO reservation = new ReservationDTO("filo87", "Filippo", "Rossi", "g10259438-d19087750", "Band of Burgers", "Walthamstow", " Hoe Street Walthamstow   ", "2023-06-30 19:30:00", 5);
+        //System.out.println(deleteReservation(Objects.requireNonNull(UserDAO.getUserByUsername("filo87")), Objects.requireNonNull(getRestaurantByUsername("band-of-burgers_695")), reservation));
 
         DriverDAO.closeConnection();
     }

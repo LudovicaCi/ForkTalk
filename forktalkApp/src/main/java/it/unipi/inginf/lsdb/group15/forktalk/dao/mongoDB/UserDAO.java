@@ -177,7 +177,55 @@ public class UserDAO extends DriverDAO {
      * @param username The username of the user to retrieve.
      * @return The UserDTO object representing the retrieved user, or null if the user is not found or in case of an error.
      */
-    public static UserDTO getUserByUsername(String username) {
+    public static UserDTO getUserByUsername(String username){
+        UserDTO user = new UserDTO();
+        try{
+            // Create a filter to match the username
+            Bson filter = Filters.eq("username", username);
+
+            // Use the filter to find a matching user document in the collection
+            Document userDocument = userCollection.find(filter).first();
+
+            // Check if a matching user document was found
+            if(userDocument != null){
+                user.setEmail(userDocument.getString("email"));
+                user.setUsername(userDocument.getString("username"));
+                user.setPassword(userDocument.getString("password"));
+                user.setName(userDocument.getString("name"));
+                user.setSurname(userDocument.getString("surname"));
+                user.setOrigin(userDocument.getString("origin"));
+                user.setSuspended(userDocument.getInteger("suspended"));
+                user.setRole(userDocument.getInteger("role"));
+
+                // Retrieve reservations
+                List<Document> reservationsDocuments = userDocument.getList("reservations", Document.class);
+
+                if (reservationsDocuments != null) {
+                    for (Document doc : reservationsDocuments) {
+                        user.getReservations().add(unpackOneUserReservation(doc));
+                    }
+                }
+
+                //retrieve restaurantList
+                List<Document> restaurantListDocuments = userDocument.getList("restaurantList", Document.class);
+
+                if (restaurantListDocuments != null) {
+                    for (Document doc : restaurantListDocuments) {
+                        user.getRestaurantLists().add(unpackOneRestaurantList(doc));
+                    }
+                }
+
+            }
+
+            return user;
+        }catch (MongoException e){
+            System.out.println("An error occurred while retrieving the user");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+   /* public static UserDTO getUserByUsername(String username) {
         try {
             // Create a filter to match the username
             Bson filter = Filters.eq("username", username);
@@ -201,7 +249,7 @@ public class UserDAO extends DriverDAO {
             e.printStackTrace();
             return null;
         }
-    }
+    } */
 
     /**
      * Creates a new restaurant list for a user.

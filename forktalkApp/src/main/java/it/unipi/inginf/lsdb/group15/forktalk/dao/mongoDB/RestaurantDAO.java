@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -571,10 +572,13 @@ public class RestaurantDAO extends DriverDAO {
 
                 if(dateString.equals(date)){
                     if(reservation.getClientUsername() == null){
-                        result.add(timeSlotString);
+                        if(!result.contains(timeSlotString))
+                            result.add(timeSlotString);
                     }
                 }
             }
+            Collections.sort(result);
+
             return result;
         } catch (MongoException e) {
             System.err.println("ERROR: An error occurred while retrieving reservations.");
@@ -583,13 +587,26 @@ public class RestaurantDAO extends DriverDAO {
         }
     }
 
-    public static ArrayList<ReservationDTO> getReservationByDate(RestaurantDTO rest, String date) {
+    /**
+     * Retrieves the reservations at a restaurant for a given date.
+     *
+     * @param rest The restaurant to retrieve reservations from.
+     * @return An ArrayList of ReservationDTO objects representing the reservations.
+     */
+    public static ArrayList<ReservationDTO> getReservationByDateAndTime(RestaurantDTO rest) {
         try {
             if(rest == null) {
                 System.out.println("Restaurant object is null");
                 return null;
             }
 
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter the date of the reservation that you want to retrieve yyyy-MM-dd:");
+            String date = scanner.next();
+            System.out.println("Enter the time of reservation HH:mm:");
+            String time = scanner.next();
+
+            date = date + " " + time + ":00";
             // Find the user document
             Document restDocument = restaurantCollection.find(Filters.eq("username", rest.getUsername())).first();
 
@@ -612,13 +629,7 @@ public class RestaurantDAO extends DriverDAO {
             ArrayList<ReservationDTO> result = new ArrayList<>();
 
             for(ReservationDTO reservation: reservationsList){
-                // Parsing della stringa in un oggetto LocalDateTime
-                LocalDateTime dateTime = LocalDateTime.parse(reservation.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-                // Formattazione della data nel formato desiderato "yyyy-MM-dd"
-                String dateString = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-                if(dateString.equals(date)){
+                if(reservation.getDate().equals(date)){
                     if(reservation.getClientUsername() != null){
                         result.add(reservation);
                     }
@@ -629,6 +640,64 @@ public class RestaurantDAO extends DriverDAO {
             System.err.println("ERROR: An error occurred while retrieving reservations.");
             e.printStackTrace();
             return null;
+        }
+    }
+
+    /**
+     * Gets the number of empty seats available at a restaurant for a given date.
+     *
+     * @param rest The restaurant to check for available seats.
+     * @param date The date for which to check the availability.
+     * @return The number of empty seats available.
+     */
+    public static int getEmptySeatsByDate(RestaurantDTO rest, String date){
+        try {
+            if(rest == null) {
+                System.out.println("Restaurant object is null");
+                return 0;
+            }
+
+            // Find the user document
+            Document restDocument = restaurantCollection.find(Filters.eq("username", rest.getUsername())).first();
+
+            // Check if the user document exists
+            if (restDocument == null) {
+                System.err.println("ERROR: Restaurant not found.");
+                return 0;
+            }
+
+            // retrieve reservations list
+            List<Document> reservationsDocuments = restDocument.getList("reservations", Document.class);
+
+            ArrayList<ReservationDTO> reservationsList = new ArrayList<>();
+            if (reservationsDocuments != null) {
+                for (Document doc : reservationsDocuments) {
+                    reservationsList.add(unpackOneRestaurantReservation(doc));
+                }
+            }
+
+            int totalSeatsAvailable = restDocument.getInteger("max_number_of_client");
+
+            for (ReservationDTO reservation : reservationsList) {
+                // Parsing della stringa in un oggetto LocalDateTime
+                LocalDateTime dateTime = LocalDateTime.parse(reservation.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+                // Formattazione della data nel formato desiderato "yyyy-MM-dd"
+                String dateString = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                if (dateString.equals(date)) {
+                    if (reservation.getClientUsername() != null) {
+                        totalSeatsAvailable = totalSeatsAvailable - reservation.getPeople();
+                    }
+                }
+            }
+
+            return totalSeatsAvailable;
+
+        } catch (MongoException e) {
+            System.err.println("ERROR: An error occurred while retrieving reservations.");
+            e.printStackTrace();
+            return 0;
         }
     }
 
@@ -697,7 +766,6 @@ public class RestaurantDAO extends DriverDAO {
 
                 if (availableTimeSlot.contains(timeSlot)) {
                     timeSlotToAdd.add(timeSlot);
-                    availableTimeSlot.remove(timeSlot);
                 } else {
                     System.out.println("ERROR: Time Slot not valid or available");
                 }
@@ -729,9 +797,31 @@ public class RestaurantDAO extends DriverDAO {
                 // Find the matching restaurant document in the collection
                 Document restaurantDocument = restaurantCollection.find(filter).first();
 
+                if(restaurantDocument == null){
+                    System.out.println("Restaurant hasn't been found!");
+                    return false;
+                }
+
+                //check if the capacity of the restaurant is set
+                if(restaurantDocument.getInteger("max_number_of_client")!=null) {
+                    System.out.println("Would you like to change the total capacity of the restaurant? Y/n");
+                    String response = scanner.next();
+                    if (response.equals("Y")) {
+                        System.out.println("Enter the maximum capacity of the restaurant:");
+                        int n = scanner.nextInt();
+                        setMaxClient(n, rest);
+                    }
+                }else{
+                    System.out.println("Enter the maximum capacity of the restaurant:");
+                    int n = scanner.nextInt();
+                    setMaxClient(n, rest);
+                }
+
                 // Retrieve the existing reservations from the restaurant document
-                assert restaurantDocument != null;
                 List<Document> reservationsDoc = restaurantDocument.getList("reservations", Document.class);
+                if(reservationsDoc == null){
+                    reservationsDoc = new ArrayList<>();
+                }
 
                 reservationsDoc.addAll(newReservationDocs);
 
