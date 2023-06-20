@@ -111,4 +111,93 @@ public class ReservationDAO extends DriverDAO{
             return false;
         }
     }
+
+    //          ----------------------------------------
+    //         INSERIRE RESERVATION NELLE DUE COLLECTIONS
+    //          ----------------------------------------
+
+
+    /*
+
+        public void insertReservation(ReservationDTO res) {
+        // Devo aggiungere sia in Ordini che in Ristoranti
+        MongoCollection<Document> userCollection = getDatabase().getCollection("Users");
+        MongoCollection<Document> restaurantCollection = getDatabase().getCollection("Restaurants");
+
+//          ----------------------------------------
+//              PREPARAZIONE RESERVATION PER RESERVATIONS
+//          ----------------------------------------
+        List<Document> ordersDishes = new ArrayList<>();
+        List<Document> restaurantsDishes = new ArrayList<>();
+
+//        Creo la lista piatti per l'ordine
+        for(DishDTO item: order.getDishes())
+        {
+//            Lista piatti per l'ordine nella collection Orders
+            ordersDishes.add(new Document()
+                    .append("name", item.getName())
+                    .append("price", item.getPrice())
+                    .append("currency", item.getCurrency().replace(" ",""))
+                    .append("quantity", item.getQuantity()));
+
+//            Lista piatti per l'ordine embedded nel Restaurant
+            restaurantsDishes.add(new Document()
+                    .append("name", item.getName())
+                    .append("quantity", item.getQuantity()));
+        }
+
+        ObjectId orderId = new ObjectId();
+//            Ordine da inserire nella collection Orders
+        Document toInsertOrders = new Document("_id", orderId).
+                append("user", order.getUser()).
+                append("restaurant", order.getRestaurant()).
+                append("restaurantId", order.getRestaurantId()).
+                append("paymentMethod", order.getPaymentMethod()).
+                append("paymentNumber", order.getPaymentNumber()).
+                append("creationDate", order.getCreationDate()).
+                append("deliveryDate", order.getDeliveryDate()).
+                append("address", order.getAddress()).
+                append("zipcode", order.getZipcode()).
+                append("total", order.getTotal()).
+                append("currency", order.getCurrency()).
+                append("status", order.getStatus()).
+                append("dishes", ordersDishes);
+
+//            Ordine da inserire nella collection Orders
+        Document toInsertRestaurants = new Document("_id", orderId).
+                append("user", order.getUser()).
+                append("paymentMethod", order.getPaymentMethod()).
+                append("paymentNumber", order.getPaymentNumber()).
+                append("creationDate", order.getCreationDate()).
+                append("address", order.getAddress()).
+                append("zipcode", order.getZipcode()).
+                append("total", order.getTotal()).
+                append("currency", order.getCurrency()).
+                append("dishes", ordersDishes);
+
+//          --------------------------------
+//              CREO LA TRANSAZIONE ACID
+//          --------------------------------
+        ClientSession session = getSession();
+        try {
+            session.startTransaction();
+
+            collectionOrders.insertOne(session, toInsertOrders);
+
+            collectionRestaurants.updateOne(session,
+                    eq("_id", new ObjectId(order.getRestaurantId())),
+                    Updates.addToSet("orders", toInsertRestaurants)
+            );
+
+            session.commitTransaction();
+        } catch (Exception e) {
+            session.abortTransaction();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+    }
+
+     */
 }
