@@ -1,22 +1,20 @@
 package it.unipi.inginf.lsdb.group15.forktalk;
 
-import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBDriverDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBRestaurantDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBUserDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.*;
-import it.unipi.inginf.lsdb.group15.forktalk.model.Restaurant;
-import it.unipi.inginf.lsdb.group15.forktalk.model.User;
+import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.DriverDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.ReservationDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.UserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.ReservationDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Objects;
 
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBRestaurantDAO.*;
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.MongoDBUserDAO.*;
+import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.RestaurantDAO.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        MongoDBDriverDAO.openConnection();
+        DriverDAO.openConnection();
         //login: FUNZIONA
         /*UserDTO userDTO = MongoDBUserDAO.loginUser("ianmW7519KN", "cbzuu0Bq");
         String userDTOString = userDTO.toString();  // Assegna la rappresentazione in forma di stringa a una variabile
@@ -244,7 +242,37 @@ public class Main {
 
         System.out.println(writeReview(newReview,"band-of-burgers_695")); */
 
-        MongoDBDriverDAO.closeConnection();
+        //get restaurant reservations: FUNZIONA
+        // Esempio di utilizzo della funzione getReservations
+        /*RestaurantDTO restaurant = getRestaurantByUsername("basmati-tandoori_832");
+        assert restaurant != null;
+        ArrayList<ReservationDTO> reservations = getReservations(restaurant);
+
+        if (reservations != null) {
+            System.out.println("Reservations:");
+            for (ReservationDTO reservation : reservations) {
+                System.out.println(reservation);
+            }
+        } else {
+            System.out.println("An error occurred while retrieving reservations.");
+        } */
+
+        //set maximum number of client: FUNZIONA
+        //System.out.println(setMaxClient(25, Objects.requireNonNull(getRestaurantByUsername("basmati-tandoori_832"))));
+
+        //add free slots: FUNZIONA
+        //System.out.println(addFreeSlot(getRestaurantByUsername("basmati-tandoori_832")));
+
+        //get free slots by date: FUNZIONA
+        /*ArrayList<String> availableSlots = getFreeSlotsByDate(getRestaurantByUsername("basmati-tandoori_832"), "2023-06-29");
+        for(String time: availableSlots){
+            System.out.println(time);
+        }*/
+
+        //make a reservation
+        System.out.println(ReservationDAO.makeReservation(UserDAO.getUserByUsername("filo87"), getRestaurantByUsername("basmati-tandoori_832")));
+
+        DriverDAO.closeConnection();
     }
 
    /* private static final MongoDBDriverDAO mdb = new MongoDBDriverDAO();

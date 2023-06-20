@@ -23,7 +23,7 @@ import com.google.gson.Gson;
 
 import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils.Utility.*;
 
-public class MongoDBUserDAO extends MongoDBDriverDAO {
+public class UserDAO extends DriverDAO {
 
     /**
      * Registers a new user in the database.

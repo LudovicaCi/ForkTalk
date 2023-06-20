@@ -3,22 +3,28 @@ package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
 import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+import it.unipi.inginf.lsdb.group15.forktalk.dto.ReservationDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.ReviewDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils.Utility.*;
 import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils.Utility.unpackOneCoordinates;
 
 
-public class MongoDBRestaurantDAO extends MongoDBDriverDAO {
+public class RestaurantDAO extends DriverDAO {
 
     /**
      * Method for restaurant login
@@ -490,6 +496,275 @@ public class MongoDBRestaurantDAO extends MongoDBDriverDAO {
         }
     }
 
-    //TODO: write delete review method
+    /**
+     * Retrieves the reservations for a given restaurant.
+     *
+     * @param rest The RestaurantDTO object representing the restaurant.
+     * @return An ArrayList of ReservationDTO objects representing the reservations of the restaurant,
+     *         or null if the restaurant is not found or an error occurs while retrieving the reservations.
+     */
+    public static ArrayList<ReservationDTO> getReservations(RestaurantDTO rest) {
+        try {
+            // Find the user document
+            Document restDocument = restaurantCollection.find(Filters.eq("username", rest.getUsername())).first();
 
+            // Check if the user document exists
+            if (restDocument == null) {
+                System.err.println("ERROR: Restaurant not found.");
+                return null;
+            }
+
+            // retrieve reservations list
+            List<Document> reservationsDocuments = restDocument.getList("reservations", Document.class);
+
+            ArrayList<ReservationDTO> result = new ArrayList<>();
+            if (reservationsDocuments != null) {
+                for (Document doc : reservationsDocuments) {
+                    result.add(unpackOneRestaurantReservation(doc));
+                }
+            }
+            return result;
+        } catch (MongoException e) {
+            System.err.println("ERROR: An error occurred while retrieving reservations.");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<String> getFreeSlotsByDate(RestaurantDTO rest, String date) {
+        try {
+            if(rest == null) {
+                System.out.println("Restaurant object is null");
+                return null;
+            }
+
+            // Find the user document
+            Document restDocument = restaurantCollection.find(Filters.eq("username", rest.getUsername())).first();
+
+            // Check if the user document exists
+            if (restDocument == null) {
+                System.err.println("ERROR: Restaurant not found.");
+                return null;
+            }
+
+            // retrieve reservations list
+            List<Document> reservationsDocuments = restDocument.getList("reservations", Document.class);
+
+            ArrayList<ReservationDTO> reservationsList = new ArrayList<>();
+            if (reservationsDocuments != null) {
+                for (Document doc : reservationsDocuments) {
+                    reservationsList.add(unpackOneRestaurantReservation(doc));
+                }
+            }
+
+            ArrayList<String> result = new ArrayList<>();
+
+            for(ReservationDTO reservation: reservationsList){
+                // Parsing della stringa in un oggetto LocalDateTime
+                LocalDateTime dateTime = LocalDateTime.parse(reservation.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+                // Formattazione della data nel formato desiderato "yyyy-MM-dd"
+                String dateString = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                // Formattazione del timeslot nel formato desiderato "HH:mm"
+                String timeSlotString = dateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+
+                if(dateString.equals(date)){
+                    if(reservation.getClientUsername() == null){
+                        result.add(timeSlotString);
+                    }
+                }
+            }
+            return result;
+        } catch (MongoException e) {
+            System.err.println("ERROR: An error occurred while retrieving reservations.");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<ReservationDTO> getReservationByDate(RestaurantDTO rest, String date) {
+        try {
+            if(rest == null) {
+                System.out.println("Restaurant object is null");
+                return null;
+            }
+
+            // Find the user document
+            Document restDocument = restaurantCollection.find(Filters.eq("username", rest.getUsername())).first();
+
+            // Check if the user document exists
+            if (restDocument == null) {
+                System.err.println("ERROR: Restaurant not found.");
+                return null;
+            }
+
+            // retrieve reservations list
+            List<Document> reservationsDocuments = restDocument.getList("reservations", Document.class);
+
+            ArrayList<ReservationDTO> reservationsList = new ArrayList<>();
+            if (reservationsDocuments != null) {
+                for (Document doc : reservationsDocuments) {
+                    reservationsList.add(unpackOneRestaurantReservation(doc));
+                }
+            }
+
+            ArrayList<ReservationDTO> result = new ArrayList<>();
+
+            for(ReservationDTO reservation: reservationsList){
+                // Parsing della stringa in un oggetto LocalDateTime
+                LocalDateTime dateTime = LocalDateTime.parse(reservation.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+                // Formattazione della data nel formato desiderato "yyyy-MM-dd"
+                String dateString = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                if(dateString.equals(date)){
+                    if(reservation.getClientUsername() != null){
+                        result.add(reservation);
+                    }
+                }
+            }
+            return result;
+        } catch (MongoException e) {
+            System.err.println("ERROR: An error occurred while retrieving reservations.");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Sets the maximum number of clients for a given restaurant.
+     *
+     * @param numberOfClient The maximum number of clients to be set.
+     * @param rest           The RestaurantDTO object representing the restaurant.
+     * @return true if the maximum number of clients is successfully set, false otherwise.
+     */
+    public static boolean setMaxClient(int numberOfClient, RestaurantDTO rest){
+        try{
+            // Insert the new reading_list
+            restaurantCollection.updateOne(
+                    Filters.eq("username", rest.getUsername()),
+                    new Document().append(
+                            "$set",
+                            new Document("max_number_of_client", numberOfClient)
+                    )
+            );
+
+            return true;
+        }catch (MongoException e){
+            System.out.println("ERROR: An error occurred while setting the maximum number of client");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Adds free slots to the reservations of a given restaurant.
+     *
+     * @param rest The RestaurantDTO object representing the restaurant.
+     * @return true if the free slots are successfully added, false otherwise.
+     */
+    public static boolean addFreeSlot(RestaurantDTO rest) {
+        try {
+            ArrayList<String> timeSlotToAdd = new ArrayList<>();
+            ArrayList<String> availableTimeSlot = new ArrayList<>();
+
+            // Generating available time slots
+            for (int hour = 8; hour <= 23; hour++) {
+                availableTimeSlot.add(String.format("%02d:00", hour));
+                availableTimeSlot.add(String.format("%02d:30", hour));
+            }
+
+            System.out.println("Slots available:");
+            for (String time : availableTimeSlot) {
+                System.out.println(time);
+            }
+
+        Scanner scanner = new Scanner(System.in);
+
+            // Getting the number of slots to add
+            System.out.println("Enter how many slots you want to add");
+            int numberOfSlots = scanner.nextInt();
+
+            // Adding selected slots
+            for (int i = 0; i < numberOfSlots; i++) {
+                System.out.println("Slots available:");
+                for (String time : availableTimeSlot) {
+                    System.out.println(time);
+                }
+                System.out.println("Enter the time slot you want to add");
+                String timeSlot = scanner.next();
+
+                if (availableTimeSlot.contains(timeSlot)) {
+                    timeSlotToAdd.add(timeSlot);
+                    availableTimeSlot.remove(timeSlot);
+                } else {
+                    System.out.println("ERROR: Time Slot not valid or available");
+                }
+            }
+
+            // Getting the date for adding new slots
+            System.out.println("Enter the date in which you want to add the new slots in yyyy-MM-dd");
+            String inputDate = scanner.next();
+
+            String pattern = "yyyy-MM-dd";
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+            LocalDate currentDate = LocalDate.now();
+            LocalDate enteredDate = LocalDate.parse(inputDate, dateFormatter);
+
+            // Checking if the entered date is after the current date
+            if (enteredDate.isAfter(currentDate)) {
+                ArrayList<ReservationDTO> newReservationsList = new ArrayList<>();
+
+                for(String slot: timeSlotToAdd){
+                    String newDate = enteredDate.toString() + " " + slot + ":00";
+                    newReservationsList.add(new ReservationDTO(newDate));
+                }
+
+                ArrayList<Document> newReservationDocs = packRestaurantReservations(newReservationsList);
+
+                // Create a filter to match the username
+                Bson filter = Filters.eq("username", rest.getUsername());
+
+                // Find the matching restaurant document in the collection
+                Document restaurantDocument = restaurantCollection.find(filter).first();
+
+                // Retrieve the existing reservations from the restaurant document
+                assert restaurantDocument != null;
+                List<Document> reservationsDoc = restaurantDocument.getList("reservations", Document.class);
+
+                reservationsDoc.addAll(newReservationDocs);
+
+                // Update the restaurant document with the updated reservation list
+                restaurantDocument.append("reservations", reservationsDoc);
+
+                // Perform the update operation to update the restaurant document in the collection
+                UpdateResult result = restaurantCollection.updateOne(filter, new Document("$set", restaurantDocument));
+
+                // Check if the update was successful
+                if (result.getModifiedCount() > 0) {
+                    System.out.println("Time Slots added successfully.");
+                    return true;
+                } else {
+                    System.out.println("No matching restaurant document found.");
+                    return false;
+                }
+            } else {
+                System.out.println("ERROR: The date must be after the current date.");
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR: An error occurred while adding FreeSlots");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    //TODO: write delete review method
 }
+
+
+
+
+
+
