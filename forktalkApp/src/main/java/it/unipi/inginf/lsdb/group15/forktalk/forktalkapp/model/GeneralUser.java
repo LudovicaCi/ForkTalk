@@ -1,7 +1,4 @@
-package it.unipi.inginf.lsdb.group15.forktalk.model;
-
-import javax.management.QueryExp;
-import javax.swing.text.ElementIterator;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model;
 
 public abstract class GeneralUser {
     //    -------------------------------------

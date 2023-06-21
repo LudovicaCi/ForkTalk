@@ -1,7 +1,6 @@
-package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils;
 
 import com.google.gson.*;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.ReviewDTO;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;

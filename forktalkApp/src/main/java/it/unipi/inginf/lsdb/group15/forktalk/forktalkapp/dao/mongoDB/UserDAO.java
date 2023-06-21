@@ -1,27 +1,23 @@
-package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB;
 
-import com.google.gson.GsonBuilder;
 import com.mongodb.MongoException;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils.GsonUtils;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.ReservationDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantsListDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantsListDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Restaurant;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.User;
+
 import java.lang.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import it.unipi.inginf.lsdb.group15.forktalk.model.Restaurant;
-import it.unipi.inginf.lsdb.group15.forktalk.model.User;
-import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils.Utility;
+
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import com.google.gson.Gson;
-
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils.Utility.*;
 
 public class UserDAO extends DriverDAO {
 
@@ -157,7 +153,7 @@ public class UserDAO extends DriverDAO {
 
                 if (reservationsDocuments != null) {
                     for (Document doc : reservationsDocuments) {
-                        userDTO.getReservations().add(unpackOneUserReservation(doc));
+                        userDTO.getReservations().add(Utility.unpackOneUserReservation(doc));
                     }
                 }
             } else {
@@ -202,7 +198,7 @@ public class UserDAO extends DriverDAO {
 
                 if (reservationsDocuments != null) {
                     for (Document doc : reservationsDocuments) {
-                        user.getReservations().add(unpackOneUserReservation(doc));
+                        user.getReservations().add(Utility.unpackOneUserReservation(doc));
                     }
                 }
 
@@ -211,7 +207,7 @@ public class UserDAO extends DriverDAO {
 
                 if (restaurantListDocuments != null) {
                     for (Document doc : restaurantListDocuments) {
-                        user.getRestaurantLists().add(unpackOneRestaurantList(doc));
+                        user.getRestaurantLists().add(Utility.unpackOneRestaurantList(doc));
                     }
                 }
 
@@ -588,7 +584,7 @@ public class UserDAO extends DriverDAO {
             ArrayList<ReservationDTO> result = new ArrayList<>();
             if (reservationsDocuments != null) {
                 for (Document doc : reservationsDocuments) {
-                    result.add(unpackOneUserReservation(doc));
+                    result.add(Utility.unpackOneUserReservation(doc));
                 }
             }
             return result;

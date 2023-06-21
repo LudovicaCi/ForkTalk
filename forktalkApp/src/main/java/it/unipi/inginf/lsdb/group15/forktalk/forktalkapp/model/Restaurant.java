@@ -1,4 +1,4 @@
-package it.unipi.inginf.lsdb.group15.forktalk.model;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model;
 
 import java.util.ArrayList;
 

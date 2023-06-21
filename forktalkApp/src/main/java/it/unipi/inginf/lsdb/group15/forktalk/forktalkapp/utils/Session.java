@@ -1,7 +1,7 @@
-package it.unipi.inginf.lsdb.group15.forktalk.utils;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils;
 
-import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 
 public class Session {
     //    -------------------------------------

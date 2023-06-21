@@ -1,4 +1,4 @@
-package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.*;

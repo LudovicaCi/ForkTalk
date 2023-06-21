@@ -1,18 +1,17 @@
-package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.ReservationDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.ReviewDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReviewDTO;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,9 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
-
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils.Utility.*;
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils.Utility.unpackOneCoordinates;
 
 
 public class RestaurantDAO extends DriverDAO {
@@ -72,7 +68,7 @@ public class RestaurantDAO extends DriverDAO {
 
                 if (coordinatesDocuments != null) {
                     for (Document doc : coordinatesDocuments) {
-                        rest.getCoordinates().addAll(unpackOneCoordinates(doc));
+                        rest.getCoordinates().addAll(Utility.unpackOneCoordinates(doc));
                     }
                 }
 
@@ -81,7 +77,7 @@ public class RestaurantDAO extends DriverDAO {
 
                 if (reservationsDocuments != null) {
                     for (Document doc : reservationsDocuments) {
-                        rest.getReservations().add(unpackOneRestaurantReservation(doc));
+                        rest.getReservations().add(Utility.unpackOneRestaurantReservation(doc));
                     }
                 }
 
@@ -90,7 +86,7 @@ public class RestaurantDAO extends DriverDAO {
 
                 if (reviewsDocuments != null) {
                     for (Document doc : reviewsDocuments) {
-                        rest.getReviews().add(unpackOneReview(doc));
+                        rest.getReviews().add(Utility.unpackOneReview(doc));
                     }
                 }
 
@@ -133,7 +129,7 @@ public class RestaurantDAO extends DriverDAO {
                     .append("tag", restaurant.getFeatures())
                     .append("location", restaurant.getLocation())
                     .append("rest_rating", restaurant.getRating())
-                    .append("coordinates", packCoordinates(restaurant.getCoordinates()));
+                    .append("coordinates", Utility.packCoordinates(restaurant.getCoordinates()));
 
             // Insert the restaurant document into the collection
             restaurantCollection.insertOne(restaurantDocument);
@@ -205,7 +201,7 @@ public class RestaurantDAO extends DriverDAO {
                 updateDocument.append("location", restaurant.getLocation());
             }
             if (restaurant.getCoordinates() != null) {
-                updateDocument.append("coordinates", packCoordinates(restaurant.getCoordinates()));
+                updateDocument.append("coordinates", Utility.packCoordinates(restaurant.getCoordinates()));
             }
 
             // Perform the update operation
@@ -300,7 +296,7 @@ public class RestaurantDAO extends DriverDAO {
 
                 if (coordinatesDocuments != null) {
                     for (Document doc : coordinatesDocuments) {
-                        rest.getCoordinates().addAll(unpackOneCoordinates(doc));
+                        rest.getCoordinates().addAll(Utility.unpackOneCoordinates(doc));
                     }
                 }
 
@@ -309,7 +305,7 @@ public class RestaurantDAO extends DriverDAO {
 
                 if (reservationsDocuments != null) {
                     for (Document doc : reservationsDocuments) {
-                        rest.getReservations().add(unpackOneRestaurantReservation(doc));
+                        rest.getReservations().add(Utility.unpackOneRestaurantReservation(doc));
                     }
                 }
 
@@ -318,7 +314,7 @@ public class RestaurantDAO extends DriverDAO {
 
                 if (reviewsDocuments != null) {
                     for (Document doc : reviewsDocuments) {
-                        rest.getReviews().add(unpackOneReview(doc));
+                        rest.getReviews().add(Utility.unpackOneReview(doc));
                     }
                 }
 
@@ -375,7 +371,7 @@ public class RestaurantDAO extends DriverDAO {
 
                 if (coordinatesDocuments != null) {
                     for (Document doc : coordinatesDocuments) {
-                        rest.getCoordinates().addAll(unpackOneCoordinates(doc));
+                        rest.getCoordinates().addAll(Utility.unpackOneCoordinates(doc));
                     }
                 }
 
@@ -384,7 +380,7 @@ public class RestaurantDAO extends DriverDAO {
 
                 if (reservationsDocuments != null) {
                     for (Document doc : reservationsDocuments) {
-                        rest.getReservations().add(unpackOneRestaurantReservation(doc));
+                        rest.getReservations().add(Utility.unpackOneRestaurantReservation(doc));
                     }
                 }
 
@@ -393,7 +389,7 @@ public class RestaurantDAO extends DriverDAO {
 
                 if (reviewsDocuments != null) {
                     for (Document doc : reviewsDocuments) {
-                        rest.getReviews().add(unpackOneReview(doc));
+                        rest.getReviews().add(Utility.unpackOneReview(doc));
                     }
                 }
 
@@ -429,7 +425,7 @@ public class RestaurantDAO extends DriverDAO {
             if (reviewsDocuments != null) {
                 ArrayList<ReviewDTO> reviews = new ArrayList<>();
                 for (Document doc : reviewsDocuments) {
-                    reviews.add(unpackOneReview(doc));
+                    reviews.add(Utility.unpackOneReview(doc));
                 }
                 return reviews;
             }
@@ -461,7 +457,7 @@ public class RestaurantDAO extends DriverDAO {
             List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
 
             // Create a new document for the review
-            Document reviewDoc = packOneReview(review);
+            Document reviewDoc = Utility.packOneReview(review);
 
             // Add the new review to the existing reviews
             reviewsDocuments.add(reviewDoc);
@@ -521,7 +517,7 @@ public class RestaurantDAO extends DriverDAO {
             ArrayList<ReservationDTO> result = new ArrayList<>();
             if (reservationsDocuments != null) {
                 for (Document doc : reservationsDocuments) {
-                    result.add(unpackOneRestaurantReservation(doc));
+                    result.add(Utility.unpackOneRestaurantReservation(doc));
                 }
             }
             return result;
@@ -554,7 +550,7 @@ public class RestaurantDAO extends DriverDAO {
             ArrayList<ReservationDTO> reservationsList = new ArrayList<>();
             if (reservationsDocuments != null) {
                 for (Document doc : reservationsDocuments) {
-                    reservationsList.add(unpackOneRestaurantReservation(doc));
+                    reservationsList.add(Utility.unpackOneRestaurantReservation(doc));
                 }
             }
 
@@ -622,7 +618,7 @@ public class RestaurantDAO extends DriverDAO {
             ArrayList<ReservationDTO> reservationsList = new ArrayList<>();
             if (reservationsDocuments != null) {
                 for (Document doc : reservationsDocuments) {
-                    reservationsList.add(unpackOneRestaurantReservation(doc));
+                    reservationsList.add(Utility.unpackOneRestaurantReservation(doc));
                 }
             }
 
@@ -672,7 +668,7 @@ public class RestaurantDAO extends DriverDAO {
             ArrayList<ReservationDTO> reservationsList = new ArrayList<>();
             if (reservationsDocuments != null) {
                 for (Document doc : reservationsDocuments) {
-                    reservationsList.add(unpackOneRestaurantReservation(doc));
+                    reservationsList.add(Utility.unpackOneRestaurantReservation(doc));
                 }
             }
 
@@ -789,7 +785,7 @@ public class RestaurantDAO extends DriverDAO {
                     newReservationsList.add(new ReservationDTO(newDate));
                 }
 
-                ArrayList<Document> newReservationDocs = packRestaurantReservations(newReservationsList);
+                ArrayList<Document> newReservationDocs = Utility.packRestaurantReservations(newReservationsList);
 
                 // Create a filter to match the username
                 Bson filter = Filters.eq("username", rest.getUsername());

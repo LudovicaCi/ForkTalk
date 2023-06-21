@@ -1,8 +1,10 @@
-package it.unipi.inginf.lsdb.group15.forktalk.model;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto;
+
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Restaurant;
 
 import java.util.ArrayList;
 
-public class RestaurantsList {
+public class RestaurantsListDTO {
     //    -------------------------------------
     private String title;
     private ArrayList<Restaurant> restaurants;
@@ -10,12 +12,19 @@ public class RestaurantsList {
 
     /* ********* CONSTRUCTOR ********* */
 
-    public RestaurantsList(String title, ArrayList<Restaurant> restaurants) {
+    public RestaurantsListDTO(String title, ArrayList<Restaurant> restaurants) {
         this.title = title;
         this.restaurants = restaurants;
     }
 
-    public RestaurantsList(){}
+    public RestaurantsListDTO(String title) {
+        this.title = title;
+        this.restaurants = new ArrayList<>();
+    }
+
+    public RestaurantsListDTO() {
+        this.restaurants = new ArrayList<>();
+    }
 
     /* ********* GET METHOD ********* */
 
@@ -35,5 +44,15 @@ public class RestaurantsList {
 
     public void setRestaurants(ArrayList<Restaurant> restaurants) {
         this.restaurants = restaurants;
+    }
+
+    /* ********* TO STRING METHOD ********* */
+
+    @Override
+    public String toString() {
+        return "RestaurantsListDTO{" +
+                "title='" + title + '\'' +
+                ", restaurants=" + restaurants +
+                '}';
     }
 }

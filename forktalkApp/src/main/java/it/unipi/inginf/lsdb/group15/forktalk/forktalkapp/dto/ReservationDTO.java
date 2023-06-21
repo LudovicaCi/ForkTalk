@@ -1,7 +1,4 @@
-package it.unipi.inginf.lsdb.group15.forktalk.dto;
-
-import java.util.Date;
-import com.google.gson.annotations.SerializedName;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto;
 
 public class ReservationDTO {
     //    -------------------------------------

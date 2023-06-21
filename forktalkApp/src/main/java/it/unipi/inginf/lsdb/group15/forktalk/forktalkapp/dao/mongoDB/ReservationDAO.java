@@ -1,14 +1,12 @@
-package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB;
 
 import com.mongodb.MongoException;
-import com.mongodb.client.ClientSession;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.result.UpdateResult;
-import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils.Utility;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.ReservationDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.UserDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -18,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.RestaurantDAO.*;
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO.*;
 
 public class ReservationDAO extends DriverDAO{
     /**
@@ -89,15 +87,22 @@ public class ReservationDAO extends DriverDAO{
             Document userDocument = userCollection.find(userFilter).first();
 
             // Retrieve the existing reservations from the user document
+            List<Document> reservationsUserDocs = new ArrayList<>();
             assert userDocument != null;
             if(userDocument.getList("reservations", Document.class) != null) {
-                List<Document> reservationsUserDocs = userDocument.getList("reservations", Document.class);
+                reservationsUserDocs = userDocument.getList("reservations", Document.class);
+
+                if(reservationsUserDocs == null){
+                    return false;
+                }
+
                 reservationsUserDocs.add(newUserDocument);
-                // Update the restaurant document with the updated reservation list
-                userDocument.append("reservations", reservationsUserDocs);
             }else{
-                userDocument.append("reservations", newUserDocument);
+                reservationsUserDocs.add(newUserDocument);
             }
+
+            // Update the restaurant document with the updated reservation list
+            userDocument.append("reservations", reservationsUserDocs);
 
             // Retrieve the existing reservations from the restaurant document
             assert restDocument != null;
@@ -161,7 +166,7 @@ public class ReservationDAO extends DriverDAO{
             Iterator<Document> userIterator = userReservationList.iterator();
             while (userIterator.hasNext()) {
                 Document doc = userIterator.next();
-                if (doc.getString("date").equals(reservationToDelete.getDate()) && doc.getString("restaurant_id") == rest.getId()) {
+                if (doc.getString("date").equals(reservationToDelete.getDate()) && doc.getString("restaurant_id").equals(rest.getId())) {
                     userIterator.remove();
                     break;
                 }
@@ -170,7 +175,7 @@ public class ReservationDAO extends DriverDAO{
             userDocument.append("reservations", userReservationList);
 
             for(Document doc: restReservationList) {
-                if (doc.getString("date").equals(reservationToDelete.getDate()) && doc.getString("client_username") == user.getUsername()) {
+                if (doc.getString("date").equals(reservationToDelete.getDate()) && doc.getString("client_username").equals(user.getUsername())) {
                     doc.put("client_username", null);
                     doc.put("client_name", null);
                     doc.put("client_surname", null);

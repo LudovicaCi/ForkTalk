@@ -1,18 +1,15 @@
-package it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils;
 
 import com.mongodb.MongoException;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.ReservationDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantsListDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.ReviewDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.model.Restaurant;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantsListDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReviewDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Restaurant;
 
 import org.bson.Document;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.Utils.GsonUtils.parseTimestamp;
 
 public class Utility {
 

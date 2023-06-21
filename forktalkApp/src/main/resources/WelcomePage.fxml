@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.WelcomePageController"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox alignment="CENTER">
+        <HBox alignment="TOP_CENTER">
+            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="5.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER_RIGHT">
+                <image>
+                    <Image url="@img/FORKtALK.png" />
+                </image>
+                <BorderPane.margin>
+                    <Insets left="20.0" />
+                </BorderPane.margin>
+            </ImageView>
+            <Text fill="#596cc2" fontSmoothingType="LCD" layoutX="99.0" layoutY="72.0" text="Welcome to ForkTalk!" textAlignment="CENTER" wrappingWidth="410.1054992675781">
+                <font>
+                    <Font name="Avenir" size="36.0" />
+                </font>
+            </Text>
+        </HBox>
+    </VBox>
+</AnchorPane>

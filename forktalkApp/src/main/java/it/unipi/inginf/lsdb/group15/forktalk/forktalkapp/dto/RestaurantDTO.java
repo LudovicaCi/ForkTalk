@@ -1,7 +1,6 @@
-package it.unipi.inginf.lsdb.group15.forktalk.dto;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 

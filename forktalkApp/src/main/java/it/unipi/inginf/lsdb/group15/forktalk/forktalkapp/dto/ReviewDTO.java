@@ -1,11 +1,9 @@
-package it.unipi.inginf.lsdb.group15.forktalk.model;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto;
 
-import java.util.Date;
-
-public class Review {
+public class ReviewDTO {
     //    -------------------------------------
-    private int id;
-    private Date timestamp;
+    private String id;
+    private String timestamp;
     private int rating;
     private String content;
     private String reviewer;
@@ -13,7 +11,7 @@ public class Review {
 
     /* ********* CONSTRUCTOR ********* */
 
-    public Review(int id, Date timestamp, int rating, String content, String reviewer) {
+    public ReviewDTO(String id, String timestamp, int rating, String content, String reviewer) {
         this.id = id;
         this.timestamp = timestamp;
         this.rating = rating;
@@ -21,13 +19,17 @@ public class Review {
         this.reviewer = reviewer;
     }
 
+    public ReviewDTO() {
+
+    }
+
     /* ********* GET METHOD ********* */
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public Date getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
@@ -45,11 +47,11 @@ public class Review {
 
     /* ********* SET METHOD ********* */
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -63,5 +65,18 @@ public class Review {
 
     public void setReviewer(String reviewer) {
         this.reviewer = reviewer;
+    }
+
+    /* ********* TO STRING METHOD ********* */
+
+    @Override
+    public String toString() {
+        return "ReviewDTO{" +
+                "id=" + id +
+                ", timestamp=" + timestamp +
+                ", rating=" + rating +
+                ", content='" + content + '\'' +
+                ", reviewer='" + reviewer + '\'' +
+                '}';
     }
 }

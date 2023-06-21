@@ -1,17 +1,8 @@
-package it.unipi.inginf.lsdb.group15.forktalk;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp;
 
-import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.DriverDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.ReservationDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.UserDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.ReservationDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.dto.RestaurantDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.DriverDAO;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
-
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.ReservationDAO.deleteReservation;
-import static it.unipi.inginf.lsdb.group15.forktalk.dao.mongoDB.RestaurantDAO.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -274,10 +265,10 @@ public class Main {
             }
         }*/
 
-        //make a reservation:
-        System.out.println(ReservationDAO.makeLocalReservation(UserDAO.getUserByUsername("filo87"), getRestaurantByUsername("band-of-burgers_695")));
+        //make a reservation: FUNZIONA
+        //System.out.println(ReservationDAO.makeLocalReservation(UserDAO.getUserByUsername("filo87"), getRestaurantByUsername("band-of-burgers_695")));
 
-        //delete a reservation:
+        //delete a reservation: FUNZIONA
         //ReservationDTO reservation = new ReservationDTO("filo87", "Filippo", "Rossi", "g10259438-d19087750", "Band of Burgers", "Walthamstow", " Hoe Street Walthamstow   ", "2023-06-30 19:30:00", 5);
         //System.out.println(deleteReservation(Objects.requireNonNull(UserDAO.getUserByUsername("filo87")), Objects.requireNonNull(getRestaurantByUsername("band-of-burgers_695")), reservation));
 
