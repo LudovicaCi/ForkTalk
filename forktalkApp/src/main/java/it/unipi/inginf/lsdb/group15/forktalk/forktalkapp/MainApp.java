@@ -15,7 +15,7 @@ public class MainApp extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/WelcomePage.fxml"));
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 600, 400);
             stage.setTitle("ForkTalk");
             stage.setScene(scene);
             stage.show();

@@ -1,0 +1,29 @@
+/* WelcomePage.css */
+
+/* Style for the text "Welcome to ForkTalk!" */
+.title-text {
+    -fx-fill: #037B41;
+    -fx-font-size: 36px;
+    -fx-font-family: "Avenir";
+    -fx-font-smoothing-type: lcd;
+}
+
+/* Style for the buttons "Sign Up" and "Login" */
+.button {
+    -fx-background-color: #037B41;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-pref-width: 120px; /* Dimensione fissa in larghezza */
+    -fx-pref-height: 40px; /* Dimensione fissa in altezza */
+}
+
+/* Style for the image */
+.image-view {
+    -fx-fit-height: 200px;
+    -fx-fit-width: 200px;
+}
+
+/* Style for the main container */
+.stack-pane {
+    -fx-background-color: #FFFFFF;
+}
