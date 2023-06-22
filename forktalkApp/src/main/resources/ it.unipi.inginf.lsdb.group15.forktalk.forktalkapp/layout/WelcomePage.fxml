@@ -15,11 +15,11 @@
            fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.WelcomePageController"
            prefHeight="400.0" prefWidth="600.0"
            style="-fx-background-color: #FFFFFF;"
-           stylesheets="@style/WelcomePage.css">
+           stylesheets="@../style/WelcomePage.css">
     <VBox alignment="CENTER" spacing="20">
         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
             <image>
-                <Image url="@img/FORKtALK.png" />
+                <Image url="@../img/FORKtALK.png" />
             </image>
         </ImageView>
         <Text fill="#037B41" fontSmoothingType="LCD" text="Welcome to ForkTalk!" textAlignment="CENTER" styleClass="title-text" />

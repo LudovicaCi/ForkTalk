@@ -1,27 +1,37 @@
 /* SelectSignUpPage.css */
 
-/* Stile per il pulsante "Back" */
 #backButton {
-    -fx-background-color: transparent;
+    -fx-background-color: #FFFFFF;
     -fx-text-fill: #037B41;
     -fx-font-size: 16px;
+    -fx-alignment: baseline-left; /* Aggiunto allineamento a sinistra */
 }
 
-/* Stile per l'etichetta "Choose your role: Restaurant or Food Lover?" */
-.label {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
+.title-text {
+    -fx-fill: #037B41;
+    -fx-font-size: 40px;
+    -fx-font-family: "Avenir";
+    -fx-font-smoothing-type: lcd;
 }
 
-/* Stile per il testo "Discover, share, and delight your taste buds together with us in the community!" */
-.text {
-    -fx-font-size: 14px;
-}
-
-/* Stile per i bottoni "User" e "Restaurant" */
 .button {
     -fx-background-color: #037B41;
-    -fx-text-fill: #FFFFFF;
-    -fx-font-size: 16px;
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-pref-width: 150px;
+    -fx-pref-height: 60px;
 }
 
+.stack-pane {
+    -fx-background-color: #FFFFFF;
+}
+
+.label {
+   -fx-font-size: 36px;
+   -fx-font-weight: bold;
+   -fx-text-fill: #037B41;
+}
+
+.text {
+    -fx-font-size: 20px;
+}

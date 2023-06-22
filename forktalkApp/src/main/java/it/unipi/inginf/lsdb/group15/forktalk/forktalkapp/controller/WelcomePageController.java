@@ -1,4 +1,5 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -20,31 +21,39 @@ public class WelcomePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        signUpButton.setOnAction(event -> openSignUpPage());
-        loginButton.setOnAction(event -> openLoginPage());
+        signUpButton.setOnAction(this::openSignUpPage);
+        loginButton.setOnAction(this::openLoginPage);
     }
 
-    private void openSignUpPage() {
+    private void openSignUpPage(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/SelectSignUpPage.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/SelectSignUpPage.fxml"));
             Parent signUpRoot = fxmlLoader.load();
             Scene signUpScene = new Scene(signUpRoot);
 
             Stage stage = (Stage) signUpButton.getScene().getWindow();
+            double windowWidth = stage.getWidth();
+            double windowHeight = stage.getHeight();
             stage.setScene(signUpScene);
+            stage.setWidth(windowWidth);
+            stage.setHeight(windowHeight);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void openLoginPage() {
+    private void openLoginPage(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/LoginPage.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/LoginPage.fxml"));
             Parent loginRoot = fxmlLoader.load();
             Scene loginScene = new Scene(loginRoot);
 
             Stage stage = (Stage) loginButton.getScene().getWindow();
+            double windowWidth = stage.getWidth();
+            double windowHeight = stage.getHeight();
             stage.setScene(loginScene);
+            stage.setWidth(windowWidth);
+            stage.setHeight(windowHeight);
         } catch (Exception e) {
             e.printStackTrace();
         }

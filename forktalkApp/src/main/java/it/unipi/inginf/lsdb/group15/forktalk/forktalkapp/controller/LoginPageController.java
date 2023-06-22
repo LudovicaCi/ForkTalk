@@ -4,7 +4,6 @@ import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantD
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.User;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,12 +34,16 @@ public class LoginPageController {
     @FXML
     private void handleBack(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/SelectSignUpPage.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/WelcomePage.fxml"));
             Parent welcomeRoot = fxmlLoader.load();
             Scene welcomeScene = new Scene(welcomeRoot);
 
             Stage stage = (Stage) backButton.getScene().getWindow();
+            double windowWidth = stage.getWidth();
+            double windowHeight = stage.getHeight();
             stage.setScene(welcomeScene);
+            stage.setWidth(windowWidth);
+            stage.setHeight(windowHeight);
         } catch (IOException e) {
             e.printStackTrace();
         }

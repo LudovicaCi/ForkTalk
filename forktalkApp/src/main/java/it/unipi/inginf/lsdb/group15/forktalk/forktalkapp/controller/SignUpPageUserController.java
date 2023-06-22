@@ -1,6 +1,5 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.DriverDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Session;
@@ -55,12 +54,16 @@ public class SignUpPageUserController implements Initializable {
     @FXML
     private void handleBack(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/style/SelectSignUpPage.css"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/SelectSignUpPage.fxml"));
             Parent welcomeRoot = fxmlLoader.load();
             Scene welcomeScene = new Scene(welcomeRoot);
 
             Stage stage = (Stage) backButton.getScene().getWindow();
+            double windowWidth = stage.getWidth();
+            double windowHeight = stage.getHeight();
             stage.setScene(welcomeScene);
+            stage.setWidth(windowWidth);
+            stage.setHeight(windowHeight);
         } catch (IOException e) {
             e.printStackTrace();
         }

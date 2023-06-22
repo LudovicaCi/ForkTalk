@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Random;
 
 public class SignUpPageRestaurantController {
@@ -70,12 +69,16 @@ public class SignUpPageRestaurantController {
     @FXML
     private void handleBack(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/style/SelectSignUpPage.css"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/SelectSignUpPage.fxml"));
             Parent welcomeRoot = fxmlLoader.load();
             Scene welcomeScene = new Scene(welcomeRoot);
 
             Stage stage = (Stage) backButton.getScene().getWindow();
+            double windowWidth = stage.getWidth();
+            double windowHeight = stage.getHeight();
             stage.setScene(welcomeScene);
+            stage.setWidth(windowWidth);
+            stage.setHeight(windowHeight);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,7 +93,6 @@ public class SignUpPageRestaurantController {
                 signUpButton.getText().isEmpty() || street_number.getText().isEmpty() || username.getText().isEmpty() || password.getText().isEmpty()) {
             showAlert("All fields are required.");
         } else {
-
             RestaurantDTO newRest = new RestaurantDTO();
             newRest.setName(name.getText());
             newRest.setCountry(country.getText());

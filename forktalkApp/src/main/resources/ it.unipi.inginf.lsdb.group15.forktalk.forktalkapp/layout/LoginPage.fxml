@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.LoginPageController" stylesheets="@../style/LoginPage.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+
+    <VBox spacing="20" alignment="CENTER">
+        <HBox>
+            <Button fx:id="backButton" text="Back" styleClass="back-button" />
+        </HBox>
+
+        <Label text="Login" styleClass="label" />
+
+        <TextField fx:id="usernameField" promptText="Username" prefWidth="100" styleClass="text-field" />
+        <PasswordField fx:id="passwordField" promptText="Password" prefWidth="100" styleClass="password-field" />
+        <fx:define>
+            <ToggleGroup fx:id="loginToggleGroup" />
+        </fx:define>
+
+        <RadioButton fx:id="userRadioButton" text="User" toggleGroup="$loginToggleGroup" styleClass="radio-button" />
+        <RadioButton fx:id="restaurantRadioButton" text="Restaurant" toggleGroup="$loginToggleGroup" styleClass="radio-button" />
+        <Button fx:id="loginButton" text="Login" styleClass="button" />
+    </VBox>
+</StackPane>

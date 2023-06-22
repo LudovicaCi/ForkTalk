@@ -30,12 +30,16 @@ public class SelectSignUpPageController implements Initializable{
 
     private void goSignUpRestaurant() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/SignUpPageRestaurant.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/SignUpPageRestaurant.fxml"));
             Parent welcomeRoot = fxmlLoader.load();
             Scene welcomeScene = new Scene(welcomeRoot);
 
             Stage stage = (Stage) backButton.getScene().getWindow();
+            double windowWidth = stage.getWidth();
+            double windowHeight = stage.getHeight();
             stage.setScene(welcomeScene);
+            stage.setWidth(windowWidth);
+            stage.setHeight(windowHeight);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,12 +47,16 @@ public class SelectSignUpPageController implements Initializable{
 
     private void goSignUpUser() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/SignUpPageUser.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/SignUpPageUser.fxml"));
             Parent welcomeRoot = fxmlLoader.load();
             Scene welcomeScene = new Scene(welcomeRoot);
 
             Stage stage = (Stage) backButton.getScene().getWindow();
+            double windowWidth = stage.getWidth();
+            double windowHeight = stage.getHeight();
             stage.setScene(welcomeScene);
+            stage.setWidth(windowWidth);
+            stage.setHeight(windowHeight);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,7 +64,7 @@ public class SelectSignUpPageController implements Initializable{
 
     private void goBack() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/WelcomePage.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/WelcomePage.fxml"));
             Parent welcomeRoot = fxmlLoader.load();
             Scene welcomeScene = new Scene(welcomeRoot);
 
