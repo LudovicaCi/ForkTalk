@@ -1,0 +1,29 @@
+/* styles.css */
+
+/* Classe per il pulsante di ritorno */
+.back-button {
+    -fx-font-size: 14px;
+    -fx-background-color: #CCCCCC;
+    -fx-text-fill: #000000;
+    -fx-padding: 5px 10px;
+    -fx-border-radius: 5px;
+}
+
+/* Stile per il titolo "Sign Up" */
+.label-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* Stile per i campi di testo */
+.text-field {
+    -fx-pref-width: 200px;
+}
+
+/* Stile per il pulsante "Sign Up" */
+.sign-up-button {
+    -fx-pref-width: 120px;
+    -fx-background-color: #00CC00;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+}

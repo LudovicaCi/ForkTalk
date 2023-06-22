@@ -1,0 +1,27 @@
+/* SelectSignUpPage.css */
+
+/* Stile per il pulsante "Back" */
+#backButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: #037B41;
+    -fx-font-size: 16px;
+}
+
+/* Stile per l'etichetta "Choose your role: Restaurant or Food Lover?" */
+.label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* Stile per il testo "Discover, share, and delight your taste buds together with us in the community!" */
+.text {
+    -fx-font-size: 14px;
+}
+
+/* Stile per i bottoni "User" e "Restaurant" */
+.button {
+    -fx-background-color: #037B41;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 16px;
+}
+

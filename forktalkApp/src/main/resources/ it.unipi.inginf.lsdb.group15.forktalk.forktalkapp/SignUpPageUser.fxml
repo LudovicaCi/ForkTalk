@@ -4,20 +4,34 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.SignUpPageUserController" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;">
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.SignUpPageUserController" prefHeight="400.0" prefWidth="600.0" stylesheets="@style/SignUpPageUser.css">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20" />
     </padding>
 
     <VBox spacing="20" alignment="CENTER">
-        <Label text="Sign Up" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+        <HBox>
+            <Button fx:id="backButton" text="Back" styleClass="back-button" />
+        </HBox>
 
-        <TextField fx:id="emailField" promptText="Email" />
-        <TextField fx:id="usernameField" promptText="Username" />
-        <PasswordField fx:id="passwordField" promptText="Password" />
+        <Label text="Name:" />
+        <TextField fx:id="nameField" />
 
-        <Button fx:id="signUpButton" text="Sign Up" />
+        <Label text="Surname:" />
+        <TextField fx:id="surnameField" />
 
-        <Button fx:id="backButton" text="Back"  />
+        <Label text="Email:" />
+        <TextField fx:id="emailField" />
+
+        <Label text="Username:" />
+        <TextField fx:id="usernameField" />
+
+        <Label text="Password:" />
+        <PasswordField fx:id="passwordField" />
+
+        <Label text="Origin:" />
+        <TextField fx:id="originField" />
+
+        <Button fx:id="signupButton" text="Signup" styleClass="signup-button" />
     </VBox>
 </StackPane>

@@ -14,8 +14,13 @@
 
         <TextField fx:id="usernameField" promptText="Username" prefWidth="100" />
         <PasswordField fx:id="passwordField" promptText="Password" prefWidth="100" />
+        <fx:define>
+            <ToggleGroup fx:id="loginToggleGroup" />
+        </fx:define>
 
-        <Button text="Login" />
+        <RadioButton fx:id="userRadioButton" text="User" toggleGroup="$loginToggleGroup" />
+        <RadioButton fx:id="restaurantRadioButton" text="Restaurant" toggleGroup="$loginToggleGroup" />
+        <Button fx:id="loginButton" text="Login" />
 
         <Button fx:id="backButton" text="Back"  />
     </VBox>

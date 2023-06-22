@@ -5,23 +5,23 @@
 <?import javafx.geometry.*?>
 
 <?import javafx.scene.text.Text?>
-<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.SelectSignUpPageController" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;">
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.SelectSignUpPageController" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" stylesheets="@style/SelectSignUpPage.css">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20" />
     </padding>
 
     <VBox spacing="20" alignment="CENTER">
-        <HBox alignment="TOP_LEFT">
-            <Button fx:id="backButton" text="Back" style="-fx-background-color: transparent; -fx-text-fill: #037B41;" />
+        <HBox>
+            <Button fx:id="backButton" text="Back" styleClass="back-button" />
         </HBox>
 
-        <Label text="Choose your role: Restaurant or Food Lover?" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+        <Label styleClass="label" text="Choose your role: Restaurant or Food Lover?" />
 
-        <Text text="Discover, share, and delight your taste buds together with us in the community!" />
+        <Text styleClass="text" text="Discover, share, and delight your taste buds together with us in the community!" />
 
         <HBox spacing="20" alignment="CENTER">
-            <Button fx:id="userButton" text="User" style="-fx-background-color: #037B41; -fx-text-fill: #FFFFFF;" />
-            <Button fx:id="restaurantButton" text="Restaurant" style="-fx-background-color: #037B41; -fx-text-fill: #FFFFFF;" />
+            <Button fx:id="userButton" text="User" styleClass="button" />
+            <Button fx:id="restaurantButton" text="Restaurant" styleClass="button" />
         </HBox>
     </VBox>
 </StackPane>

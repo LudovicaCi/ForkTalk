@@ -27,7 +27,7 @@ public class UserDAO extends DriverDAO {
      * @param user The User object containing the user information to register.
      * @return true if the registration is successful, false if the username already exists in the database or in case of an error.
      */
-    public static boolean registerUser(User user) {
+    public static boolean registerUser(UserDTO user) {
         try {
             if (userCollection.countDocuments(new Document("username", user.getUsername())) == 0) {
                 Document doc = new Document()
@@ -156,15 +156,16 @@ public class UserDAO extends DriverDAO {
                         userDTO.getReservations().add(Utility.unpackOneUserReservation(doc));
                     }
                 }
+
+                return userDTO;
             } else {
-                // Nessun utente corrispondente
                 System.out.println("Incorrect username or password!");
+                return null;
             }
         } catch (MongoException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return userDTO;
     }
 
     /**

@@ -49,6 +49,8 @@ public class UserDTO {
         this.restaurantLists = restaurantLists;
     }
 
+
+
     /* ********* GET METHOD ********* */
 
     public String getEmail() {
