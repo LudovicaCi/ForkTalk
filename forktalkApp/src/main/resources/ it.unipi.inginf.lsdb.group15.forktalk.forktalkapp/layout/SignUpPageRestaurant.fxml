@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.SignUpPageRestaurantController" stylesheets="@../style/SignUpPageRestaurant.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+
+
+
+    <VBox spacing="20" alignment="CENTER">
+        <HBox>
+            <Button fx:id="backButton" text="Back" styleClass="back-button" />
+        </HBox>
+
+        <Label text="Sign Up" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+        <TextField fx:id="name" promptText="Name" />
+        <TextField fx:id="emailField" promptText="Email" />
+        <TextField fx:id="username" promptText="Username" />
+        <PasswordField fx:id="password" promptText="Password" />
+        <TextField fx:id="country" promptText="country" />
+        <TextField fx:id="county" promptText="county" />
+        <TextField fx:id="district" promptText="district" />
+        <TextField fx:id="city" promptText="city" />
+        <TextField fx:id="address" promptText="address" />
+        <TextField fx:id="street_number" promptText="street_number" />
+        <TextField fx:id="postcode" promptText="postcode" />
+
+        <Button fx:id="signUpButton" text="Sign Up" />
+
+    </VBox>
+</StackPane>

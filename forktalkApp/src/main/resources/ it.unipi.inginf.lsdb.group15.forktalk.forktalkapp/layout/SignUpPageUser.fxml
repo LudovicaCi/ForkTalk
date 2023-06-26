@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.SignUpPageUserController" prefHeight="400.0" prefWidth="600.0" stylesheets="@../style/SignUpPageUser.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+
+    <VBox spacing="20" alignment="CENTER">
+        <HBox>
+            <Button fx:id="backButton" text="Back" styleClass="back-button" />
+        </HBox>
+
+        <Label text="Name:" />
+        <TextField fx:id="nameField" />
+
+        <Label text="Surname:" />
+        <TextField fx:id="surnameField" />
+
+        <Label text="Email:" />
+        <TextField fx:id="emailField" />
+
+        <Label text="Username:" />
+        <TextField fx:id="usernameField" />
+
+        <Label text="Password:" />
+        <PasswordField fx:id="passwordField" />
+
+        <Label text="Origin:" />
+        <TextField fx:id="originField" />
+
+        <Button fx:id="signupButton" text="Signup" styleClass="signup-button" />
+    </VBox>
+</StackPane>
