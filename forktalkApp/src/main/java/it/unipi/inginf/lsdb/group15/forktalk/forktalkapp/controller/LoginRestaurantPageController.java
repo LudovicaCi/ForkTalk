@@ -1,9 +1,7 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
@@ -132,7 +130,6 @@ public class LoginRestaurantPageController implements Initializable {
             location.add(city.getText().toLowerCase());
             newRest.setLocation(location);
 
-            // Generazione casuale delle coordinate
             double latitude = generateLatitude();
             double longitude = generateLongitude();
             ArrayList<String> coordinates = new ArrayList<>();
@@ -152,24 +149,22 @@ public class LoginRestaurantPageController implements Initializable {
     }
 
     private double generateLatitude() {
-        // Limiti delle coordinate di latitudine in Inghilterra
-        double minLatitude = 49.823809;  // Latitudine minima
-        double maxLatitude = 58.785744;  // Latitudine massima
+        double minLatitude = 49.823809;
+        double maxLatitude = 58.785744;
 
         Random random = new Random();
         double latitude = minLatitude + (maxLatitude - minLatitude) * random.nextDouble();
 
-        return Math.round(latitude * 1e6) / 1e6; // Arrotonda alle 6 cifre decimali
+        return Math.round(latitude * 1e6) / 1e6;
     }
 
     private double generateLongitude() {
-        // Limiti delle coordinate di longitudine in Inghilterra
-        double minLongitude = -6.417628;  // Longitudine minima
-        double maxLongitude = 1.768926;   // Longitudine massima
+        double minLongitude = -6.417628;
+        double maxLongitude = 1.768926;
 
         Random random = new Random();
         double longitude = minLongitude + (maxLongitude - minLongitude) * random.nextDouble();
 
-        return Math.round(longitude * 1e6) / 1e6; // Arrotonda alle 6 cifre decimali
+        return Math.round(longitude * 1e6) / 1e6;
     }
 }

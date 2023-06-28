@@ -1,6 +1,5 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
-import com.mongodb.internal.client.model.Util;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
@@ -10,9 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
