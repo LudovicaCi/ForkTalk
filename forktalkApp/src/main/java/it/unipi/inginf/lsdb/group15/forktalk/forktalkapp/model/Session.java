@@ -1,4 +1,4 @@
-package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils;
+package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;

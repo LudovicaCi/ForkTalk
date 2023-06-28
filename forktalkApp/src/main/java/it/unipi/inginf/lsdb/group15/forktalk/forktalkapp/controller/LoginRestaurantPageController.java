@@ -1,23 +1,25 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Session;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.ResourceBundle;
 
-public class SignUpPageRestaurantController {
+public class LoginRestaurantPageController implements Initializable {
     @FXML
     public TextField name;
 
@@ -55,35 +57,51 @@ public class SignUpPageRestaurantController {
     private TextField password;
 
     @FXML
-    private Button backButton;
-
+    public Button backButton;
 
     @FXML
-    private void initialize() {
-        backButton.setOnAction(this::handleBack);
+    public TextField usernameLoginField;
 
+    @FXML
+    public PasswordField passwordLoginField;
+
+    @FXML
+    public Button loginButton;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        backButton.setOnAction(this::openPreviousPage);
+        loginButton.setOnAction(this::login);
         signUpButton.setOnAction(this::registerRestaurant);
-
     }
 
-    @FXML
-    private void handleBack(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/SelectSignUpPage.fxml"));
-            Parent welcomeRoot = fxmlLoader.load();
-            Scene welcomeScene = new Scene(welcomeRoot);
+    private void openPreviousPage(ActionEvent event) {
+        Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/FirstPage.fxml", event);
+    }
 
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            double windowWidth = stage.getWidth();
-            double windowHeight = stage.getHeight();
-            stage.setScene(welcomeScene);
-            stage.setWidth(windowWidth);
-            stage.setHeight(windowHeight);
-        } catch (IOException e) {
+    private void login(ActionEvent event) {
+        try {
+            //login restaurant
+            RestaurantDTO loggedRest = RestaurantDAO.loginRestaurant(usernameLoginField.getText(), passwordLoginField.getText());
+
+            if (loggedRest != null) {
+                showAlert("login successful.");
+                Session.setLoggedUser(null);
+                Session.setLoggedRestaurant(loggedRest);
+            } else {
+                showAlert("Login failed. Please try again.");
+            }
+        }catch (Exception e){
             e.printStackTrace();
         }
     }
 
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
     @FXML
     private void registerRestaurant(ActionEvent event) {
@@ -131,13 +149,6 @@ public class SignUpPageRestaurantController {
                 showAlert("Registration failed. Please try again.");
             }
         }
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     private double generateLatitude() {

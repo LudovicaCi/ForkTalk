@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.LoginRestaurantPageController">
+    <left>
+        <VBox prefHeight="400.0" prefWidth="290.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox prefHeight="340.0" prefWidth="243.0" style="-fx-background-color: #037B41;">
+                    <VBox.margin>
+                        <Insets bottom="30.0" left="30.0" right="20.0" top="10.0" />
+                    </VBox.margin>
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="106.0" prefWidth="235.0">
+                            <children>
+                                <ImageView fitHeight="41.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../img/LOGIN1.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="30.0" prefWidth="20.0" style="-fx-background-color: transparenti;">
+                            <VBox.margin>
+                                <Insets left="20.0" right="20.0" top="15.0" />
+                            </VBox.margin>
+                     <children>
+                        <TextField fx:id="usernameLoginField" alignment="CENTER" promptText="username" />
+                     </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="30.0" prefWidth="20.0" style="-fx-background-color: transparent;">
+                            <VBox.margin>
+                                <Insets left="20.0" right="20.0" top="15.0" />
+                            </VBox.margin>
+                            <children>
+                                <PasswordField fx:id="passwordLoginField" alignment="CENTER" promptText="password" />
+                            </children></HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="loginButton" mnemonicParsing="false" style="-fx-background-color: white;" text="Login" textFill="#037b41">
+                                    <effect>
+                                        <DropShadow blurType="GAUSSIAN" height="15.16" radius="6.5925" width="13.21">
+                                            <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                            </color>
+                                        </DropShadow>
+                                    </effect></Button>
+                            </children></HBox>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </left>
+    <right>
+        <VBox prefHeight="400.0" prefWidth="290.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #037B41;">
+                    <VBox.margin>
+                        <Insets bottom="30.0" left="20.0" right="30.0" top="10.0" />
+                    </VBox.margin>
+                    <children>
+                        <HBox alignment="BOTTOM_CENTER" prefHeight="75.0" prefWidth="235.0">
+                            <children>
+                                <ImageView fitHeight="57.0" fitWidth="194.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../img/LOGIN.png" />
+                                    </image>
+                           <HBox.margin>
+                              <Insets bottom="5.0" />
+                           </HBox.margin>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                  <HBox prefHeight="23.0" prefWidth="235.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="35.0" prefWidth="117.5">
+                           <children>
+                               <TextField fx:id="name" alignment="CENTER" prefHeight="25.0" prefWidth="97.0" promptText="name">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                               </TextField>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="35.0" prefWidth="117.5">
+                           <children>
+                              <TextField fx:id="emailField" alignment="CENTER" prefHeight="25.0" prefWidth="97.0" promptText="email">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="110.0" prefHeight="15.0" prefWidth="235.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="35.0" prefWidth="117.5">
+                           <children>
+                              <TextField fx:id="username" alignment="CENTER" prefHeight="25.0" prefWidth="97.0" promptText="username">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="35.0" prefWidth="117.5">
+                           <children>
+                              <PasswordField fx:id="password" alignment="CENTER" prefHeight="25.0" prefWidth="106.0" promptText="password">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin></PasswordField>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="155.0" prefHeight="19.0" prefWidth="235.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="35.0" prefWidth="117.5">
+                           <children>
+                              <TextField fx:id="country" alignment="CENTER" prefHeight="25.0" prefWidth="97.0" promptText="country">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="35.0" prefWidth="117.5">
+                           <children>
+                              <TextField fx:id="county" alignment="CENTER" prefHeight="25.0" prefWidth="97.0" promptText="county">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="201.0" prefHeight="9.0" prefWidth="235.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="35.0" prefWidth="117.5">
+                           <children>
+                              <TextField fx:id="district" alignment="CENTER" prefHeight="25.0" prefWidth="97.0" promptText="district">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="35.0" prefWidth="117.5">
+                           <children>
+                              <TextField fx:id="city" alignment="CENTER" prefHeight="25.0" prefWidth="97.0" promptText="city">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="246.0" prefHeight="19.0" prefWidth="235.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="35.0" prefWidth="117.5">
+                           <children>
+                              <TextField fx:id="address" alignment="CENTER" prefHeight="25.0" prefWidth="97.0" promptText="address">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="35.0" prefWidth="117.5">
+                           <children>
+                              <TextField fx:id="street_number" alignment="CENTER" prefHeight="25.0" prefWidth="97.0" promptText="street number">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="179.0" prefHeight="19.0" prefWidth="235.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="35.0" prefWidth="117.5">
+                           <children>
+                              <TextField fx:id="postcode" alignment="CENTER" promptText="postcode">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin></TextField>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="204.0" prefHeight="19.0" prefWidth="235.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="35.0" prefWidth="117.5">
+                           <children>
+                              <Button fx:id="signUpButton" mnemonicParsing="false" style="-fx-background-color: white;" text="Signup" textFill="#037b41">
+                                 <effect>
+                                    <DropShadow blurType="GAUSSIAN" height="15.16" radius="6.5925" width="13.21">
+                                       <color>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets top="15.0" />
+                     </padding>
+                  </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </right>
+    <center>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER" prefHeight="260.0" prefWidth="80.0">
+                    <children>
+                        <ImageView fitHeight="34.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../img/or.png" />
+                            </image></ImageView>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+   <top>
+       <HBox prefHeight="31.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+           <children>
+               <HBox alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="38.0" prefWidth="65.0">
+                   <children>
+                       <Button fx:id="backButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Back" textFill="#037b41">
+                           <graphic>
+                               <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                   <image>
+                                       <Image url="@../img/angle-small-left.png" />
+                                   </image>
+                               </ImageView>
+                           </graphic>
+                       </Button>
+                   </children>
+               </HBox>
+           </children>
+       </HBox>
+   </top>
+</BorderPane>

@@ -1,25 +1,22 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Session;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.control.*;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SignUpPageUserController implements Initializable {
+public class LoginUserPageController implements Initializable {
+    @FXML
+    public Button backButton;
 
     @FXML
     private TextField nameField;
@@ -43,30 +40,23 @@ public class SignUpPageUserController implements Initializable {
     private Button signupButton;
 
     @FXML
-    private Button backButton;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        backButton.setOnAction(this::handleBack);
-        signupButton.setOnAction(this::registerUser);
-    }
+    public TextField usernameLoginField;
 
     @FXML
-    private void handleBack(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/SelectSignUpPage.fxml"));
-            Parent welcomeRoot = fxmlLoader.load();
-            Scene welcomeScene = new Scene(welcomeRoot);
+    public PasswordField passwordLoginField;
 
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            double windowWidth = stage.getWidth();
-            double windowHeight = stage.getHeight();
-            stage.setScene(welcomeScene);
-            stage.setWidth(windowWidth);
-            stage.setHeight(windowHeight);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @FXML
+    public Button loginButton;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        backButton.setOnAction(this::openPreviousPage);
+        signupButton.setOnAction(this::registerUser);
+        loginButton.setOnAction(this::login);
+    }
+
+    private void openPreviousPage(ActionEvent event) {
+        Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/FirstPage.fxml", event);
     }
 
     @FXML
@@ -90,9 +80,27 @@ public class SignUpPageUserController implements Initializable {
                 showAlert("Registration successful.");
                 Session.setLoggedUser(newUser);
                 Session.setLoggedRestaurant(null);
+                Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/BrowserPage.fxml", event);
             } else {
                 showAlert("Registration failed. Please try again.");
             }
+        }
+    }
+
+    private void login(ActionEvent event){
+        try {
+            //login user
+            UserDTO loggedUser = UserDAO.loginUser(usernameLoginField.getText(), passwordLoginField.getText());
+
+            if (loggedUser != null) {
+                Session.setLoggedUser(loggedUser);
+                Session.setLoggedRestaurant(null);
+                Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/BrowserPage.fxml", event);
+            } else {
+                showAlert("Login failed. Please try again.");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -102,4 +110,5 @@ public class SignUpPageUserController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 }

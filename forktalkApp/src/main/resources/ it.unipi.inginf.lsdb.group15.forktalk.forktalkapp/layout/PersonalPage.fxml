@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.PersonalPageController">
+    <top>
+        <HBox prefHeight="38.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <children>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="38.0" prefWidth="65.0">
+               <children>
+                  <Button fx:id="backButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Back" textFill="#037b41">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/angle-small-left.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="38.0" prefWidth="448.0" />
+                <HBox alignment="CENTER" prefHeight="38.0" prefWidth="97.0">
+                    <children>
+                        <Button fx:id="logoutButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: transparent;" text="Logout" textFill="#037b41">
+                            <graphic>
+                                <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../img/sign-out-alt.png" />
+                                    </image>
+                        </ImageView>
+                            </graphic>
+                        </Button>
+                    </children>
+                </HBox>
+            </children></HBox>
+    </top>
+    <left>
+        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox alignment="TOP_CENTER" prefHeight="362.0" prefWidth="216.0">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="67.0" prefWidth="199.0">
+                            <children>
+                                <ImageView fitHeight="83.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../img/user.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" prefHeight="27.0" prefWidth="199.0">
+                            <children>
+                                <VBox alignment="TOP_CENTER" prefHeight="37.0" prefWidth="206.0">
+                                    <children>
+                                        <Label fx:id="nameField" text="Name Surname">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="usernameField" text="Username" textFill="#0000007a" />
+                                    </children>
+                                </VBox>
+                            </children></HBox>
+                        <HBox prefHeight="59.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="CENTER" prefHeight="59.0" prefWidth="66.6">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="nListPosted">
+                                            <font>
+                                                <Font name="System Bold" size="10.0" />
+                                            </font></Text>
+                                        <Label text="List Posted" textFill="#0000007f">
+                                            <font>
+                                                <Font size="10.0" />
+                                            </font></Label>
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="10.0" />
+                                    </HBox.margin></VBox>
+                                <VBox alignment="CENTER" prefHeight="59.0" prefWidth="66.6">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="nFollowers">
+                                            <font>
+                                                <Font name="System Bold" size="10.0" />
+                                            </font>
+                                        </Text>
+                                        <Label text="Follower" textFill="#0000007f">
+                                            <font>
+                                                <Font size="10.0" />
+                                            </font></Label>
+                                    </children>
+                                    <padding>
+                                        <Insets left="5.0" />
+                                    </padding></VBox>
+                                <VBox alignment="CENTER" prefHeight="59.0" prefWidth="66.6">
+                                    <HBox.margin>
+                                        <Insets left="5.0" />
+                                    </HBox.margin>
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="nFollowing">
+                                            <font>
+                                                <Font name="System Bold" size="10.0" />
+                                            </font>
+                                        </Text>
+                                        <Label text="Following" textFill="#0000007f">
+                                            <font>
+                                                <Font size="10.0" />
+                                            </font>
+                                        </Label>
+                                    </children></VBox>
+                            </children>
+                        </HBox>
+                  <HBox alignment="CENTER" prefHeight="6.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="6.0" prefWidth="200.0">
+                           <children>
+                              <Line endX="100.0" startX="-35.0" stroke="#0000002e">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></Line>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="29.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="126.0">
+                           <children>
+                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" style="-fx-background-color: transparent;" text="Restaurant Lists" textFill="#b4b4b4">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../img/rectangle-list.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets left="12.0" />
+                           </HBox.margin>
+                        </VBox>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="196.0" prefHeight="29.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="100.0">
+                           <children>
+                              <Button fx:id="searchButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Search " textFill="#b4b4b4">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../img/search.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="225.0" prefHeight="29.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="100.0">
+                           <children>
+                              <Button fx:id="editButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Edit Profile" textFill="#b4b4b4">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../img/edit.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="255.0" prefHeight="29.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="108.0">
+                           <children>
+                              <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: transparent;" text="Delete Profile" textFill="#b4b4b4">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../img/delete.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                    </children>
+                </VBox>
+            </children></HBox>
+    </left>
+   <right>
+      <AnchorPane prefHeight="362.0" prefWidth="398.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>
