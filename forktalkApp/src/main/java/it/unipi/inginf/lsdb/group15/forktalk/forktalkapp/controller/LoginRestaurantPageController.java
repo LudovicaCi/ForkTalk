@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils.showAlert;
+
 public class LoginRestaurantPageController implements Initializable {
     @FXML
     public TextField name;
@@ -92,13 +94,6 @@ public class LoginRestaurantPageController implements Initializable {
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     @FXML

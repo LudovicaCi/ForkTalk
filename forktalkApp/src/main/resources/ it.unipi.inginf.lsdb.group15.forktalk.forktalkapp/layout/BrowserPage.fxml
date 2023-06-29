@@ -2,97 +2,74 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.BrowserPageController">
-   <top>
-      <HBox prefHeight="60.0" prefWidth="600.0" style="fx: #037B41;" BorderPane.alignment="CENTER">
-         <ImageView fitHeight="83.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.BrowserPageController">
+    <HBox prefHeight="60.0" prefWidth="600.0" style="fx: #037B41;" BorderPane.alignment="CENTER">
+        <ImageView fitHeight="83.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
             <HBox.margin>
-               <Insets left="10.0"/>
+                <Insets left="10.0" />
             </HBox.margin>
-            <Image url="@../img/FORKtALK.png"/>
-         </ImageView>
-         <HBox prefHeight="83.0" prefWidth="395.0"/>
-         <VBox alignment="TOP_CENTER" prefHeight="71.0" prefWidth="61.0">
-            <Button fx:id="userButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="68.0"
-                    style="-fx-background-color: transparent;">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <Image url="@../img/circle-user.png"/>
-                  </ImageView>
-               </graphic>
+            <Image url="@../img/FORKtALK.png" />
+        </ImageView>
+        <HBox prefHeight="83.0" prefWidth="395.0" />
+        <VBox alignment="TOP_CENTER" prefHeight="71.0" prefWidth="61.0">
+            <Button fx:id="userButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="68.0" style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../img/circle-user.png" />
+                    </ImageView>
+                </graphic>
             </Button>
-         </VBox>
-         <VBox alignment="TOP_CENTER" prefHeight="66.0" prefWidth="102.0">
-            <Button fx:id="logoutButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="89.0"
-                    style="-fx-background-color: transparent;" text="Logout" textFill="#037b41">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <Image url="@../img/sign-out-alt.png"/>
-                  </ImageView>
-               </graphic>
+        </VBox>
+        <VBox alignment="TOP_CENTER" prefHeight="66.0" prefWidth="102.0">
+            <Button fx:id="logoutButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="89.0" style="-fx-background-color: transparent;" text="Logout" textFill="#037b41">
+                <graphic>
+                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../img/sign-out-alt.png" />
+                    </ImageView>
+                </graphic>
             </Button>
+        </VBox>
+    </HBox>
+   <ToolBar layoutX="-1.0" layoutY="83.0" prefHeight="36.0" prefWidth="600.0" style="-fx-background-color: #037b41;">
+     <items>
+       <Button fx:id="findRestButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Find restaurants" textFill="WHITE" />
+         <VBox prefHeight="25.0" prefWidth="2.0">
+            <children>
+               <Line startY="20.0" stroke="WHITE">
+                  <VBox.margin>
+                     <Insets top="2.5" />
+                  </VBox.margin>
+               </Line>
+            </children>
          </VBox>
-      </HBox>
-   </top>
-   <left>
-      <VBox prefHeight="314.0" prefWidth="236.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-         <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0"
-               style="-fx-background-color: white; -fx-padding: 5px; -fx-spacing: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.0, 2, 2);">
-            <VBox.margin>
-               <Insets left="30.0" right="30.0" top="35.0"/>
-            </VBox.margin>
-            <TextField alignment="CENTER" promptText="Search by location"
-                       style="-fx-background-color: transparent;"/>
-         </HBox>
-         <HBox alignment="CENTER" layoutX="40.0" layoutY="30.0" prefHeight="50.0" prefWidth="200.0"
-               style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.0, 2, 2);">
-            <VBox.margin>
-               <Insets left="30.0" right="30.0" top="5.0"/>
-            </VBox.margin>
-            <TextField alignment="CENTER" promptText="Search by name" style="-fx-background-color: transparent;"/>
-         </HBox>
-         <HBox alignment="CENTER" layoutX="10.0" layoutY="90.0" prefHeight="50.0" prefWidth="200.0"
-               style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.0, 2, 2);">
-            <VBox.margin>
-               <Insets left="30.0" right="30.0" top="5.0"/>
-            </VBox.margin>
-            <TextField alignment="CENTER" promptText="Search by cuisine" style="-fx-background-color: transparent;"/>
-         </HBox>
-         <HBox alignment="CENTER" layoutX="40.0" layoutY="110.0" prefHeight="50.0" prefWidth="200.0"
-               style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.0, 2, 2);">
-            <VBox.margin>
-               <Insets left="30.0" right="30.0" top="5.0"/>
-            </VBox.margin>
-            <TextField alignment="CENTER" promptText="Search by keywords"
-                       style="-fx-background-color: transparent;"/>
-         </HBox>
-         <HBox alignment="CENTER" prefHeight="51.0" prefWidth="236.0">
-            <Button mnemonicParsing="false" style="-fx-background-color: #037B41;" text="Search" textFill="WHITE"/>
-         </HBox>
-      </VBox>
-   </left>
-   <right>
-      <VBox alignment="TOP_CENTER" prefHeight="329.0" prefWidth="364.0" style="-fx-background-color: white;"
-            BorderPane.alignment="CENTER">
-         <HBox prefHeight="279.0" prefWidth="364.0">
-            <GridPane prefHeight="279.0" prefWidth="365.0" style="-fx-background-color: white;">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-               </rowConstraints>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="5.0"/>
-               </HBox.margin>
-            </GridPane>
-         </HBox>
-      </VBox>
-   </right>
-</BorderPane>
+         <Button fx:id="findUserButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Find users" textFill="WHITE" />
+         <VBox prefHeight="25.0" prefWidth="2.0">
+            <children>
+               <Line startY="20.0" stroke="WHITE">
+                  <VBox.margin>
+                     <Insets top="2.5" />
+                  </VBox.margin>
+               </Line>
+            </children>
+         </VBox>
+         <Button fx:id="findListsButton" layoutX="81.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Find restaurant lists" textFill="WHITE" />
+     </items>
+      <effect>
+         <DropShadow blurType="TWO_PASS_BOX" />
+      </effect>
+   </ToolBar>
+   <BorderPane layoutY="119.0" prefHeight="281.0" prefWidth="600.0">
+      <top>
+         <AnchorPane BorderPane.alignment="CENTER">
+            <children>
+               <HBox fx:id="searchBarPane" alignment="CENTER" layoutY="4.0" prefHeight="43.0" prefWidth="600.0" />
+            </children>
+         </AnchorPane>
+      </top>
+   </BorderPane>
+</AnchorPane>

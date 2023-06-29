@@ -12,6 +12,8 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils.showAlert;
+
 public class LoginUserPageController implements Initializable {
     @FXML
     public Button backButton;
@@ -101,12 +103,4 @@ public class LoginUserPageController implements Initializable {
             e.printStackTrace();
         }
     }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
 }

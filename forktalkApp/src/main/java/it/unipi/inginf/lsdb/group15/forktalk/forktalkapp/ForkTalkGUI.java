@@ -5,11 +5,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
-public class MainApp extends Application {
+public class ForkTalkGUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         try {
@@ -18,6 +20,8 @@ public class MainApp extends Application {
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
             stage.setTitle("ForkTalk");
+            Image logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/img/FORKtALK.png")));
+            stage.getIcons().add(logo);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {

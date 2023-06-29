@@ -1,15 +1,17 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,8 +23,8 @@ public class PersonalPageController implements Initializable {
     public Button searchButton;
     public Button editButton;
     public Button deleteButton;
+    public AnchorPane dynamicPane;
 
-    @FXML
 
 
     @Override
@@ -32,8 +34,20 @@ public class PersonalPageController implements Initializable {
         nameField.setText(Session.getLoggedUser().getName() + " " + Session.getLoggedUser().getSurname());
         usernameField.setText(Session.getLoggedUser().getUsername());
         searchButton.setOnAction(this::openSearchPage);
-        editButton.setOnAction(this::handleModifyUser);
-        deleteButton.setOnAction(this::handleDeleteUser);
+        editButton.setOnAction(event -> {
+            try {
+                handleModifyUser();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        deleteButton.setOnAction(event -> {
+            try {
+                handleDeleteUser();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void openPreviousPage(ActionEvent event) {
@@ -51,33 +65,38 @@ public class PersonalPageController implements Initializable {
     }
 
     @FXML
-    private void handleModifyUser(ActionEvent event) {
-        // Logic for handling "Modify User" action
-        // Replace this with your own implementation
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Modify User");
-        alert.setHeaderText(null);
-        alert.setContentText("Modify User selected!");
-        alert.showAndWait();
+    private void handleModifyUser() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/EditProfilePage.fxml"));
+        Parent editProfileRoot = loader.load();
+
+        Region editProfileRegion = (Region) editProfileRoot;
+
+        editProfileRegion.setPrefWidth(dynamicPane.getWidth());
+        editProfileRegion.setPrefHeight(dynamicPane.getHeight());
+
+        AnchorPane.setTopAnchor(editProfileRoot, 0.0);
+        AnchorPane.setRightAnchor(editProfileRoot, 0.0);
+        AnchorPane.setBottomAnchor(editProfileRoot, 0.0);
+        AnchorPane.setLeftAnchor(editProfileRoot, 0.0);
+
+        dynamicPane.getChildren().setAll(editProfileRoot);
     }
 
     @FXML
-    private void handleDeleteUser(ActionEvent event) {
-        if(UserDAO.deleteUser(Session.getLoggedUser().getUsername())){
-            Session.setLoggedUser(null);
-            Session.setLoggedRestaurant(null);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Delete User");
-            alert.setHeaderText(null);
-            alert.setContentText("Delete User successful!");
-            alert.showAndWait();
-            Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/FirstPage.fxml", event);
-        }else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Delete User");
-            alert.setHeaderText(null);
-            alert.setContentText("Delete User unsuccessful! Please try again.");
-            alert.showAndWait();
-        }
+    private void handleDeleteUser() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/DeleteUserPage.fxml"));
+        Parent deleteProfileRoot = loader.load();
+
+        Region deleteProfileRegion = (Region) deleteProfileRoot;
+
+        deleteProfileRegion.setPrefWidth(dynamicPane.getWidth());
+        deleteProfileRegion.setPrefHeight(dynamicPane.getHeight());
+
+        AnchorPane.setTopAnchor(deleteProfileRoot, 0.0);
+        AnchorPane.setRightAnchor(deleteProfileRoot, 0.0);
+        AnchorPane.setBottomAnchor(deleteProfileRoot, 0.0);
+        AnchorPane.setLeftAnchor(deleteProfileRoot, 0.0);
+
+        dynamicPane.getChildren().setAll(deleteProfileRoot);
     }
 }

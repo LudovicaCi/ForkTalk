@@ -1,6 +1,8 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.DriverDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 
 import java.io.IOException;
 
@@ -272,6 +274,13 @@ public class Main {
         //ReservationDTO reservation = new ReservationDTO("filo87", "Filippo", "Rossi", "g10259438-d19087750", "Band of Burgers", "Walthamstow", " Hoe Street Walthamstow   ", "2023-06-30 19:30:00", 5);
         //System.out.println(deleteReservation(Objects.requireNonNull(UserDAO.getUserByUsername("filo87")), Objects.requireNonNull(getRestaurantByUsername("band-of-burgers_695")), reservation));
 
+        //checkUsername: FUNZIONA
+        //System.out.println(UserDAO.isUsernameTaken("lcocchella"));
+
+        //checkEmail
+        //System.out.println(UserDAO.isEmailTaken("lcocchella@yahoo.it"));
+
+        System.out.println(UserDAO.deleteUser("bogdanp_UK"));
         DriverDAO.closeConnection();
     }
 

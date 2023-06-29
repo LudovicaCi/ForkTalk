@@ -2,6 +2,8 @@ package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
@@ -10,7 +12,6 @@ import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantsListDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Restaurant;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.User;
 
 import java.lang.*;
 import java.util.ArrayList;
@@ -63,16 +64,78 @@ public class UserDAO extends DriverDAO {
             // Create a filter to match the username
             Bson filter = Filters.eq("username", username);
 
-            // Use the filter to delete the matching user document from the collection
-            DeleteResult result = userCollection.deleteOne(filter);
+            // Delete the user document from the collection
+            DeleteResult userDeleteResult = userCollection.deleteOne(filter);
 
-            return result.getDeletedCount() > 0;
+            // Update the user's reservations in the restaurant collection
+            Bson reservationsFilter = Filters.eq("reservations.client_username", username);
+            Bson reservationsUpdate = Updates.combine(
+                    Updates.set("reservations.$[reservation].client_username", null),
+                    Updates.set("reservations.$[reservation].client_name", null),
+                    Updates.set("reservations.$[reservation].client_surname", null),
+                    Updates.set("reservations.$[reservation].number of person", 0)
+            );
+            UpdateOptions updateOptions = new UpdateOptions().arrayFilters(
+                    List.of(Filters.eq("reservation.client_username", username))
+            );
+
+            UpdateResult reservationUpdateResult = restaurantCollection.updateMany(reservationsFilter, reservationsUpdate, updateOptions);
+
+            // Check if the deletion was successful in both collections
+            return userDeleteResult.getDeletedCount() > 0 && reservationUpdateResult.getModifiedCount() > 0;
         } catch (MongoException e) {
             // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
         }
     }
+
+    /**
+     * Checks if there is already a user with the same username.
+     *
+     * @param username the username to check
+     * @return true if the username is already taken by another user, false otherwise
+     */
+    public static boolean isUsernameTaken(String username) {
+        try {
+            // Create a filter to match the username
+            Bson filter = Filters.eq("username", username);
+
+            // Use the filter to find any user with the given username
+            Document user = userCollection.find(filter).first();
+
+            // Check if a user with the given username already exists
+            return user != null;
+        } catch (MongoException e) {
+            // Handle any exceptions that occur during the database operation
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Checks if there is already a user with the same email.
+     *
+     * @param email the email to check
+     * @return true if the email is already taken by another user, false otherwise
+     */
+    public static boolean isEmailTaken(String email) {
+        try {
+            // Create a filter to match the email
+            Bson filter = Filters.eq("email", email);
+
+            // Use the filter to find any user with the given email
+            Document user = userCollection.find(filter).first();
+
+            // Check if a user with the given email already exists
+            return user != null;
+        } catch (MongoException e) {
+            // Handle any exceptions that occur during the database operation
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     /**
      * Updates a user in the database based on the username.
@@ -97,8 +160,28 @@ public class UserDAO extends DriverDAO {
                     .append("suspended", updatedUser.getSuspended())
                     .append("role", updatedUser.getRole()));
 
-            // Use the filter and update document to update the user in the collection
+            // Update the user in the user collection
             UpdateResult updateResult = userCollection.updateOne(filter, updateDoc);
+
+            // Update the user's reservations in the restaurant collection
+            Bson reservationsFilter = Filters.eq("reservations.client_username", username);
+            Bson reservationsUpdate = Updates.combine(
+                    Updates.set("reservations.$[reservation].client_username", updatedUser.getUsername()),
+                    Updates.set("reservations.$[reservation].client_name", updatedUser.getName()),
+                    Updates.set("reservations.$[reservation].client_surname", updatedUser.getSurname())
+            );
+            UpdateOptions updateOptions = new UpdateOptions().arrayFilters(
+                    List.of(Filters.eq("reservation.client_username", username))
+            );
+            restaurantCollection.updateMany(reservationsFilter, reservationsUpdate, updateOptions);
+
+            // Update the user's reviews in the restaurant collection
+            Bson reviewsFilter = Filters.eq("reviews.reviewer_pseudo", username);
+            Bson reviewsUpdate = Updates.set("reviews.$[review].reviewer_pseudo", updatedUser.getUsername());
+            UpdateOptions reviewsUpdateOptions = new UpdateOptions().arrayFilters(
+                    List.of(Filters.eq("review.reviewer_pseudo", username))
+            );
+            restaurantCollection.updateMany(reviewsFilter, reviewsUpdate, reviewsUpdateOptions);
 
             // Check if the update was successful
             return updateResult.getModifiedCount() > 0;
@@ -221,32 +304,6 @@ public class UserDAO extends DriverDAO {
             return null;
         }
     }
-
-   /* public static UserDTO getUserByUsername(String username) {
-        try {
-            // Create a filter to match the username
-            Bson filter = Filters.eq("username", username);
-
-            // Use the filter to find a matching user document in the collection
-            Document userDocument = userCollection.find(filter).first();
-
-            // Create a GsonBuilder instance
-            GsonBuilder gsonBuilder = new GsonBuilder();
-
-            // Register a custom date deserializer with GsonBuilder
-            gsonBuilder.registerTypeAdapter(Date.class, new GsonUtils());
-
-            // Create a Gson instance
-            Gson gson = gsonBuilder.create();
-
-            // Convert the userDocument to JSON and deserialize it into a UserDTO object using Gson
-            return gson.fromJson(gson.toJson(userDocument), UserDTO.class);
-        } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
-            e.printStackTrace();
-            return null;
-        }
-    } */
 
     /**
      * Creates a new restaurant list for a user.
