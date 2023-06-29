@@ -6,54 +6,55 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.FindUserBarController">
-    <children>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
-            <children>
-                <TextField alignment="CENTER" prefHeight="25.0" prefWidth="188.0" promptText="by username" style="-fx-background-radius: 7px;">
-                    <VBox.margin>
-                        <Insets left="5.0" right="5.0" />
-                    </VBox.margin></TextField>
-            </children></VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
-            <children>
-                <TextField alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by name" style="-fx-background-radius: 7px;">
-                    <VBox.margin>
-                        <Insets left="5.0" right="5.0" />
-                    </VBox.margin></TextField>
-            </children></VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
-            <children>
-                <TextField alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by surname" style="-fx-background-radius: 7px;">
-                    <VBox.margin>
-                        <Insets left="5.0" right="5.0" />
-                    </VBox.margin>
-                </TextField>
-            </children></VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
-            <children>
-                <TextField alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by email" style="-fx-background-radius: 7px;">
-                    <VBox.margin>
-                        <Insets left="5.0" right="5.0" />
-                    </VBox.margin>
-                </TextField>
-            </children></VBox>
-        <VBox alignment="CENTER" layoutX="460.0" layoutY="10.0" prefHeight="200.0" prefWidth="120.0">
-            <children>
-                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;" text="Search" textFill="#b4b4b4">
-                    <effect>
-                        <DropShadow />
-                    </effect>
-                    <VBox.margin>
-                        <Insets />
-                    </VBox.margin>
-                    <graphic>
-                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../img/search.png" />
-                            </image>
-                        </ImageView>
-                    </graphic></Button>
-            </children></VBox>
-    </children>
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0"
+      prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.FindUserBarController">
+    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
+        <TextField alignment="CENTER" prefHeight="25.0" prefWidth="188.0" promptText="by username"
+                   style="-fx-background-radius: 7px;">
+            <VBox.margin>
+                <Insets left="5.0" right="5.0"/>
+            </VBox.margin>
+        </TextField>
+    </VBox>
+    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
+        <TextField alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by name"
+                   style="-fx-background-radius: 7px;">
+            <VBox.margin>
+                <Insets left="5.0" right="5.0"/>
+            </VBox.margin>
+        </TextField>
+    </VBox>
+    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
+        <TextField alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by surname"
+                   style="-fx-background-radius: 7px;">
+            <VBox.margin>
+                <Insets left="5.0" right="5.0"/>
+            </VBox.margin>
+        </TextField>
+    </VBox>
+    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
+        <TextField alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by email"
+                   style="-fx-background-radius: 7px;">
+            <VBox.margin>
+                <Insets left="5.0" right="5.0"/>
+            </VBox.margin>
+        </TextField>
+    </VBox>
+    <VBox alignment="CENTER" layoutX="460.0" layoutY="10.0" prefHeight="200.0" prefWidth="120.0">
+        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;"
+                text="Search" textFill="#b4b4b4">
+            <effect>
+                <DropShadow/>
+            </effect>
+            <VBox.margin>
+                <Insets/>
+            </VBox.margin>
+            <graphic>
+                <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../img/search.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+    </VBox>
 </HBox>

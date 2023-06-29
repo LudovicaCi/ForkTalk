@@ -70,6 +70,7 @@ public class EditProfilePageController implements Initializable {
             updatedUser.setOrigin(origin.getText());
         }
 
+        assert updatedUser != null;
         if(UserDAO.updateUser(Session.loggedUser.getUsername(), updatedUser)) {
             Session.setLoggedUser(updatedUser);
             Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/PersonalPage.fxml", event);

@@ -8,12 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.Objects;
 
 public class ForkTalkGUI extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         try {
             DriverDAO.openConnection();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/FirstPage.fxml"));
