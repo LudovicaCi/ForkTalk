@@ -11,8 +11,8 @@ import java.io.IOException;
 
 public class Utils {
     public static void changeScene (String fileName, Event event) {
-        Scene scene = null;
-        FXMLLoader loader = null;
+        Scene scene;
+        FXMLLoader loader;
         try {
             loader = new FXMLLoader(Utils.class.getResource(fileName));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

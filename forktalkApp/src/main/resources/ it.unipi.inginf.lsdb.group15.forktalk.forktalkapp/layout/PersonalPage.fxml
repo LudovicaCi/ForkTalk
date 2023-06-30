@@ -130,21 +130,19 @@
                 </HBox>
                 <HBox alignment="CENTER" layoutX="10.0" layoutY="221.0" prefHeight="29.0" prefWidth="200.0">
                     <opaqueInsets>
-                        <Insets/>
+                        <Insets />
                     </opaqueInsets>
                     <VBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="126.0">
                         <opaqueInsets>
-                            <Insets/>
+                            <Insets />
                         </opaqueInsets>
                         <HBox.margin>
-                            <Insets left="-14.5"/>
+                            <Insets left="-14.5" />
                         </HBox.margin>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0"
-                                style="-fx-background-color: transparent;" text="Reservations" textFill="#b4b4b4">
+                        <Button fx:id="bookingButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" style="-fx-background-color: transparent;" text="Reservations" textFill="#b4b4b4">
                             <graphic>
-                                <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true"
-                                           preserveRatio="true">
-                                    <Image url="@../img/booking.png"/>
+                                <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@../img/booking.png" />
                                 </ImageView>
                             </graphic>
                         </Button>
@@ -196,6 +194,6 @@
         </HBox>
     </left>
    <right>
-      <AnchorPane fx:id="dynamicPane" prefHeight="362.0" prefWidth="398.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
+      <AnchorPane fx:id="dynamicPane" prefHeight="362.0" prefWidth="398.0" style="-fx-background-color: #faf7f7;" BorderPane.alignment="CENTER" />
    </right>
 </BorderPane>

@@ -1,110 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="190.0" style="-fx-border-color: black; -fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <VBox alignment="CENTER" prefHeight="30.0" prefWidth="39.0">
-               <children>
-                  <ImageView fitHeight="20.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/chef.png" />
-                     </image></ImageView>
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="39.0" prefWidth="147.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="name" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <HBox layoutX="11.0" layoutY="11.0" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <VBox alignment="CENTER" prefHeight="30.0" prefWidth="39.0">
-               <children>
-                  <ImageView fitHeight="20.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/placeholder.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="39.0" prefWidth="147.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="location" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <HBox layoutX="11.0" layoutY="85.0" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <VBox alignment="CENTER" prefHeight="30.0" prefWidth="39.0">
-               <children>
-                  <ImageView fitHeight="20.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/date.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="39.0" prefWidth="150.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="date" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <HBox layoutX="11.0" layoutY="110.0" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: black black black black; -fx-border-width: 0 0 1 0;">
-         <children>
-            <VBox alignment="CENTER" prefHeight="30.0" prefWidth="39.0">
-               <children>
-                  <ImageView fitHeight="20.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/profile.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="39.0" prefWidth="150.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="number of person" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Button mnemonicParsing="false" style="-fx-background-color: transparent;">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../img/settings (1).png" />
-                           </image></ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Button mnemonicParsing="false" style="-fx-background-color: transparent;">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../img/delete (1).png" />
-                           </image></ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-   </children>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0" prefWidth="364.0" style="-fx-border-color: #b4b4b4; -fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="150.0" spacing="10">
+      <children>
+         <VBox alignment="CENTER" prefHeight="30.0" prefWidth="20.0">
+            <children>
+               <ImageView fitHeight="20.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../img/chef.png" />
+                  </image>
+               </ImageView>
+            </children>
+            <HBox.margin>
+               <Insets />
+            </HBox.margin>
+         </VBox>
+         <VBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="147.0">
+            <children>
+               <Text fx:id="restName" strokeType="OUTSIDE" strokeWidth="0.0" text="name" />
+            </children>
+         </VBox>
+      </children>
+   </HBox>
+   <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="11.0" prefHeight="100.0" prefWidth="150.0" spacing="10">
+      <children>
+         <VBox alignment="CENTER" prefHeight="30.0" prefWidth="20.0">
+            <children>
+               <ImageView fitHeight="20.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../img/placeholder.png" />
+                  </image>
+               </ImageView>
+            </children>
+            <HBox.margin>
+               <Insets />
+            </HBox.margin>
+         </VBox>
+         <VBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="147.0">
+            <children>
+               <Text fx:id="locationRest" strokeType="OUTSIDE" strokeWidth="0.0" text="location" />
+            </children>
+         </VBox>
+      </children>
+   </HBox>
+   <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="85.0" prefHeight="100.0" prefWidth="150.0" spacing="10">
+      <children>
+         <VBox alignment="CENTER" prefHeight="30.0" prefWidth="20.0">
+            <children>
+               <ImageView fitHeight="20.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../img/date.png" />
+                  </image>
+               </ImageView>
+            </children>
+         </VBox>
+         <VBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="150.0">
+            <children>
+               <Text fx:id="dateReservation" strokeType="OUTSIDE" strokeWidth="0.0" text="date" />
+            </children>
+         </VBox>
+      </children>
+   </HBox>
+   <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="110.0" prefHeight="100.0" prefWidth="150.0" spacing="10" style="-fx-border-color: #b4b4b4; -fx-border-width: 0 0 1 0;">
+      <VBox alignment="CENTER" prefHeight="30.0" prefWidth="20.0">
+         <ImageView fitHeight="20.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../img/profile.png" />
+         </ImageView>
+      </VBox>
+      <VBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="150.0">
+         <Text fx:id="nPerson" strokeType="OUTSIDE" strokeWidth="0.0" text="number of person" />
+      </VBox>
+   </HBox>
+   <HBox alignment="TOP_CENTER" prefHeight="17.0" prefWidth="187.0">
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+         <Button fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: transparent;">
+            <graphic>
+               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@../img/delete (1).png" />
+               </ImageView>
+            </graphic>
+         </Button>
+      </VBox>
+   </HBox>
 </VBox>

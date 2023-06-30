@@ -2,7 +2,9 @@ package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
@@ -15,10 +17,8 @@ import org.bson.conversions.Bson;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.regex.Pattern;
 
 
 public class RestaurantDAO extends DriverDAO {
@@ -403,6 +403,146 @@ public class RestaurantDAO extends DriverDAO {
             return null;
         }
     }
+
+    /**
+     * Retrieves a restaurant based on the specified ID.
+     *
+     * @param restId The ID of the restaurant to be retrieved.
+     * @return A RestaurantDTO object matching the specified username, or null if no matching restaurant is found or an error occurs.
+     */
+    public static RestaurantDTO getRestaurantById(String restId) {
+        RestaurantDTO rest = new RestaurantDTO();
+        try {
+            // Create a filter to match the username
+            Bson filter = Filters.eq("rest_id", restId);
+
+            // Use the filter to find a matching restaurant document in the collection
+            Document restaurantDocument = restaurantCollection.find(filter).first();
+
+            // Check if a matching restaurant document was found
+            if (restaurantDocument != null) {
+                // Extract the necessary fields from the document to create a RestaurantDTO object
+                rest.setId(restaurantDocument.getString("rest_id"));
+                rest.setName(restaurantDocument.getString("restaurant_name"));
+                rest.setEmail(restaurantDocument.getString("email"));
+                rest.setUsername(restaurantDocument.getString("username"));
+                rest.setPassword(restaurantDocument.getString("password"));
+                rest.setCountry(restaurantDocument.getString("country"));
+                rest.setCounty(restaurantDocument.getString("county"));
+                rest.setDistrict(restaurantDocument.getString("district"));
+                rest.setCity(restaurantDocument.getString("city"));
+                rest.setAddress(restaurantDocument.getString("address"));
+                rest.setStreetNumber(String.valueOf(restaurantDocument.getInteger("street_number")));
+                rest.setPostCode(restaurantDocument.getString("postcode"));
+                Integer price = restaurantDocument.getInteger("price");
+                rest.setPrice(price != null ? price : 0); // o assegna un valore di default appropriato
+                rest.setFeatures((ArrayList<String>) restaurantDocument.getList("tag", String.class));
+                rest.setLocation((ArrayList<String>) restaurantDocument.getList("location", String.class));
+                Integer rating = restaurantDocument.getInteger("rest_rating");
+                rest.setRating(rating != null ? rating : 0);
+
+                // Retrieve coordinates
+                List<Document> coordinatesDocuments = restaurantDocument.getList("coordinates", Document.class);
+
+                if (coordinatesDocuments != null) {
+                    for (Document doc : coordinatesDocuments) {
+                        rest.getCoordinates().addAll(Utility.unpackOneCoordinates(doc));
+                    }
+                }
+
+                // Retrieve reservations
+                List<Document> reservationsDocuments = restaurantDocument.getList("reservations", Document.class);
+
+                if (reservationsDocuments != null) {
+                    for (Document doc : reservationsDocuments) {
+                        rest.getReservations().add(Utility.unpackOneRestaurantReservation(doc));
+                    }
+                }
+
+                // Retrieve reviews
+                List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
+
+                if (reviewsDocuments != null) {
+                    for (Document doc : reviewsDocuments) {
+                        rest.getReviews().add(Utility.unpackOneReview(doc));
+                    }
+                }
+
+                return rest;
+            } else {
+                return null; // Return null if no matching restaurant document was found
+            }
+        } catch (MongoException e) {
+            System.out.println("An error occurred while retrieving the restaurant");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Searches for restaurants based on the specified parameters.
+     *
+     * @param location  The location(s) to match. Can be a comma-separated list of locations.
+     * @param name      The name of the restaurant(s) to match.
+     * @param cuisine   The cuisine(s) to match. Can be a comma-separated list of cuisines.
+     * @param keywords  The keyword(s) to match. Can be a comma-separated list of keywords.
+     * @return A list of Document objects representing the matching restaurants, sorted by rating in descending order.
+     *         Returns null if no criteria are provided or an error occurs.
+     */
+    public static List<Document> searchRestaurants(String location, String name, String cuisine, String keywords) {
+        try {
+            List<Bson> aggregationPipeline = new ArrayList<>();
+
+            // Match by location
+            if (location != null && !location.isEmpty()) {
+                String[] locationArray = location.split(",");
+                Bson matchLocation = Aggregates.match(Filters.in("location", Arrays.asList(locationArray)));
+                aggregationPipeline.add(matchLocation);
+            }
+
+            // Match by name
+            if (name != null && !name.isEmpty()) {
+                Bson matchName = Aggregates.match(Filters.regex("restaurant_name", Pattern.quote(name), "i"));
+                aggregationPipeline.add(matchName);
+            }
+
+            // Match by cuisine
+            if (cuisine != null && !cuisine.isEmpty()) {
+                String[] cusineArray = cuisine.split(",");
+                Bson matchCuisine = Aggregates.match(Filters.in("tag", Arrays.asList(cusineArray)));
+                aggregationPipeline.add(matchCuisine);
+            }
+
+            // Match by keywords
+            if (keywords != null && !keywords.isEmpty()) {
+                String[] keywordArray = keywords.split(",");
+                Bson matchKeywords = Aggregates.match(Filters.in("tag", Arrays.asList(keywordArray)));
+                aggregationPipeline.add(matchKeywords);
+            }
+
+            // Check if any pipeline stages are added
+            if (aggregationPipeline.isEmpty()) {
+                // Add a dummy match stage to avoid the error
+                Bson matchDummy = Aggregates.match(new Document());
+                aggregationPipeline.add(matchDummy);
+            }
+
+            // Sort by rest_rating (nulls last) and restaurant_name
+            Bson sortByRating = Sorts.orderBy(
+                    Sorts.descending("rest_rating"),
+                    Sorts.ascending("restaurant_name")
+            );
+            aggregationPipeline.add(Aggregates.sort(sortByRating));
+
+            // Perform aggregation
+            return restaurantCollection.aggregate(aggregationPipeline).into(new ArrayList<>());
+        } catch (Exception e) {
+            System.out.println("An error occurred while searching for restaurants");
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
 
     /**
      * Retrieves the reviews of a restaurant based on the specified username.

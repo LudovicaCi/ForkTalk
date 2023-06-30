@@ -2,9 +2,15 @@ package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.DriverDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
+import org.bson.Document;
 
 import java.io.IOException;
+import java.util.List;
+
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO.getRestaurantById;
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO.searchRestaurants;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -280,7 +286,20 @@ public class Main {
         //checkEmail
         //System.out.println(UserDAO.isEmailTaken("lcocchella@yahoo.it"));
 
-        System.out.println(UserDAO.deleteUser("bogdanp_UK"));
+        //System.out.println(UserDAO.deleteUser("bogdanp_UK"));
+        // Test the search function
+        /*String location = null;
+        String name = "Band of Burgers";
+        String cuisine = null;
+        String keywords = null;
+
+        List<Document> results = searchRestaurants(location, name, cuisine, keywords);
+
+        System.out.println("Search Results:");
+        for (Document document : results) {
+            System.out.println(document.toJson());
+        }*/
+
         DriverDAO.closeConnection();
     }
 

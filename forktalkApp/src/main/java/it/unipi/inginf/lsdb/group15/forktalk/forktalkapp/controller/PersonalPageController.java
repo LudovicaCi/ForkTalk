@@ -1,18 +1,23 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PersonalPageController implements Initializable {
@@ -24,7 +29,7 @@ public class PersonalPageController implements Initializable {
     public Button editButton;
     public Button deleteButton;
     public AnchorPane dynamicPane;
-
+    public Button bookingButton;
 
 
     @Override
@@ -41,6 +46,7 @@ public class PersonalPageController implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+
         deleteButton.setOnAction(event -> {
             try {
                 handleDeleteUser();
@@ -48,6 +54,8 @@ public class PersonalPageController implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+
+        bookingButton.setOnAction(this::createReservationGridPane);
     }
 
     private void openPreviousPage(ActionEvent event) {
@@ -98,5 +106,55 @@ public class PersonalPageController implements Initializable {
         AnchorPane.setLeftAnchor(deleteProfileRoot, 0.0);
 
         dynamicPane.getChildren().setAll(deleteProfileRoot);
+    }
+
+    @FXML
+    private void createReservationGridPane(ActionEvent event) {
+        GridPane reservationGridPane = new GridPane();
+        reservationGridPane.setPadding(new Insets(10));
+        reservationGridPane.setVgap(10);
+        reservationGridPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
+
+
+        // Recupera la lista di prenotazioni dell'utente dalla classe Sessione
+        List<ReservationDTO> reservationList = Session.getLoggedUser().getReservations();
+
+        int row = 0;
+        for (ReservationDTO reservation : reservationList) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/ReservationWidget.fxml"));
+                ReservationWidgetController widgetController = new ReservationWidgetController();
+                fxmlLoader.setController(widgetController);
+                VBox reservationWidget = fxmlLoader.load();
+
+                // Imposta le informazioni della prenotazione nel widget
+                widgetController.setReservation(reservation);
+
+                reservationGridPane.add(reservationWidget, 0, row);
+
+                row++;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ScrollPane scrollPane = new ScrollPane(reservationGridPane);
+        scrollPane.setFitToWidth(true); // Abilita la ridimensione automatica in larghezza
+        scrollPane.setFitToHeight(true); // Abilita la ridimensione automatica in altezza
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS); // Mostra sempre la barra di scorrimento verticale
+        scrollPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
+
+
+        // Rimuovi eventuali elementi precedenti dal dynamicPane
+        dynamicPane.getChildren().clear();
+
+        dynamicPane.setStyle("-fx-background-color: #F0F0F0;");
+
+        // Aggiungi lo ScrollPane contenente il GridPane all'AnchorPane e adatta alla grandezza dell'AnchorPane
+        AnchorPane.setTopAnchor(scrollPane, 0.0);
+        AnchorPane.setBottomAnchor(scrollPane, 0.0);
+        AnchorPane.setLeftAnchor(scrollPane, 0.0);
+        AnchorPane.setRightAnchor(scrollPane, 0.0);
+        dynamicPane.getChildren().add(scrollPane);
     }
 }

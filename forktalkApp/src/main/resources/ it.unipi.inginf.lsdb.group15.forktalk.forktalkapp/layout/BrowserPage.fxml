@@ -37,33 +37,30 @@
     </HBox>
     <ToolBar layoutX="-1.0" layoutY="83.0" prefHeight="36.0" prefWidth="600.0" style="-fx-background-color: #037b41;">
         <effect>
-            <DropShadow blurType="TWO_PASS_BOX"/>
+            <DropShadow blurType="TWO_PASS_BOX" />
         </effect>
-        <Button fx:id="findRestButton" mnemonicParsing="false" style="-fx-background-color: transparent;"
-                text="Find restaurants" textFill="WHITE"/>
+        <Button fx:id="findRestButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Find restaurants" textFill="WHITE" />
         <VBox prefHeight="25.0" prefWidth="2.0">
             <Line startY="20.0" stroke="WHITE">
                 <VBox.margin>
-                    <Insets top="2.5"/>
+                    <Insets top="2.5" />
                 </VBox.margin>
             </Line>
         </VBox>
-        <Button fx:id="findUserButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
-                style="-fx-background-color: transparent;" text="Find users" textFill="WHITE"/>
+        <Button fx:id="findUserButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Find users" textFill="WHITE" />
         <VBox prefHeight="25.0" prefWidth="2.0">
             <Line startY="20.0" stroke="WHITE">
                 <VBox.margin>
-                    <Insets top="2.5"/>
+                    <Insets top="2.5" />
                 </VBox.margin>
             </Line>
         </VBox>
-        <Button fx:id="findListsButton" layoutX="81.0" layoutY="10.0" mnemonicParsing="false"
-                style="-fx-background-color: transparent;" text="Find restaurant lists" textFill="WHITE"/>
+        <Button fx:id="findListsButton" layoutX="81.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Find restaurant lists" textFill="WHITE" />
     </ToolBar>
    <BorderPane layoutY="119.0" prefHeight="281.0" prefWidth="600.0">
       <top>
           <AnchorPane BorderPane.alignment="CENTER">
-              <HBox fx:id="searchBarPane" alignment="CENTER" layoutY="4.0" prefHeight="43.0" prefWidth="600.0"/>
+              <HBox fx:id="searchBarPane" alignment="CENTER" layoutY="4.0" prefHeight="281.0" prefWidth="600.0" />
           </AnchorPane>
       </top>
    </BorderPane>

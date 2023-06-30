@@ -24,6 +24,7 @@ public class BrowserPageController implements Initializable {
     public HBox searchBarPane;
     public Button findUserButton;
     public Button findListsButton;
+    public AnchorPane dynamicPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -87,7 +88,7 @@ public class BrowserPageController implements Initializable {
     }
 
     private void openRestBar() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/FindRestaurantBar.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/FindRestaurantPage.fxml"));
         Parent findRestRoot = loader.load();
 
         Region findRestRegion = (Region) findRestRoot;
