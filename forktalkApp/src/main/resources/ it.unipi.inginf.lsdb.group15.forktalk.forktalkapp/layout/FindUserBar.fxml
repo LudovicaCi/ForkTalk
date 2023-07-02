@@ -6,55 +6,77 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0"
-      prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.FindUserBarController">
-    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
-        <TextField alignment="CENTER" prefHeight="25.0" prefWidth="188.0" promptText="by username"
-                   style="-fx-background-radius: 7px;">
-            <VBox.margin>
-                <Insets left="5.0" right="5.0"/>
-            </VBox.margin>
-        </TextField>
-    </VBox>
-    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
-        <TextField alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by name"
-                   style="-fx-background-radius: 7px;">
-            <VBox.margin>
-                <Insets left="5.0" right="5.0"/>
-            </VBox.margin>
-        </TextField>
-    </VBox>
-    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
-        <TextField alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by surname"
-                   style="-fx-background-radius: 7px;">
-            <VBox.margin>
-                <Insets left="5.0" right="5.0"/>
-            </VBox.margin>
-        </TextField>
-    </VBox>
-    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
-        <TextField alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by email"
-                   style="-fx-background-radius: 7px;">
-            <VBox.margin>
-                <Insets left="5.0" right="5.0"/>
-            </VBox.margin>
-        </TextField>
-    </VBox>
-    <VBox alignment="CENTER" layoutX="460.0" layoutY="10.0" prefHeight="200.0" prefWidth="120.0">
-        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;"
-                text="Search" textFill="#b4b4b4">
-            <effect>
-                <DropShadow/>
-            </effect>
-            <VBox.margin>
-                <Insets/>
-            </VBox.margin>
-            <graphic>
-                <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../img/search.png"/>
-                </ImageView>
-            </graphic>
-        </Button>
-    </VBox>
-</HBox>
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.FindUserBarController">
+   <top>
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
+              <TextField fx:id="usernameField" alignment="CENTER" prefHeight="25.0" prefWidth="188.0" promptText="by username" style="-fx-background-radius: 7px;">
+                  <VBox.margin>
+                      <Insets left="5.0" right="5.0" />
+                  </VBox.margin>
+              </TextField>
+          </VBox>
+          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
+              <TextField fx:id="nameField" alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by name" style="-fx-background-radius: 7px;">
+                  <VBox.margin>
+                      <Insets left="5.0" right="5.0" />
+                  </VBox.margin>
+              </TextField>
+          </VBox>
+          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
+              <TextField fx:id="surnameField" alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by surname" style="-fx-background-radius: 7px;">
+                  <VBox.margin>
+                      <Insets left="5.0" right="5.0" />
+                  </VBox.margin>
+              </TextField>
+          </VBox>
+          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
+              <TextField fx:id="emailField" alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by email" style="-fx-background-radius: 7px;">
+                  <VBox.margin>
+                      <Insets left="5.0" right="5.0" />
+                  </VBox.margin>
+              </TextField>
+          </VBox>
+          <VBox alignment="CENTER" layoutX="460.0" layoutY="10.0" prefHeight="200.0" prefWidth="120.0">
+              <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;" text="Search" textFill="WHITE">
+                  <effect>
+                      <DropShadow />
+                  </effect>
+                  <VBox.margin>
+                      <Insets />
+                  </VBox.margin>
+                  <graphic>
+                      <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                          <Image url="@../img/search.png" />
+                      </ImageView>
+                  </graphic>
+              </Button>
+          </VBox>
+      </HBox>
+   </top>
+    <center>
+        <AnchorPane fx:id="dynamicPane" prefHeight="250.0" prefWidth="600.0" style="-fx-background-color: #faf7f7;" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets top="3.0" />
+            </BorderPane.margin>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+        </AnchorPane>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <Button fx:id="loadMoreButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;" text="Load More" textFill="WHITE">
+                <effect>
+                    <DropShadow />
+                </effect>
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+            </Button>
+            <HBox.margin>
+                <Insets top="10.0" />
+            </HBox.margin>
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -24,7 +24,7 @@
             </TextField>
          </VBox>
          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
-            <TextField fx:id="cuisine" alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by cuisine" style="-fx-background-radius: 7px;">
+            <TextField fx:id="cuisineField" alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by cuisine" style="-fx-background-radius: 7px;">
                <VBox.margin>
                   <Insets left="5.0" right="5.0" />
                </VBox.margin>
@@ -38,7 +38,7 @@
             </TextField>
          </VBox>
          <VBox alignment="CENTER" layoutX="460.0" layoutY="10.0" prefHeight="30.0" prefWidth="101.0">
-            <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;" text="Search" textFill="#b4b4b4">
+            <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;" text="Search" textFill="WHITE">
                <effect>
                   <DropShadow />
                </effect>
@@ -64,6 +64,22 @@
          </BorderPane.margin>
          <opaqueInsets>
             <Insets />
-         </opaqueInsets></AnchorPane>
+         </opaqueInsets>
+      </AnchorPane>
    </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <Button fx:id="loadMoreButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;" text="Load More" textFill="WHITE">
+            <effect>
+               <DropShadow />
+            </effect>
+            <VBox.margin>
+               <Insets />
+            </VBox.margin>
+         </Button>
+         <HBox.margin>
+            <Insets top="10.0" />
+         </HBox.margin>
+      </HBox>
+   </bottom>
 </BorderPane>

@@ -1,17 +1,14 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.bson.Document;
@@ -24,50 +21,88 @@ import java.util.ResourceBundle;
 public class FindRestaurantBarController implements Initializable {
     public TextField locationField;
     public TextField nameField;
-    public TextField cuisine;
+    public TextField cuisineField;
     public TextField keywordsField;
     public Button searchButton;
+    public Button loadMoreButton;
     public AnchorPane dynamicPane;
+
+    private VBox restaurantContainer;
+    private List<Document> allRestaurants;
+    private int currentIndex = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         searchButton.setOnAction(this::searchRestaurants);
+        loadMoreButton.setOnAction(this::loadMoreRestaurants);
+        restaurantContainer = new VBox();
+        loadMoreButton.setVisible(false); // Nascondi il pulsante "Carica altro" inizialmente
     }
 
     public void searchRestaurants(ActionEvent event) {
-        GridPane reservationGridPane = new GridPane();
-        reservationGridPane.setPadding(new Insets(10));
-        reservationGridPane.setVgap(10);
-        reservationGridPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
+        currentIndex = 0; // Reimposta l'indice corrente a 0
+        restaurantContainer.getChildren().clear(); // Rimuovi i ristoranti precedenti dalla vista
+        String location = locationField.getText().isEmpty() ? null : locationField.getText();
+        String name = nameField.getText().isEmpty() ? null : nameField.getText();
+        String cuisine = cuisineField.getText().isEmpty() ? null : cuisineField.getText();
+        String keywords = keywordsField.getText().isEmpty() ? null : keywordsField.getText();
 
+        allRestaurants = RestaurantDAO.searchRestaurants(location, name, cuisine, keywords);
 
-        List<Document> restFinded = RestaurantDAO.searchRestaurants(locationField.getText(), nameField.getText(), cuisine.getText(), keywordsField.getText());
+        loadNextBatch(); // Carica il primo batch di ristoranti
+    }
 
-        int row = 0;
-        for (Document rest : restFinded) {
+    public void loadMoreRestaurants(ActionEvent event) {
+        loadNextBatch(); // Carica il prossimo batch di ristoranti
+    }
+
+    private void loadNextBatch() {
+        // Numero di ristoranti da caricare in ogni batch
+        int batchSize = 5;
+        int endIndex = Math.min(currentIndex + batchSize, allRestaurants.size());
+        List<Document> nextBatch = allRestaurants.subList(currentIndex, endIndex);
+
+        for (Document rest : nextBatch) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/RestaurantWidget.fxml"));
                 RestaurantWidgetController widgetController = new RestaurantWidgetController();
                 fxmlLoader.setController(widgetController);
                 HBox reservationWidget = fxmlLoader.load();
 
-                // Imposta le informazioni della prenotazione nel widget
+                // Imposta le informazioni del ristorante nel widget
                 widgetController.setRestaurant(rest);
 
-                reservationGridPane.add(reservationWidget, 0, row);
-
-                row++;
+                restaurantContainer.getChildren().add(reservationWidget);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        ScrollPane scrollPane = new ScrollPane(reservationGridPane);
+        currentIndex += batchSize;
+
+        // Controlla se ci sono ulteriori ristoranti da caricare
+        if (currentIndex >= allRestaurants.size()) {
+            loadMoreButton.setVisible(false); // Nascondi il pulsante "Carica altro" se non ci sono più ristoranti da caricare
+        } else {
+            loadMoreButton.setVisible(true); // Mostra il pulsante "Carica altro" se ci sono ancora ristoranti da caricare
+        }
+
+        setupRestaurantView();
+    }
+
+    private void resetView() {
+        restaurantContainer.getChildren().clear();
+        currentIndex = 0;
+        allRestaurants = null;
+        loadMoreButton.setVisible(false);
+    }
+
+    private void setupRestaurantView() {
+        ScrollPane scrollPane = new ScrollPane(restaurantContainer);
         scrollPane.setFitToWidth(true); // Abilita la ridimensione automatica in larghezza
         scrollPane.setFitToHeight(true); // Abilita la ridimensione automatica in altezza
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS); // Mostra sempre la barra di scorrimento verticale
         scrollPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
-
 
         // Rimuovi eventuali elementi precedenti dal dynamicPane
         dynamicPane.getChildren().clear();

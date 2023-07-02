@@ -300,6 +300,14 @@ public class Main {
             System.out.println(document.toJson());
         }*/
 
+        // Esempio di utilizzo della funzione searchUsers
+        /*List<Document> users = UserDAO.searchUsers("", "Jeremy", "", "");
+
+        // Stampa dei risultati
+        for (Document user : users) {
+            System.out.println(user.toJson());
+        }*/
+
         DriverDAO.closeConnection();
     }
 
