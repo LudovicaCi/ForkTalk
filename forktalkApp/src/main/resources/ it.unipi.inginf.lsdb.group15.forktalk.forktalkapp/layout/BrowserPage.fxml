@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
@@ -35,10 +34,7 @@
             </Button>
         </VBox>
     </HBox>
-    <ToolBar layoutX="-1.0" layoutY="83.0" prefHeight="36.0" prefWidth="600.0" style="-fx-background-color: #037b41;">
-        <effect>
-            <DropShadow blurType="TWO_PASS_BOX" />
-        </effect>
+    <ToolBar layoutX="-1.0" layoutY="83.0" prefHeight="36.0" prefWidth="600.0" style="-fx-background-color: #037b41;" AnchorPane.rightAnchor="0.0">
         <Button fx:id="findRestButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Find restaurants" textFill="WHITE" />
         <VBox prefHeight="25.0" prefWidth="2.0">
             <Line startY="20.0" stroke="WHITE">

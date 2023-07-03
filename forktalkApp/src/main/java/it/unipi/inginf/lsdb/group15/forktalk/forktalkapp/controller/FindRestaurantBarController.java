@@ -67,12 +67,12 @@ public class FindRestaurantBarController implements Initializable {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/RestaurantWidget.fxml"));
                 RestaurantWidgetController widgetController = new RestaurantWidgetController();
                 fxmlLoader.setController(widgetController);
-                HBox reservationWidget = fxmlLoader.load();
+                HBox restaurantWidget = fxmlLoader.load();
 
                 // Imposta le informazioni del ristorante nel widget
                 widgetController.setRestaurant(rest);
 
-                restaurantContainer.getChildren().add(reservationWidget);
+                restaurantContainer.getChildren().add(restaurantWidget);
             } catch (IOException e) {
                 e.printStackTrace();
             }

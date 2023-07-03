@@ -288,8 +288,8 @@ public class Main {
 
         //System.out.println(UserDAO.deleteUser("bogdanp_UK"));
         // Test the search function
-        /*String location = null;
-        String name = "Band of Burgers";
+        String location = "London";
+        String name = null;
         String cuisine = null;
         String keywords = null;
 
@@ -298,7 +298,7 @@ public class Main {
         System.out.println("Search Results:");
         for (Document document : results) {
             System.out.println(document.toJson());
-        }*/
+        }
 
         // Esempio di utilizzo della funzione searchUsers
         /*List<Document> users = UserDAO.searchUsers("", "Jeremy", "", "");
