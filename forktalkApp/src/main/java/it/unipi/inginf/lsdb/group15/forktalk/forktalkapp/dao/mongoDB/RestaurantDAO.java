@@ -11,6 +11,7 @@ import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utili
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReviewDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -479,6 +480,20 @@ public class RestaurantDAO extends DriverDAO {
         }
     }
 
+    public static Document getRestaurantDocumentById(String restId){
+        try {
+            // Create a filter to match the username
+            Bson filter = Filters.eq("rest_id", restId);
+
+            // Use the filter to find a matching restaurant document in the collection
+
+            return restaurantCollection.find(filter).first();
+        }catch (MongoException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     /**
      * Searches for restaurants based on the specified parameters.
      *
@@ -581,13 +596,13 @@ public class RestaurantDAO extends DriverDAO {
      * Writes a new review to the "reviews" key of a document in the collection, preserving existing reviews.
      *
      * @param review   The review to be written.
-     * @param username The username of the user associated with the restaurant document.
+     * @param restId The id of the restaurant associated with the restaurant document.
      * @return True if the review was written successfully, false otherwise.
      */
-    public static boolean writeReview(ReviewDTO review, String username) {
+    public static boolean writeReview(ReviewDTO review, String restId) {
         try {
             // Create a filter to match the username
-            Bson filter = Filters.eq("username", username);
+            Bson filter = Filters.eq("rest_id", restId);
 
             // Find the matching restaurant document in the collection
             Document restaurantDocument = restaurantCollection.find(filter).first();
@@ -595,6 +610,9 @@ public class RestaurantDAO extends DriverDAO {
             // Retrieve the existing reviews from the restaurant document
             assert restaurantDocument != null;
             List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
+
+            //assign unique id to the review
+            review.setId(Utility.generateUniqueReviewId(restaurantDocument.getString("rest_id"), reviewsDocuments));
 
             // Create a new document for the review
             Document reviewDoc = Utility.packOneReview(review);
@@ -605,11 +623,14 @@ public class RestaurantDAO extends DriverDAO {
             if(restaurantDocument.get("rest_rating") == null){
                 restaurantDocument.append("rest_rating", review.getRating());
             }else{
-                System.out.println((int)restaurantDocument.get("rest_rating"));
+                System.out.println(restaurantDocument.get("rest_rating"));
                 System.out.println(review.getRating());
                 System.out.println(reviewsDocuments.size());
-                int newRate = (int)(((int)restaurantDocument.get("rest_rating") + review.getRating()) / reviewsDocuments.size());
-                restaurantDocument.append("rest_rating", newRate);
+                double newReviewRate = review.getRating();
+                double restRate = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating"))) * (reviewsDocuments.size() - 1);
+                double newRate = (restRate + newReviewRate) / reviewsDocuments.size();
+                double roundedFinalRating = Math.round(newRate * 2) /2.0;
+                restaurantDocument.append("rest_rating", roundedFinalRating);
             }
 
             // Update the restaurant document with the updated reviews list
@@ -628,6 +649,64 @@ public class RestaurantDAO extends DriverDAO {
             }
         } catch (MongoException e) {
             System.out.println("An error occurred while writing the new review");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Deletes a review given an ID and updates the rest_rating of the restaurant.
+     *
+     * @param id the ID of the review to delete
+     * @return true if the review is deleted successfully, false otherwise
+     */
+    public static boolean deleteReviewById(String id) {
+        try {
+            // Create a filter to match the review ID
+            Bson filter = Filters.eq("reviews.review_id", id);
+
+            // Find the matching restaurant document in the collection
+            Document restaurantDocument = restaurantCollection.find(filter).first();
+
+            // Retrieve the existing reviews from the restaurant document
+            assert restaurantDocument != null;
+            List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
+
+            // Find the review to delete and retrieve its rating
+            int reviewRating = 0;
+            for (Document reviewDoc : reviewsDocuments) {
+                if (reviewDoc.getString("review_id").equals(id)) {
+                    reviewRating = reviewDoc.getInteger("review_rating", 0);
+                    reviewsDocuments.remove(reviewDoc);
+                    break;
+                }
+            }
+
+            // Calculate the new rest_rating
+            String restRatingString = String.valueOf(restaurantDocument.get("rest_rating"));
+            double restRating = Double.parseDouble(restRatingString);
+            double totalRating = restRating * reviewsDocuments.size();
+
+            Double newRestRating = reviewsDocuments.isEmpty() ? null : (totalRating - reviewRating) / reviewsDocuments.size();
+            Double roundedFinalRating = newRestRating == null ? null : Math.round(newRestRating * 2) /2.0;
+
+            // Update the restaurant document with the updated reviews list and rest_rating
+            restaurantDocument.append("reviews", reviewsDocuments)
+                    .append("rest_rating", roundedFinalRating);
+
+            // Perform the update operation on the collection
+            UpdateResult result = restaurantCollection.updateOne(filter, new Document("$set", restaurantDocument));
+
+            // Check if the update was successful
+            if (result.getModifiedCount() > 0) {
+                System.out.println("Review deleted successfully. Rest_rating updated.");
+                return true;
+            } else {
+                System.out.println("No matching review found or error occurred while deleting the review.");
+                return false;
+            }
+        } catch (MongoException e) {
+            System.out.println("An error occurred while deleting the review");
             e.printStackTrace();
             return false;
         }
@@ -985,8 +1064,6 @@ public class RestaurantDAO extends DriverDAO {
             return false;
         }
     }
-
-    //TODO: write delete review method
 }
 
 

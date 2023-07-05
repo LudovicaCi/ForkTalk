@@ -30,6 +30,7 @@ public class PersonalPageController implements Initializable {
     public Button deleteButton;
     public AnchorPane dynamicPane;
     public Button bookingButton;
+    public Button showLists;
 
 
     @Override
@@ -56,6 +57,32 @@ public class PersonalPageController implements Initializable {
         });
 
         bookingButton.setOnAction(this::createReservationGridPane);
+        showLists.setOnAction(event -> {
+            try {
+                showListPane();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void showListPane() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/RestaurantsListPane.fxml"));
+        Parent restListsRoot = loader.load();
+        RestaurantsListController listRestController = loader.getController();
+        listRestController.showLists();
+
+        Region restListsRegion = (Region) restListsRoot;
+
+        restListsRegion.setPrefWidth(dynamicPane.getWidth());
+        restListsRegion.setPrefHeight(dynamicPane.getHeight());
+
+        AnchorPane.setTopAnchor(restListsRoot, 0.0);
+        AnchorPane.setRightAnchor(restListsRoot, 0.0);
+        AnchorPane.setBottomAnchor(restListsRoot, 0.0);
+        AnchorPane.setLeftAnchor(restListsRoot, 0.0);
+
+        dynamicPane.getChildren().setAll(restListsRoot);
     }
 
     private void openPreviousPage(ActionEvent event) {

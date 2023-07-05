@@ -1,6 +1,7 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.DriverDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
@@ -9,8 +10,7 @@ import org.bson.Document;
 import java.io.IOException;
 import java.util.List;
 
-import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO.getRestaurantById;
-import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO.searchRestaurants;
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -288,7 +288,7 @@ public class Main {
 
         //System.out.println(UserDAO.deleteUser("bogdanp_UK"));
         // Test the search function
-        String location = "London";
+        /*String location = "London";
         String name = null;
         String cuisine = null;
         String keywords = null;
@@ -298,7 +298,17 @@ public class Main {
         System.out.println("Search Results:");
         for (Document document : results) {
             System.out.println(document.toJson());
-        }
+        }*/
+
+        // Esempio di utilizzo della funzione deleteReviewById
+        /*String reviewId = "dfsj3423";
+        boolean deletionResult = deleteReviewById(reviewId);
+
+        if (deletionResult) {
+            System.out.println("Review deleted successfully.");
+        } else {
+            System.out.println("No matching review found or error occurred while deleting the review.");
+        }*/
 
         // Esempio di utilizzo della funzione searchUsers
         /*List<Document> users = UserDAO.searchUsers("", "Jeremy", "", "");
@@ -306,6 +316,31 @@ public class Main {
         // Stampa dei risultati
         for (Document user : users) {
             System.out.println(user.toJson());
+        }*/
+
+        // ID del ristorante da cercare
+        /*String restId = "g10283565-d3296811";
+
+        // Chiamata alla funzione getRestaurantDocumentById per ottenere il documento del ristorante
+        Document restaurantDocument = getRestaurantDocumentById(restId);
+
+        // Verifica se il documento del ristorante è stato trovato o è null
+        if (restaurantDocument != null) {
+            // Stampa il valore del campo "rest_id" del documento del ristorante
+            String restIdValue = restaurantDocument.getString("rest_id");
+            System.out.println("Restaurant ID: " + restIdValue);
+
+            // Stampa il valore del campo "rest_name" del documento del ristorante
+            String restNameValue = restaurantDocument.getString("rest_name");
+            System.out.println("Restaurant Name: " + restNameValue);
+
+            // Stampa il valore del campo "rest_rating" del documento del ristorante
+            double restRatingValue = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating")));
+            System.out.println("Restaurant Rating: " + restRatingValue);
+
+            List<Document> reviews = restaurantDocument.getList("reviews", Document.class);
+        } else {
+            System.out.println("Restaurant not found.");
         }*/
 
         DriverDAO.closeConnection();

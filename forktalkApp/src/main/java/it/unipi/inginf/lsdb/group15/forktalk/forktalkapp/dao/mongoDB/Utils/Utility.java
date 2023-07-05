@@ -2,6 +2,7 @@ package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils;
 
 import com.mongodb.MongoException;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantsListDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReviewDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Restaurant;
@@ -10,6 +11,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Utility {
 
@@ -130,7 +132,7 @@ public class Utility {
                     String restaurantId = restaurantDoc.getString("restaurant_id");
                     String restaurantName = restaurantDoc.getString("restaurant_name");
 
-                    Restaurant restaurant = new Restaurant(restaurantId, restaurantName);
+                    RestaurantDTO restaurant = new RestaurantDTO(restaurantId, restaurantName);
 
                     r_list.getRestaurants().add(restaurant);
                 }
@@ -232,5 +234,26 @@ public class Utility {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static String generateUniqueReviewId(String restId, List<Document> reviewsDocuments) {
+        String reviewId;
+        boolean isUnique;
+        do {
+            reviewId = restId + "-r" + getRandomNumber();
+            isUnique = true;
+            for (Document reviewDoc : reviewsDocuments) {
+                if (reviewDoc.getString("review_id").equals(reviewId)) {
+                    isUnique = false;
+                    break;
+                }
+            }
+        } while (!isUnique);
+        return reviewId;
+    }
+
+    public static int getRandomNumber() {
+        Random random = new Random();
+        return random.nextInt(1000000);
     }
 }

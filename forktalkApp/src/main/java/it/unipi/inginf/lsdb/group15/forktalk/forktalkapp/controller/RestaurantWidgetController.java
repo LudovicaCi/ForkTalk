@@ -38,7 +38,10 @@ public class RestaurantWidgetController implements Initializable {
     public void setRestaurant(Document restaurant) throws IOException {
         restName.setText(restaurant.getString("restaurant_name"));
         location.setText(restaurant.getString("address").trim() + ", " + restaurant.getString("city"));
-        rating.setText(String.valueOf(restaurant.get("rest_rating")));
+        if(String.valueOf(restaurant.get("rest_rating")).equals("null"))
+            rating.setText("N/A");
+        else
+            rating.setText(String.valueOf(restaurant.get("rest_rating")));
         reviews.setText(String.valueOf(restaurant.get("reviews", ArrayList.class).size()));
 
         List<Document> reviewsDocuments = restaurant.getList("reviews", Document.class);
@@ -49,10 +52,11 @@ public class RestaurantWidgetController implements Initializable {
         restPageController = loader.getController();
 
         // Passa l'ID dell'utente al controller della nuova pagina
-        restPageController.setRestaurantInfo(restaurant.getString("restaurant_name"),  String.valueOf(restaurant.get("rest_rating")), String.valueOf(restaurant.get("reviews", ArrayList.class).size()),
+        restPageController.setRestaurantInfo(restaurant.getString("restaurant_name"), restaurant.getString("rest_id"), String.valueOf(restaurant.get("rest_rating")), String.valueOf(restaurant.get("reviews", ArrayList.class).size()),
                 restaurant.getString("address").trim() + ", " + restaurant.getString("city") + ", " + restaurant.getString("country"),
                 String.valueOf(restaurant.get("tag")), reviewsDocuments, String.valueOf(restaurant.get("price")));
 
+        restPageController.updateStarImages();
     }
 
     private void openRestaurantPage(ActionEvent event) {

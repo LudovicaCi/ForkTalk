@@ -2,13 +2,12 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.FindUserBarController">
+<BorderPane prefHeight="281.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.FindUserBarController">
    <top>
-      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
           <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
               <TextField fx:id="usernameField" alignment="CENTER" prefHeight="25.0" prefWidth="188.0" promptText="by username" style="-fx-background-radius: 7px;">
                   <VBox.margin>
@@ -37,20 +36,20 @@
                   </VBox.margin>
               </TextField>
           </VBox>
-          <VBox alignment="CENTER" layoutX="460.0" layoutY="10.0" prefHeight="200.0" prefWidth="120.0">
-              <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;" text="Search" textFill="WHITE">
-                  <effect>
-                      <DropShadow />
-                  </effect>
+          <VBox alignment="CENTER" layoutX="460.0" layoutY="10.0" prefHeight="30.0" prefWidth="101.0">
+              <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="80.0" style="-fx-background-color: #037b41;" text="Search" textFill="WHITE">
                   <VBox.margin>
                       <Insets />
                   </VBox.margin>
                   <graphic>
-                      <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                          <Image url="@../img/search.png" />
+                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                          <Image url="@../img/search_white.png" />
                       </ImageView>
                   </graphic>
               </Button>
+            <HBox.margin>
+               <Insets left="20.0" />
+            </HBox.margin>
           </VBox>
       </HBox>
    </top>
@@ -66,10 +65,7 @@
     </center>
     <bottom>
         <HBox alignment="CENTER" prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-            <Button fx:id="loadMoreButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;" text="Load More" textFill="WHITE">
-                <effect>
-                    <DropShadow />
-                </effect>
+            <Button fx:id="loadMoreButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="80.0" style="-fx-background-color: #037b41;" text="Load More" textFill="WHITE">
                 <VBox.margin>
                     <Insets />
                 </VBox.margin>

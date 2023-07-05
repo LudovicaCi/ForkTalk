@@ -1,27 +1,22 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReviewDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import org.bson.Document;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class RestaurantPageController implements Initializable {
@@ -44,11 +39,14 @@ public class RestaurantPageController implements Initializable {
     public ImageView star4;
     public ImageView star5;
 
-    public VBox reviewContainer;
+    public VBox pageContainer;
     public Button showReview;
+    public HBox bottomBox;
+    public Pane parentContainer;
     private List<Document> reviewsDocuments;
+    public String rest_id;
     private int currentIndex = 0;
-    private double rate;
+    public double rate;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -57,10 +55,82 @@ public class RestaurantPageController implements Initializable {
         logoutButton.setOnAction(this::logout);
         profileButton.setOnAction(this::openProfilePage);
         loadMoreButton.setOnAction(this::loadMoreReviews);
-        reviewContainer = new VBox();
+        pageContainer = new VBox();
         loadMoreButton.setVisible(false);
         showReview.setOnAction(this::showReviews);
-        updateStarImages();
+        Session.setRestaurantPageController(this);
+        writeReview.setOnAction(event -> {
+            try {
+                showReviewPane();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        addToList.setOnAction(event -> {
+            try {
+                showListPane();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        parentContainer = (Pane) bottomBox.getParent();
+    }
+
+    private void showListPane() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/RestaurantsListPane.fxml"));
+        Parent restListsRoot = loader.load();
+        RestaurantsListController listRestController = loader.getController();
+        listRestController.currentPage = "Restaurant";
+        listRestController.showLists();
+        this.loadMoreButton.setVisible(false);
+        BorderPane borderPaneTop = (BorderPane) listRestController.topBox.getParent();
+        borderPaneTop.getChildren().remove(listRestController.topBox);
+
+        //int index = parentContainer.getChildren().indexOf(bottomBox);
+        //BorderPane borderPaneBottom = (BorderPane) bottomBox.getParent();
+        //borderPaneBottom.getChildren().remove(bottomBox);
+        //parentContainer.getChildren().remove(bottomBox);
+
+        Region restListsRegion = (Region) restListsRoot;
+
+        restListsRegion.setPrefWidth(dynamicPane.getWidth());
+        restListsRegion.setPrefHeight(dynamicPane.getHeight());
+
+        AnchorPane.setTopAnchor(restListsRoot, 0.0);
+        AnchorPane.setRightAnchor(restListsRoot, 0.0);
+        AnchorPane.setBottomAnchor(restListsRoot, 0.0);
+        AnchorPane.setLeftAnchor(restListsRoot, 0.0);
+
+        dynamicPane.getChildren().setAll(restListsRoot);
+    }
+
+    private void showReviewPane() throws IOException {
+        /*Pane currentContainer = (Pane) bottomBox.getParent();
+        if (currentContainer != null) {
+            currentContainer.getChildren().remove(bottomBox);
+        }
+
+        int bottomBoxIndex = pageContainer.getChildren().indexOf(loadMoreButton);
+        pageContainer.getChildren().add(bottomBoxIndex, bottomBox);*/
+
+        Session.setRestaurantPageController(this);
+        resetView();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/WriteReviewPane.fxml"));
+        Parent writeReviewRoot = loader.load();
+
+        Region writeReviewRegion = (Region) writeReviewRoot;
+
+        writeReviewRegion.setPrefWidth(dynamicPane.getWidth());
+        writeReviewRegion.setPrefHeight(dynamicPane.getHeight());
+
+        AnchorPane.setTopAnchor(writeReviewRoot, 0.0);
+        AnchorPane.setRightAnchor(writeReviewRoot, 0.0);
+        AnchorPane.setBottomAnchor(writeReviewRoot, 0.0);
+        AnchorPane.setLeftAnchor(writeReviewRoot, 0.0);
+
+        dynamicPane.getChildren().setAll(writeReviewRoot);
+        //dynamicPane.getChildren().setAll(pageContainer);
     }
 
     private void logout(ActionEvent event) {
@@ -74,23 +144,23 @@ public class RestaurantPageController implements Initializable {
     }
 
     private void openProfilePage(ActionEvent event) {
-        Utils.changeScene(" it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/PersonalPage.fxml", event);
+        Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/PersonalPage.fxml", event);
     }
 
     private void openPreviousPage(ActionEvent event) {
         Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/BrowserPage.fxml", event);
     }
 
-    private void updateStarImages() {
+    public void updateStarImages() {
         if (rate != 0.0) {
             int fullStars = (int) rate;
             int halfStars = (rate - fullStars) >= 0.5 ? 1 : 0;
 
-            star1.setImage(getStarImage(fullStars, halfStars, 1));
-            star2.setImage(getStarImage(fullStars, halfStars, 2));
-            star3.setImage(getStarImage(fullStars, halfStars, 3));
-            star4.setImage(getStarImage(fullStars, halfStars, 4));
-            star5.setImage(getStarImage(fullStars, halfStars, 5));
+            star1.setImage(getStarImage(fullStars, halfStars, 0));
+            star2.setImage(getStarImage(fullStars, halfStars, 1));
+            star3.setImage(getStarImage(fullStars, halfStars, 2));
+            star4.setImage(getStarImage(fullStars, halfStars, 3));
+            star5.setImage(getStarImage(fullStars, halfStars, 4));
         } else {
             star1.setImage(getEmptyStarImage());
             star2.setImage(getEmptyStarImage());
@@ -116,12 +186,15 @@ public class RestaurantPageController implements Initializable {
     }
 
 
-    public void setRestaurantInfo(String name, String rate, String total, String address, String tag, List<Document> reviews, String price) {
+    public void setRestaurantInfo(String name,String id, String rate, String total, String address, String tag, List<Document> reviews, String price) {
         restName.setText(name);
         totalReviews.setText(total);
         addressField.setText(address);
         tagField.setText(tag);
-        priceField.setText(price);
+        if(price.equals("null"))
+            priceField.setText("N/A");
+        else
+            priceField.setText(price);
         this.rate = (rate.equals("null")) ? 0.0 : Double.parseDouble(rate);
 
         // Creazione del Comparator
@@ -132,23 +205,24 @@ public class RestaurantPageController implements Initializable {
         reviews.sort(comparator);
 
         reviewsDocuments = reviews;
+        this.rest_id = id;
 
         showReviews();
     }
 
+    public RestaurantPageController getController() {
+        return this;
+    }
 
     public void showReviews() {
         currentIndex = 0; // Reimposta l'indice corrente a 0
-        reviewContainer.getChildren().clear(); // Rimuovi i ristoranti precedenti dalla vista
+        pageContainer.getChildren().clear(); // Rimuovi i ristoranti precedenti dalla vista
 
         loadNextBatch(); // Carica il primo batch di ristoranti
     }
 
     public void showReviews(ActionEvent event) {
-        currentIndex = 0; // Reimposta l'indice corrente a 0
-        reviewContainer.getChildren().clear(); // Rimuovi i ristoranti precedenti dalla vista
-
-        loadNextBatch(); // Carica il primo batch di ristoranti
+        refreshReviews();
     }
 
     public void loadMoreReviews(ActionEvent event) {
@@ -170,8 +244,9 @@ public class RestaurantPageController implements Initializable {
 
                 // Imposta le informazioni del ristorante nel widget
                 widgetController.setReview(review);
+                widgetController.updateStarImages();
 
-                reviewContainer.getChildren().add(reviewWidget);
+                pageContainer.getChildren().add(reviewWidget);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -187,14 +262,14 @@ public class RestaurantPageController implements Initializable {
     }
 
     private void resetView() {
-        reviewContainer.getChildren().clear();
+        pageContainer.getChildren().clear();
         currentIndex = 0;
         reviewsDocuments = null;
         loadMoreButton.setVisible(false);
     }
 
     private void setupReviewView() {
-        ScrollPane scrollPane = new ScrollPane(reviewContainer);
+        ScrollPane scrollPane = new ScrollPane(pageContainer);
         scrollPane.setFitToWidth(true); // Abilita la ridimensione automatica in larghezza
         scrollPane.setFitToHeight(true); // Abilita la ridimensione automatica in altezza
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS); // Mostra sempre la barra di scorrimento verticale
@@ -212,4 +287,35 @@ public class RestaurantPageController implements Initializable {
         AnchorPane.setRightAnchor(scrollPane, 0.0);
         dynamicPane.getChildren().add(scrollPane);
     }
+
+    public void refreshReviews() {
+        // Resetta la vista corrente
+        resetView();
+
+        // Ricarica le recensioni aggiornate
+        Document restaurant = RestaurantDAO.getRestaurantDocumentById(rest_id);
+        if(restaurant ==null)
+            return;
+
+        if(String.valueOf(restaurant.get("rest_rating")).equals("null")){
+            this.rate = 0.0;
+        }else{
+            this.rate = Double.parseDouble(String.valueOf(restaurant.get("rest_rating")));
+        }
+
+        List<Document> updatedReviews = restaurant.getList("reviews", Document.class);
+
+        Comparator<Document> comparator = Comparator.comparing((Document review) -> !review.getString("reviewer_pseudo").equals(Session.getLoggedUser().getUsername()))
+                .thenComparing((Document review) -> review.getString("review_date"), Comparator.reverseOrder());
+
+        updatedReviews.sort(comparator);
+
+        reviewsDocuments = updatedReviews;
+        totalReviews.setText(String.valueOf(reviewsDocuments.size()));
+        updateStarImages();
+        Session.setRestaurantPageController(this);
+
+        showReviews();
+    }
+
 }

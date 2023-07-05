@@ -7,12 +7,12 @@ import java.util.ArrayList;
 public class RestaurantsListDTO {
     //    -------------------------------------
     private String title;
-    private ArrayList<Restaurant> restaurants;
+    private ArrayList<RestaurantDTO> restaurants;
     //    -------------------------------------
 
     /* ********* CONSTRUCTOR ********* */
 
-    public RestaurantsListDTO(String title, ArrayList<Restaurant> restaurants) {
+    public RestaurantsListDTO(String title, ArrayList<RestaurantDTO> restaurants) {
         this.title = title;
         this.restaurants = restaurants;
     }
@@ -32,7 +32,7 @@ public class RestaurantsListDTO {
         return title;
     }
 
-    public ArrayList<Restaurant> getRestaurants() {
+    public ArrayList<RestaurantDTO> getRestaurants() {
         return restaurants;
     }
 
@@ -42,7 +42,7 @@ public class RestaurantsListDTO {
         this.title = title;
     }
 
-    public void setRestaurants(ArrayList<Restaurant> restaurants) {
+    public void setRestaurants(ArrayList<RestaurantDTO> restaurants) {
         this.restaurants = restaurants;
     }
 

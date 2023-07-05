@@ -22,25 +22,40 @@
             <VBox VBox.vgrow="ALWAYS">
                 <children>
                     <VBox alignment="TOP_CENTER" prefHeight="182.0" prefWidth="451.0">
-                        <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="491.0">
-                            <VBox.margin>
-                                <Insets />
-                            </VBox.margin>
+                        <HBox alignment="CENTER_LEFT">
                             <children>
-                                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../img/review.png" />
-                                    </image>
-                                    <HBox.margin>
-                                        <Insets left="5.0" />
-                                    </HBox.margin>
-                                </ImageView>
-                                <Label fx:id="rateField" text="rate">
-                                    <HBox.margin>
-                                        <Insets left="15.0" />
-                                    </HBox.margin>
-                                </Label>
+                                <VBox alignment="CENTER" prefHeight="25.0" prefWidth="25.0">
+                                    <children>
+                                        <ImageView fx:id="star1" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="25.0">
+                                    <children>
+                                        <ImageView fx:id="star2" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER" layoutX="35.0" layoutY="10.0" prefHeight="25.0" prefWidth="25.0">
+                                    <children>
+                                        <ImageView fx:id="star3" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER" layoutX="61.0" layoutY="10.0" prefHeight="25.0" prefWidth="25.0">
+                                    <children>
+                                        <ImageView fx:id="star4" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER" layoutX="86.0" layoutY="10.0" prefHeight="25.0" prefWidth="25.0">
+                                    <children>
+                                        <ImageView fx:id="star5" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                                    </children>
+                                </VBox>
                             </children>
+                            <HBox.margin>
+                                <Insets left="15.0" />
+                            </HBox.margin>
+                     <VBox.margin>
+                        <Insets left="8.0" />
+                     </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER" layoutX="10.0" layoutY="43.0" prefHeight="80.0" prefWidth="358.0">
                             <children>

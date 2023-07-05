@@ -59,7 +59,7 @@
                                 <Font name="System Bold" size="10.0" />
                             </font>
                         </Text>
-                        <Label text="List Posted" textFill="#0000007f">
+                        <Label text="List Posted" textFill="#00000080">
                             <font>
                                 <Font size="10.0" />
                             </font>
@@ -119,7 +119,7 @@
                         <HBox.margin>
                             <Insets />
                         </HBox.margin>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" style="-fx-background-color: transparent;" text="Restaurant Lists" textFill="#b4b4b4">
+                        <Button fx:id="showLists" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" style="-fx-background-color: transparent;" text="Restaurant Lists" textFill="#b4b4b4">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                                     <Image url="@../img/rectangle-list.png" />
@@ -194,6 +194,6 @@
         </HBox>
     </left>
    <right>
-      <AnchorPane fx:id="dynamicPane" prefHeight="362.0" prefWidth="398.0" style="-fx-background-color: #faf7f7;" BorderPane.alignment="CENTER" />
+      <AnchorPane id="personalPage" fx:id="dynamicPane" prefHeight="362.0" prefWidth="398.0" style="-fx-background-color: #faf7f7;" BorderPane.alignment="CENTER" />
    </right>
 </BorderPane>
