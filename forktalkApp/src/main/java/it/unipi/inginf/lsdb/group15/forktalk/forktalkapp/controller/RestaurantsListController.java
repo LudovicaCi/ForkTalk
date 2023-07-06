@@ -119,13 +119,14 @@ public class RestaurantsListController implements Initializable {
                 VBox listWidget = fxmlLoader.load();
 
                 widgetController.restaurantId = this.restaurantId;
+                widgetController.username = this.username;
 
                 if(currentPage.equals("Restaurant")) {
                     widgetController.currentPage = this.currentPage;
                     widgetController.restListButton.setText("Add");
                     widgetController.restListButton.setOnAction(event -> widgetController.addToThisList());
                 }
-                // Imposta le informazioni del ristorante nel widget
+
                 widgetController.setList(list);
 
                 ListsContainer.getChildren().add(listWidget);
