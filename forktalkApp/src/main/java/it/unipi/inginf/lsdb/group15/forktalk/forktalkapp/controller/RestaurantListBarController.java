@@ -7,7 +7,9 @@ import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantsListDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
@@ -23,12 +25,17 @@ public class RestaurantListBarController implements Initializable {
     public String restaurantId = "";
     public String currentPage ="";
 
+    FXMLLoader loader;
+    Parent root;
+    RestaurantPageController listPageController;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         restListButton.setOnAction(event -> OpenListPage());
     }
 
     public void OpenListPage() {
+
     }
 
     public void addToThisList() {

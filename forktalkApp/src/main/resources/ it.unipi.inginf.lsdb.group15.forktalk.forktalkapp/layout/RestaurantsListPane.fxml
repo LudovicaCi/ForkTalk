@@ -6,7 +6,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.RestaurantsListController">
    <top>
-      <HBox fx:id="topBox" prefHeight="39.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <HBox fx:id="topBox" alignment="CENTER" prefHeight="39.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="CENTER" prefHeight="52.0" prefWidth="208.0">
                <children>
@@ -25,7 +25,7 @@
       </HBox>
    </top>
    <center>
-      <AnchorPane fx:id="dynamicPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <AnchorPane fx:id="dynamicPane" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <HBox alignment="CENTER" prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">

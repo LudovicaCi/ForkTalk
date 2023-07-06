@@ -258,11 +258,11 @@
                                        <children>
                                           <VBox alignment="CENTER" prefHeight="36.0" prefWidth="0.0">
                                              <children>
-                                                <Button mnemonicParsing="false" style="-fx-background-color: transparent;">
+                                                <Button fx:id="likeButton" mnemonicParsing="false" style="-fx-background-color: transparent;">
                                                    <graphic>
                                                       <ImageView fitHeight="20.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
-                                                            <Image url="@../img/heart (1).png" />
+                                                            <Image url="@../img/empty_heart.png" />
                                                          </image>
                                                       </ImageView>
                                                    </graphic>

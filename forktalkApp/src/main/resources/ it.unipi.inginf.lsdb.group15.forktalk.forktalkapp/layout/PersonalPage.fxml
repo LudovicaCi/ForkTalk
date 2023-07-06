@@ -34,21 +34,15 @@
     <left>
         <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <VBox alignment="TOP_CENTER" prefHeight="362.0" prefWidth="216.0">
-                <HBox alignment="CENTER" prefHeight="67.0" prefWidth="199.0">
-                    <ImageView fitHeight="83.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../img/user.png" />
-                    </ImageView>
-                </HBox>
-                <HBox alignment="TOP_CENTER" prefHeight="27.0" prefWidth="199.0">
-                    <VBox alignment="TOP_CENTER" prefHeight="37.0" prefWidth="206.0">
-                        <Label fx:id="nameField" text="Name Surname">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="usernameField" text="Username" textFill="#0000007a" />
-                    </VBox>
-                </HBox>
+                 <ImageView fitHeight="83.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../img/user.png" />
+                 </ImageView>
+                  <Label fx:id="nameField" text="Name Surname">
+                      <font>
+                          <Font size="14.0" />
+                      </font>
+                  </Label>
+                  <Label fx:id="usernameField" text="Username" textFill="#0000007a" />
                 <HBox prefHeight="59.0" prefWidth="200.0">
                     <VBox alignment="CENTER" prefHeight="59.0" prefWidth="66.6">
                         <HBox.margin>

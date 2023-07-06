@@ -2,19 +2,28 @@ package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantsListDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,6 +42,7 @@ public class RestaurantsListController implements Initializable {
     private int currentIndex = 0;
     public String currentPage = "";
     public String restaurantId = "";
+    public String username = "";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,7 +77,37 @@ public class RestaurantsListController implements Initializable {
     private void loadNextBatch() {
         // Numero di ristoranti da caricare in ogni batch
         int batchSize = 5;
-        ArrayList<RestaurantsListDTO> restListsDocuments = Session.getLoggedUser().getRestaurantLists();
+        ArrayList<RestaurantsListDTO> restListsDocuments;
+        if(!this.username.equals("")){
+            UserDTO userProfile = UserDAO.getUserByUsername(this.username);
+            assert userProfile != null;
+            restListsDocuments = UserDAO.getRestaurantListsByUser(userProfile);
+        }else {
+            restListsDocuments = Session.getLoggedUser().getRestaurantLists();
+        }
+
+        assert restListsDocuments != null;
+        if(restListsDocuments.size() == 0) {
+            Text noListText = new Text("No List Yet");
+            noListText.setFill(Paint.valueOf("#00000080"));
+            noListText.setStrokeType(StrokeType.OUTSIDE);
+            noListText.setStrokeWidth(0.0);
+            noListText.setTextAlignment(TextAlignment.CENTER);
+            noListText.setWrappingWidth(119.40230560302734);
+            noListText.setFont(new Font(24.0));
+            VBox newBox = new VBox();
+            newBox.getChildren().setAll(noListText);
+            newBox.setAlignment(Pos.CENTER);
+
+            AnchorPane.setTopAnchor(newBox, 0.0);
+            AnchorPane.setBottomAnchor(newBox, 0.0);
+            AnchorPane.setLeftAnchor(newBox, 0.0);
+            AnchorPane.setRightAnchor(newBox, 0.0);
+
+            dynamicPane.getChildren().add(newBox);
+            return;
+        }
+
         int endIndex = Math.min(currentIndex + batchSize, restListsDocuments.size());
         List<RestaurantsListDTO> nextBatch = restListsDocuments.subList(currentIndex, endIndex);
 
@@ -96,9 +136,7 @@ public class RestaurantsListController implements Initializable {
 
         currentIndex += batchSize;
 
-        // Controlla se ci sono ulteriori ristoranti da caricare
-        // Mostra il pulsante "Carica altro" se ci sono ancora ristoranti da caricare
-        loadMoreButton.setVisible(currentIndex < restListsDocuments.size()); // Nascondi il pulsante "Carica altro" se non ci sono più ristoranti da caricare
+        loadMoreButton.setVisible(currentIndex < restListsDocuments.size());
 
         setupListsView();
     }

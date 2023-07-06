@@ -6,13 +6,18 @@ import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import org.bson.Document;
 
 import java.io.IOException;
@@ -43,6 +48,7 @@ public class RestaurantPageController implements Initializable {
     public Button showReview;
     public HBox bottomBox;
     public Pane parentContainer;
+    public Button likeButton;
     private List<Document> reviewsDocuments;
     public String restId;
     private int currentIndex = 0;
@@ -75,6 +81,19 @@ public class RestaurantPageController implements Initializable {
         });
 
         parentContainer = (Pane) bottomBox.getParent();
+        likeButton.setOnAction(this::likeRestaurant);
+    }
+
+    private void likeRestaurant(ActionEvent event) {
+        String url = ((ImageView) likeButton.getGraphic()).getImage().getUrl();
+
+        Image newImage;
+        if (url.substring(url.lastIndexOf('/') + 1).equals("empty_heart.png")) {
+            newImage = new Image("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/img/heart.png");
+        } else {
+            newImage = new Image("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/img/empty_heart.png");
+        }
+        ((ImageView) likeButton.getGraphic()).setImage(newImage);
     }
 
     private void showListPane() throws IOException {
@@ -233,6 +252,26 @@ public class RestaurantPageController implements Initializable {
     private void loadNextBatch() {
         // Numero di ristoranti da caricare in ogni batch
         int batchSize = 5;
+        if(reviewsDocuments.size() == 0) {
+            Text noListText = new Text("No Reviews Yet");
+            noListText.setFill(Paint.valueOf("#00000080"));
+            noListText.setStrokeType(StrokeType.OUTSIDE);
+            noListText.setStrokeWidth(0.0);
+            noListText.setTextAlignment(TextAlignment.CENTER);
+            noListText.setWrappingWidth(300);
+            noListText.setFont(new Font(24.0));
+            VBox newBox = new VBox();
+            newBox.getChildren().setAll(noListText);
+            newBox.setAlignment(Pos.CENTER);
+
+            AnchorPane.setTopAnchor(newBox, 0.0);
+            AnchorPane.setBottomAnchor(newBox, 0.0);
+            AnchorPane.setLeftAnchor(newBox, 0.0);
+            AnchorPane.setRightAnchor(newBox, 0.0);
+
+            dynamicPane.getChildren().add(newBox);
+            return;
+        }
         int endIndex = Math.min(currentIndex + batchSize, reviewsDocuments.size());
         List<Document> nextBatch = reviewsDocuments.subList(currentIndex, endIndex);
 

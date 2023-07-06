@@ -511,6 +511,9 @@ public class UserDAO extends DriverDAO {
 
                 ArrayList<RestaurantsListDTO> restaurantLists = new ArrayList<>();
 
+                if(restaurantListDocuments == null)
+                    return restaurantLists;
+
                 for (Document restaurantListDocument : restaurantListDocuments) {
                     String title = restaurantListDocument.getString("title");
 

@@ -5,12 +5,18 @@ import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import org.bson.Document;
 
 import java.io.IOException;
@@ -60,6 +66,26 @@ public class FindUserBarController implements Initializable {
     private void loadNextBatch() {
         // Numero di ristoranti da caricare in ogni batch
         int batchSize = 5;
+        if(allUsers.size() == 0) {
+            Text noListText = new Text("No User Found");
+            noListText.setFill(Paint.valueOf("#00000080"));
+            noListText.setStrokeType(StrokeType.OUTSIDE);
+            noListText.setStrokeWidth(0.0);
+            noListText.setTextAlignment(TextAlignment.CENTER);
+            noListText.setWrappingWidth(300);
+            noListText.setFont(new Font(24.0));
+            VBox newBox = new VBox();
+            newBox.getChildren().setAll(noListText);
+            newBox.setAlignment(Pos.CENTER);
+
+            AnchorPane.setTopAnchor(newBox, 0.0);
+            AnchorPane.setBottomAnchor(newBox, 0.0);
+            AnchorPane.setLeftAnchor(newBox, 0.0);
+            AnchorPane.setRightAnchor(newBox, 0.0);
+
+            dynamicPane.getChildren().add(newBox);
+            return;
+        }
         int endIndex = Math.min(currentIndex + batchSize, allUsers.size());
         List<Document> nextBatch = allUsers.subList(currentIndex, endIndex);
 
