@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;
@@ -62,7 +61,7 @@ public class WriteReviewController implements Initializable {
             newReview.setTimestamp(formattedDate);
 
             //write review
-            if(RestaurantDAO.writeReview(newReview, Session.getRestaurantPageController().rest_id)){
+            if(RestaurantDAO.writeReview(newReview, Session.getRestaurantPageController().restId)){
                 Session.getRestaurantPageController().refreshReviews();
             }else{
                 Utils.showAlert("Error writing the review.");

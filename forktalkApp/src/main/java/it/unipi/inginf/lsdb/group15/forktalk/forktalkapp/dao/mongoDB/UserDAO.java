@@ -554,8 +554,9 @@ public class UserDAO extends DriverDAO {
      */
     public static RestaurantsListDTO getRestaurantsFromLists(UserDTO user, String title) {
         try {
-            // Find the user document
-            Document userDocument = userCollection.find(eq("username", user.getUsername())).first();
+            Bson filter = eq("username", user.getUsername());
+
+            Document userDocument = userCollection.find(filter).first();
 
             // Check if the user document exists
             if (userDocument == null) {
@@ -663,8 +664,9 @@ public class UserDAO extends DriverDAO {
     }*/
     public static boolean addRestaurantToList(UserDTO user, String title, RestaurantDTO restaurant) {
         try {
-            // Find the user document
-            Document userDocument = userCollection.find(eq("username", user.getUsername())).first();
+            Bson filter = eq("username", user.getUsername());
+
+            Document userDocument = userCollection.find(filter).first();
 
             // Check if the user document exists
             if (userDocument == null) {

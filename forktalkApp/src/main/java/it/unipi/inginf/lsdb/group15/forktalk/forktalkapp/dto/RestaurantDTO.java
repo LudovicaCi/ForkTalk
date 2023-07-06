@@ -34,13 +34,13 @@ public class RestaurantDTO{
     private ArrayList<ReservationDTO> reservations;
 
     @SerializedName("rest_rating")
-    private int rating;
+    private double rating;
     private ArrayList<ReviewDTO> reviews;
     //    -------------------------------------
 
     /* ********* CONSTRUCTOR ********* */
 
-    public RestaurantDTO(String id, String email, String username, String password, String name, ArrayList<String> coordinates, ArrayList<String> location, String country, String county, String district, String city, String address, String streetNumber, String postCode, int price, ArrayList<String> features, ArrayList<ReservationDTO> reservations, int rating, ArrayList<ReviewDTO> reviews) {
+    public RestaurantDTO(String id, String email, String username, String password, String name, ArrayList<String> coordinates, ArrayList<String> location, String country, String county, String district, String city, String address, String streetNumber, String postCode, int price, ArrayList<String> features, ArrayList<ReservationDTO> reservations, double rating, ArrayList<ReviewDTO> reviews) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -142,7 +142,7 @@ public class RestaurantDTO{
         return features;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
@@ -220,7 +220,7 @@ public class RestaurantDTO{
         this.features = features;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

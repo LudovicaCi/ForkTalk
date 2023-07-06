@@ -54,7 +54,7 @@
                         <HBox.margin>
                             <Insets left="10.0" />
                         </HBox.margin>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="nListPosted">
+                        <Text fx:id="nListPosted" strokeType="OUTSIDE" strokeWidth="0.0" text="nListPosted">
                             <font>
                                 <Font name="System Bold" size="10.0" />
                             </font>

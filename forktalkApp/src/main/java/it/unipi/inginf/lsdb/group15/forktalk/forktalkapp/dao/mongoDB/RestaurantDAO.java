@@ -61,8 +61,8 @@ public class RestaurantDAO extends DriverDAO {
                 rest.setPrice(price != null ? price : 0); // o assegna un valore di default appropriato
                 rest.setFeatures((ArrayList<String>) restaurantDocument.getList("tag", String.class));
                 rest.setLocation((ArrayList<String>) restaurantDocument.getList("location", String.class));
-                Integer rating = restaurantDocument.getInteger("rest_rating");
-                rest.setRating(rating != null ? rating : 0);
+                Double rating = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating")));
+                rest.setRating(rating);
 
                 //retrieve coordinates
                 List<Document> coordinatesDocuments = restaurantDocument.getList("coordinates", Document.class);
@@ -289,8 +289,8 @@ public class RestaurantDAO extends DriverDAO {
                 rest.setPrice(price != null ? price : 0); // o assegna un valore di default appropriato
                 rest.setFeatures((ArrayList<String>) restaurantDocument.getList("tag", String.class));
                 rest.setLocation((ArrayList<String>) restaurantDocument.getList("location", String.class));
-                Integer rating = restaurantDocument.getInteger("rest_rating");
-                rest.setRating(rating != null ? rating : 0);
+                Double rating = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating")));
+                rest.setRating(rating);
 
                 // Retrieve coordinates
                 List<Document> coordinatesDocuments = restaurantDocument.getList("coordinates", Document.class);
@@ -364,8 +364,8 @@ public class RestaurantDAO extends DriverDAO {
                 rest.setPrice(price != null ? price : 0); // o assegna un valore di default appropriato
                 rest.setFeatures((ArrayList<String>) restaurantDocument.getList("tag", String.class));
                 rest.setLocation((ArrayList<String>) restaurantDocument.getList("location", String.class));
-                Integer rating = restaurantDocument.getInteger("rest_rating");
-                rest.setRating(rating != null ? rating : 0);
+                Double rating = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating")));
+                rest.setRating(rating);
 
                 // Retrieve coordinates
                 List<Document> coordinatesDocuments = restaurantDocument.getList("coordinates", Document.class);
@@ -436,11 +436,11 @@ public class RestaurantDAO extends DriverDAO {
                 rest.setStreetNumber(String.valueOf(restaurantDocument.getInteger("street_number")));
                 rest.setPostCode(restaurantDocument.getString("postcode"));
                 Integer price = restaurantDocument.getInteger("price");
-                rest.setPrice(price != null ? price : 0); // o assegna un valore di default appropriato
+                rest.setPrice(price != null ? price : 0);
                 rest.setFeatures((ArrayList<String>) restaurantDocument.getList("tag", String.class));
                 rest.setLocation((ArrayList<String>) restaurantDocument.getList("location", String.class));
-                Integer rating = restaurantDocument.getInteger("rest_rating");
-                rest.setRating(rating != null ? rating : 0);
+                Double rating = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating")));
+                rest.setRating(rating);
 
                 // Retrieve coordinates
                 List<Document> coordinatesDocuments = restaurantDocument.getList("coordinates", Document.class);

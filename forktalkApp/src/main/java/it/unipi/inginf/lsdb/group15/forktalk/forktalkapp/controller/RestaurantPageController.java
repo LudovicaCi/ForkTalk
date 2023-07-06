@@ -44,7 +44,7 @@ public class RestaurantPageController implements Initializable {
     public HBox bottomBox;
     public Pane parentContainer;
     private List<Document> reviewsDocuments;
-    public String rest_id;
+    public String restId;
     private int currentIndex = 0;
     public double rate;
 
@@ -82,6 +82,7 @@ public class RestaurantPageController implements Initializable {
         Parent restListsRoot = loader.load();
         RestaurantsListController listRestController = loader.getController();
         listRestController.currentPage = "Restaurant";
+        listRestController.restaurantId = this.restId;
         listRestController.showLists();
         this.loadMoreButton.setVisible(false);
         BorderPane borderPaneTop = (BorderPane) listRestController.topBox.getParent();
@@ -205,7 +206,7 @@ public class RestaurantPageController implements Initializable {
         reviews.sort(comparator);
 
         reviewsDocuments = reviews;
-        this.rest_id = id;
+        this.restId = id;
 
         showReviews();
     }
@@ -293,7 +294,7 @@ public class RestaurantPageController implements Initializable {
         resetView();
 
         // Ricarica le recensioni aggiornate
-        Document restaurant = RestaurantDAO.getRestaurantDocumentById(rest_id);
+        Document restaurant = RestaurantDAO.getRestaurantDocumentById(restId);
         if(restaurant ==null)
             return;
 

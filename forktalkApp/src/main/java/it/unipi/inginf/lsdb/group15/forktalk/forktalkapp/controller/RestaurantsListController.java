@@ -32,6 +32,7 @@ public class RestaurantsListController implements Initializable {
     public VBox ListsContainer;
     private int currentIndex = 0;
     public String currentPage = "";
+    public String restaurantId = "";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -77,9 +78,13 @@ public class RestaurantsListController implements Initializable {
                 fxmlLoader.setController(widgetController);
                 VBox listWidget = fxmlLoader.load();
 
-                if(currentPage.equals("Restaurant"))
-                    widgetController.restListButton.setText("Add");
+                widgetController.restaurantId = this.restaurantId;
 
+                if(currentPage.equals("Restaurant")) {
+                    widgetController.currentPage = this.currentPage;
+                    widgetController.restListButton.setText("Add");
+                    widgetController.restListButton.setOnAction(event -> widgetController.addToThisList());
+                }
                 // Imposta le informazioni del ristorante nel widget
                 widgetController.setList(list);
 

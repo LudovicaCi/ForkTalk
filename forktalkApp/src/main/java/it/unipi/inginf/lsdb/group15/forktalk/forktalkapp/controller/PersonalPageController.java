@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,6 +32,7 @@ public class PersonalPageController implements Initializable {
     public AnchorPane dynamicPane;
     public Button bookingButton;
     public Button showLists;
+    public Text nListPosted;
 
 
     @Override
@@ -40,6 +42,7 @@ public class PersonalPageController implements Initializable {
         nameField.setText(Session.getLoggedUser().getName() + " " + Session.getLoggedUser().getSurname());
         usernameField.setText(Session.getLoggedUser().getUsername());
         searchButton.setOnAction(this::openSearchPage);
+        nListPosted.setText(String.valueOf(Session.loggedUser.getRestaurantLists().size()));
         editButton.setOnAction(event -> {
             try {
                 handleModifyUser();
