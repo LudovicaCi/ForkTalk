@@ -1,6 +1,7 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.ListPageController;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.PersonalPageController;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.RestaurantPageController;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.RestaurantsListController;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
@@ -13,6 +14,7 @@ public class Session {
     public static RestaurantPageController restaurantPageController;
     public static RestaurantsListController restaurantsListController;
     public static ListPageController listPageController;
+    public static PersonalPageController personalPageController;
     //    -------------------------------------
 
     /* ********* GET METHOD ********* */
@@ -35,6 +37,9 @@ public class Session {
 
     public static ListPageController getListPageController(){ return listPageController; }
 
+    public static PersonalPageController getPersonalPageController() {
+        return personalPageController;
+    }
     /* ********* SET METHOD ********* */
 
     public static void setLoggedUser(UserDTO loggedUser) {
@@ -55,5 +60,9 @@ public class Session {
 
     public static void setListPageController(ListPageController listPageController) {
         Session.listPageController = listPageController;
+    }
+
+    public static void setPersonalPageController(PersonalPageController personalPageController) {
+        Session.personalPageController = personalPageController;
     }
 }

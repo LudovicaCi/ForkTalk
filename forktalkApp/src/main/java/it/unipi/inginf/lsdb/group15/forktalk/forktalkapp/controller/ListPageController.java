@@ -59,6 +59,7 @@ public class ListPageController implements Initializable {
         pageContainer = new VBox();
         loadMoreButton.setOnAction(this::loadMoreRestaurants);
         Session.setListPageController(this);
+        loadMoreButton.setVisible(false);
     }
 
     private void logout(ActionEvent event) {

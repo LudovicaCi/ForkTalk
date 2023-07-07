@@ -6,24 +6,36 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="585.0" style="-fx-border-color: #b4b4b4; -fx-background-color: white; -fx-border-width: 0 0 1px 0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="585.0" style="-fx-border-color: #b4b4b4; -fx-background-color: white; -fx-border-width: 0 0 1px 0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
     <HBox alignment="CENTER_LEFT" prefHeight="10.0" prefWidth="429.0" spacing="10">
+      <HBox alignment="CENTER" prefHeight="30.0" prefWidth="68.0">
+         <children>
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <image>
+                  <Image url="@../img/store.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
         <VBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="147.0">
             <HBox.margin>
-                <Insets left="3.0"/>
+                <Insets left="3.0" />
             </HBox.margin>
             <Text fx:id="nameField" strokeType="OUTSIDE" strokeWidth="0.0" text="Title">
                 <font>
-                    <Font name="System Bold" size="18.0"/>
+                    <Font name="System Bold" size="18.0" />
                 </font>
             </Text>
         </VBox>
-        <HBox prefHeight="27.0" prefWidth="260.0"/>
+        <HBox prefHeight="27.0" prefWidth="260.0" />
         <VBox alignment="CENTER_RIGHT" layoutX="13.0" layoutY="10.0" prefHeight="39.0" prefWidth="147.0">
             <Button fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="19.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../img/delete_1.png"/>
+                        <Image url="@../img/delete_1.png" />
                     </ImageView>
                 </graphic>
             </Button>

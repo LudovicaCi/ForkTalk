@@ -10,6 +10,7 @@ import org.bson.Document;
 import java.io.IOException;
 import java.util.List;
 
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.ReservationDAO.makeLocalReservation;
 import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO.*;
 
 public class Main {
@@ -342,6 +343,23 @@ public class Main {
         } else {
             System.out.println("Restaurant not found.");
         }*/
+
+        String date = "2023-07-30";
+        String slot = "19:30";
+        int numberOfPerson = 4;
+
+        UserDTO user = UserDAO.getUserByUsername("lcocchella");
+
+        RestaurantDTO rest = RestaurantDAO.getRestaurantById("g10259438-d19087750");
+
+        if(makeLocalReservation(user, rest, date, slot, numberOfPerson))
+            System.out.println("Success!");
+        else
+            System.out.println("ERROR!");
+
+        /*RestaurantDTO rest = RestaurantDAO.getRestaurantById("g10259438-d19087750");
+
+        RestaurantDAO.addFreeSlot(rest);*/
 
         DriverDAO.closeConnection();
     }

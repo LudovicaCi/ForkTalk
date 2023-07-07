@@ -129,7 +129,7 @@
       </AnchorPane>
    </center>
     <bottom>
-        <HBox alignment="CENTER" prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER" prefHeight="37.0" prefWidth="600.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
             <Button fx:id="loadMoreButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;" text="Load More" textFill="WHITE">
                 <VBox.margin>
                     <Insets />

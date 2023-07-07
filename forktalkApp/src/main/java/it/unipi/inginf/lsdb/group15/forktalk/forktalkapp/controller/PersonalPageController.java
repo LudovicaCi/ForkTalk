@@ -67,6 +67,7 @@ public class PersonalPageController implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+        Session.setPersonalPageController(this);
     }
 
     private void showListPane() throws IOException {
@@ -139,7 +140,7 @@ public class PersonalPageController implements Initializable {
     }
 
     @FXML
-    private void createReservationGridPane(ActionEvent event) {
+    public void createReservationGridPane(ActionEvent event) {
         GridPane reservationGridPane = new GridPane();
         reservationGridPane.setPadding(new Insets(10));
         reservationGridPane.setVgap(10);

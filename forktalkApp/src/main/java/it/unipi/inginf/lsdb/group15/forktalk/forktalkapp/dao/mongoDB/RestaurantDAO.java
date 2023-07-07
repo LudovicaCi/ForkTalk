@@ -439,7 +439,13 @@ public class RestaurantDAO extends DriverDAO {
                 rest.setPrice(price != null ? price : 0);
                 rest.setFeatures((ArrayList<String>) restaurantDocument.getList("tag", String.class));
                 rest.setLocation((ArrayList<String>) restaurantDocument.getList("location", String.class));
-                Double rating = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating")));
+                //Double rating = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating")));
+                Object ratingObj = restaurantDocument.get("rest_rating");
+                Double rating = null;
+                if(ratingObj == null)
+                    rating = 0.0;
+                else
+                    rating = Double.parseDouble(String.valueOf(ratingObj));
                 rest.setRating(rating);
 
                 // Retrieve coordinates

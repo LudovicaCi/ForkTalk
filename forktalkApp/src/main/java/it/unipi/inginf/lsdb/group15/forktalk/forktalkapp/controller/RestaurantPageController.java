@@ -49,6 +49,7 @@ public class RestaurantPageController implements Initializable {
     public HBox bottomBox;
     public Pane parentContainer;
     public Button likeButton;
+    public Button bookTableButton;
     private List<Document> reviewsDocuments;
     public String restId;
     private int currentIndex = 0;
@@ -75,6 +76,13 @@ public class RestaurantPageController implements Initializable {
         addToList.setOnAction(event -> {
             try {
                 showListPane();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        bookTableButton.setOnAction(event -> {
+            try {
+                showBookingPane();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -126,14 +134,6 @@ public class RestaurantPageController implements Initializable {
     }
 
     private void showReviewPane() throws IOException {
-        /*Pane currentContainer = (Pane) bottomBox.getParent();
-        if (currentContainer != null) {
-            currentContainer.getChildren().remove(bottomBox);
-        }
-
-        int bottomBoxIndex = pageContainer.getChildren().indexOf(loadMoreButton);
-        pageContainer.getChildren().add(bottomBoxIndex, bottomBox);*/
-
         Session.setRestaurantPageController(this);
         resetView();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/WriteReviewPane.fxml"));
@@ -150,7 +150,25 @@ public class RestaurantPageController implements Initializable {
         AnchorPane.setLeftAnchor(writeReviewRoot, 0.0);
 
         dynamicPane.getChildren().setAll(writeReviewRoot);
-        //dynamicPane.getChildren().setAll(pageContainer);
+    }
+
+    public void showBookingPane() throws IOException {
+        Session.setRestaurantPageController(this);
+        resetView();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/BookARestaurant.fxml"));
+        Parent bookTableRoot = loader.load();
+
+        Region bookTableRegion = (Region) bookTableRoot;
+
+        bookTableRegion.setPrefWidth(dynamicPane.getWidth());
+        bookTableRegion.setPrefHeight(dynamicPane.getHeight());
+
+        AnchorPane.setTopAnchor(bookTableRoot, 0.0);
+        AnchorPane.setRightAnchor(bookTableRoot, 0.0);
+        AnchorPane.setBottomAnchor(bookTableRoot, 0.0);
+        AnchorPane.setLeftAnchor(bookTableRoot, 0.0);
+
+        dynamicPane.getChildren().setAll(bookTableRoot);
     }
 
     private void logout(ActionEvent event) {

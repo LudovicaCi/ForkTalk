@@ -43,8 +43,8 @@ public class ReservationWidgetController implements Initializable {
         RestaurantDTO restaurant = RestaurantDAO.getRestaurantById(reservation.getRestaurantID());
         assert restaurant != null;
         if(ReservationDAO.deleteReservation(Session.getLoggedUser(),restaurant, reservation)){
-            Session.setLoggedUser(UserDAO.getUserByUsername(Session.loggedUser.getUsername()));
-            Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/PersonalPage.fxml", event);
+            Session.getLoggedUser().setReservations(UserDAO.getReservations(Session.getLoggedUser()));
+            Session.getPersonalPageController().createReservationGridPane(event);
         }else
             Utils.showAlert("Failed to delete the reservation. Please try again.");
     }
