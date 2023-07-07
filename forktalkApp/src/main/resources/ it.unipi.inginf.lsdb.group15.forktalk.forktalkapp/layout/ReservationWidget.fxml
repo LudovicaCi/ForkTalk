@@ -82,7 +82,7 @@
          <Button fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: transparent;">
             <graphic>
                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                  <Image url="@../img/delete (1).png" />
+                  <Image url="@../img/delete_1.png" />
                </ImageView>
             </graphic>
          </Button>

@@ -614,57 +614,6 @@ public class UserDAO extends DriverDAO {
      * @param restaurant The RestaurantDTO object representing the restaurant to add.
      * @return true if the addition is successful, false if the user or restaurant list is not found or in case of an error.
      */
-    /*public static boolean addRestaurantToList(UserDTO user, String title, RestaurantDTO restaurant) {
-        try {
-            // Find the user document
-            Document userDocument = userCollection.find(eq("username", user.getUsername())).first();
-
-            // Check if the user document exists
-            if (userDocument == null) {
-                System.err.println("ERROR: User not found.");
-                return false;
-            }
-
-            // Find the restaurantsList with the specified title
-            List<Document> restaurantLists = userDocument.getList("restaurantsList", Document.class);
-            if (restaurantLists == null) {
-                System.err.println("ERROR: Restaurants list not found.");
-                return false;
-            }
-
-            Document targetList = null;
-            for (Document list : restaurantLists) {
-                if (list.getString("title").equals(title)) {
-                    targetList = list;
-                    break;
-                }
-            }
-
-            // Check if the targetList exists
-            if (targetList == null) {
-                System.err.println("ERROR: Restaurants list not found.");
-                return false;
-            }
-
-
-
-            // Create a new document with the restaurant id and name
-            Document newRestaurant = new Document("restaurant_id", restaurant.getId())
-                    .append("restaurant_name", restaurant.getName());
-
-            // Add the new restaurant to the list
-            targetList.getList("restaurants", Document.class).add(newRestaurant);
-
-            // Update the user document in the collection
-            userCollection.replaceOne(eq("username", user.getUsername()), userDocument);
-
-            return true;
-        } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
-            e.printStackTrace();
-            return false;
-        }
-    }*/
     public static boolean addRestaurantToList(UserDTO user, String title, RestaurantDTO restaurant) {
         try {
             Bson filter = eq("username", user.getUsername());

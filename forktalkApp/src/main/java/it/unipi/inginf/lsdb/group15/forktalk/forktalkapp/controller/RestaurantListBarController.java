@@ -65,5 +65,7 @@ public class RestaurantListBarController implements Initializable {
         listPageController = loader.getController();
 
         listPageController.setListPageInfo(titleField.getText(), this.username.equals("") ? Session.getLoggedUser().getUsername() : this.username);
+
+        listPageController.showRestaurants();
     }
 }

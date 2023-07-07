@@ -31,7 +31,7 @@
                         <Insets left="20.0" />
                      </VBox.margin>
                      <image>
-                        <Image url="@../img/user (1).png" />
+                        <Image url="@../img/user_1.png" />
                      </image>
                   </ImageView>
                </children>
