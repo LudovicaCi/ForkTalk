@@ -28,6 +28,7 @@ public class RestaurantListBarController implements Initializable {
     public Text titleField;
     public Text nFollowers;
     public Button restListButton;
+    public Button deleteButton;
 
     public String restaurantId = "";
     public String currentPage = "";
@@ -40,6 +41,16 @@ public class RestaurantListBarController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         restListButton.setOnAction(this::OpenListPage);
+        deleteButton.setOnAction(this::deleteList);
+    }
+
+    private void deleteList(ActionEvent event) {
+        if(UserDAO.deleteRestaurantListFromUser(Session.loggedUser, titleField.getText())){
+            Session.loggedUser.setRestaurantLists(UserDAO.getRestaurantListsByUser(Session.getLoggedUser()));
+            Session.getRestaurantsListController().refreshLists();
+        }else{
+            Utils.showAlert("Something went wrong! Please try again.");
+        }
     }
 
     public void OpenListPage(ActionEvent event) {
@@ -53,7 +64,7 @@ public class RestaurantListBarController implements Initializable {
         boolean result = UserDAO.addRestaurantToList(Session.loggedUser, titleField.getText(), restToAdd);
 
         if(!result)
-            Utils.showAlert("Somenthing went wrong! please try again.");
+            Utils.showAlert("Something went wrong! please try again.");
     }
 
     public void setList(RestaurantsListDTO list) throws IOException {

@@ -344,7 +344,7 @@ public class Main {
             System.out.println("Restaurant not found.");
         }*/
 
-        String date = "2023-07-30";
+        /*String date = "2023-07-30";
         String slot = "19:30";
         int numberOfPerson = 4;
 
@@ -355,11 +355,56 @@ public class Main {
         if(makeLocalReservation(user, rest, date, slot, numberOfPerson))
             System.out.println("Success!");
         else
-            System.out.println("ERROR!");
+            System.out.println("ERROR!"); */
 
         /*RestaurantDTO rest = RestaurantDAO.getRestaurantById("g10259438-d19087750");
 
         RestaurantDAO.addFreeSlot(rest);*/
+
+        // Parametri di ricerca
+        /*int k = 10;
+        String cuisine = "italian";
+
+        // Recupera i ristoranti con il ranking più alto per la cucina specificata
+        List<Document> topRatedRestaurants = RestaurantDAO.getTopKRatedRestaurantsByCuisine(k, cuisine);
+
+        // Stampa i risultati
+        System.out.println("Top " + k + " rated Italian restaurants:");
+        for (Document restaurant : topRatedRestaurants) {
+            System.out.println("Restaurant ID: " + restaurant.getString("rest_id"));
+            System.out.println("Restaurant Name: " + restaurant.getString("restaurant_name"));
+            System.out.println("Email: " + restaurant.getString("email"));
+            System.out.println("Total Reviews: " + restaurant.getInteger("totalReviews"));
+            System.out.println("-------------------------------------");
+        }*/
+
+        /*List<Document> usersWithMostReviews = RestaurantDAO.getUsersWithMostReviews(10);
+
+        // Print the results
+        for (Document user : usersWithMostReviews) {
+            String username = user.getString("_id");
+            long totalReviews = user.getLong("totalReviews");
+
+            System.out.println("Username: " + username);
+            System.out.println("Total Reviews: " + totalReviews);
+            System.out.println("-------------------------");
+        }*/
+
+        //List<Document> restaurants = RestaurantDAO.getCheapestRestaurantWithHighestRank(10, "sushi", "London");
+
+        /*List<Document> restaurants = RestaurantDAO.getHighestLifespanRestaurants(10);
+
+        for (Document restaurant : restaurants) {
+            System.out.println("Restaurant ID: " + restaurant.getString("rest_id"));
+            System.out.println("min Date: " + restaurant.getString("minDate"));
+            System.out.println("max Date: " + restaurant.getString("maxDate"));
+            System.out.println("-------------------------------------");
+        } */
+
+        Document result = RestaurantDAO.getReviewsStatsByDateRange("g1096773-d1953140", "2015-01-01", "2015-12-31");
+
+        System.out.println("Tot Reviews: " + result.getLong("total_reviews"));
+        System.out.println("avg_rating: " + result.getDouble("average_rating"));
 
         DriverDAO.closeConnection();
     }

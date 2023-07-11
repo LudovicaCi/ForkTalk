@@ -34,6 +34,8 @@ public class PersonalPageController implements Initializable {
     public Button showLists;
     public Text nListPosted;
 
+    public VBox pageContainer;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -43,6 +45,7 @@ public class PersonalPageController implements Initializable {
         usernameField.setText(Session.getLoggedUser().getUsername());
         searchButton.setOnAction(this::openSearchPage);
         nListPosted.setText(String.valueOf(Session.loggedUser.getRestaurantLists().size()));
+        pageContainer = new VBox();
         editButton.setOnAction(event -> {
             try {
                 handleModifyUser();

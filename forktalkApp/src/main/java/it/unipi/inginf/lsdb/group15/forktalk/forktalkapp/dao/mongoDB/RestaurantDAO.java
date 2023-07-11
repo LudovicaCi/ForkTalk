@@ -1,10 +1,11 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB;
 
 import com.mongodb.MongoException;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Sorts;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
@@ -12,6 +13,7 @@ import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReviewDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
+import org.bson.BsonNull;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -61,7 +63,12 @@ public class RestaurantDAO extends DriverDAO {
                 rest.setPrice(price != null ? price : 0); // o assegna un valore di default appropriato
                 rest.setFeatures((ArrayList<String>) restaurantDocument.getList("tag", String.class));
                 rest.setLocation((ArrayList<String>) restaurantDocument.getList("location", String.class));
-                Double rating = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating")));
+                Object ratingObj = restaurantDocument.get("rest_rating");
+                double rating;
+                if(ratingObj == null)
+                    rating = 0.0;
+                else
+                    rating = Double.parseDouble(String.valueOf(ratingObj));
                 rest.setRating(rating);
 
                 //retrieve coordinates
@@ -227,13 +234,13 @@ public class RestaurantDAO extends DriverDAO {
     /**
      * Deletes a restaurant based on the specified username.
      *
-     * @param username The username of the restaurant to be deleted.
+     * @param restId The id of the restaurant to be deleted.
      * @return true if the restaurant was successfully deleted, false otherwise.
      */
-    public static boolean deleteRestaurantByUsername(String username) {
+    public static boolean deleteRestaurantById(String restId) {
         try {
             // Create a filter to match the username
-            Bson filter = Filters.eq("username", username);
+            Bson filter = Filters.eq("rest_id", restId);
 
             // Delete the restaurant document that matches the filter
             DeleteResult deleteResult = restaurantCollection.deleteOne(filter);
@@ -441,7 +448,7 @@ public class RestaurantDAO extends DriverDAO {
                 rest.setLocation((ArrayList<String>) restaurantDocument.getList("location", String.class));
                 //Double rating = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating")));
                 Object ratingObj = restaurantDocument.get("rest_rating");
-                Double rating = null;
+                double rating;
                 if(ratingObj == null)
                     rating = 0.0;
                 else
@@ -499,71 +506,6 @@ public class RestaurantDAO extends DriverDAO {
             return null;
         }
     }
-
-    /**
-     * Searches for restaurants based on the specified parameters.
-     *
-     * @param location  The location(s) to match. Can be a comma-separated list of locations.
-     * @param name      The name of the restaurant(s) to match.
-     * @param cuisine   The cuisine(s) to match. Can be a comma-separated list of cuisines.
-     * @param keywords  The keyword(s) to match. Can be a comma-separated list of keywords.
-     * @return A list of Document objects representing the matching restaurants, sorted by rating in descending order.
-     *         Returns null if no criteria are provided or an error occurs.
-     */
-    public static List<Document> searchRestaurants(String location, String name, String cuisine, String keywords) {
-        try {
-            List<Bson> aggregationPipeline = new ArrayList<>();
-
-            // Match by location
-            if (location != null && !location.isEmpty()) {
-                String[] locationArray = location.split(",");
-                Bson matchLocation = Aggregates.match(Filters.in("location", Arrays.asList(locationArray)));
-                aggregationPipeline.add(matchLocation);
-            }
-
-            // Match by name
-            if (name != null && !name.isEmpty()) {
-                Bson matchName = Aggregates.match(Filters.regex("restaurant_name", Pattern.quote(name), "i"));
-                aggregationPipeline.add(matchName);
-            }
-
-            // Match by cuisine
-            if (cuisine != null && !cuisine.isEmpty()) {
-                String[] cusineArray = cuisine.split(",");
-                Bson matchCuisine = Aggregates.match(Filters.in("tag", Arrays.asList(cusineArray)));
-                aggregationPipeline.add(matchCuisine);
-            }
-
-            // Match by keywords
-            if (keywords != null && !keywords.isEmpty()) {
-                String[] keywordArray = keywords.split(",");
-                Bson matchKeywords = Aggregates.match(Filters.in("tag", Arrays.asList(keywordArray)));
-                aggregationPipeline.add(matchKeywords);
-            }
-
-            // Check if any pipeline stages are added
-            if (aggregationPipeline.isEmpty()) {
-                // Add a dummy match stage to avoid the error
-                Bson matchDummy = Aggregates.match(new Document());
-                aggregationPipeline.add(matchDummy);
-            }
-
-            // Sort by rest_rating (nulls last) and restaurant_name
-            Bson sortByRating = Sorts.orderBy(
-                    Sorts.descending("rest_rating"),
-                    Sorts.ascending("restaurant_name")
-            );
-            aggregationPipeline.add(Aggregates.sort(sortByRating));
-
-            // Perform aggregation
-            return restaurantCollection.aggregate(aggregationPipeline).into(new ArrayList<>());
-        } catch (Exception e) {
-            System.out.println("An error occurred while searching for restaurants");
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
-    }
-
 
     /**
      * Retrieves the reviews of a restaurant based on the specified username.
@@ -1069,6 +1011,283 @@ public class RestaurantDAO extends DriverDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static boolean deleteFreeSlot(RestaurantDTO rest, String dateToDelete){
+        try{
+            Bson restFilter = Filters.eq("username", rest.getUsername());
+
+            Document restDocument = restaurantCollection.find(restFilter).first();
+
+            assert restDocument != null;
+            List<Document> restReservationList = restDocument.getList("reservations", Document.class);
+
+            if (restReservationList == null)
+                return false;
+
+            Iterator<Document> restIterator = restReservationList.iterator();
+            while (restIterator.hasNext()) {
+                Document doc = restIterator.next();
+                if (doc.getString("date").equals(dateToDelete) && doc.getString("client_username") == null && doc.getString("client_name") == null && doc.getString("client_surname") == null && doc.getInteger("number of person") == 0) {
+                    restIterator.remove();
+                    break;
+                }
+            }
+
+            restDocument.append("reservations", restReservationList);
+
+            UpdateResult restResult = restaurantCollection.updateOne(restFilter, new Document("$set", restDocument));
+
+            // Check if the update was successful
+            if (restResult.getModifiedCount() > 0) {
+                System.out.println("The slot has been successfully removed!");
+                return true;
+            } else {
+                System.out.println("The slot unfortunately could not be removed!");
+                return false;
+            }
+        }catch (MongoException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Searches for restaurants based on the specified parameters.
+     *
+     * @param location  The location(s) to match. Can be a comma-separated list of locations.
+     * @param name      The name of the restaurant(s) to match.
+     * @param cuisine   The cuisine(s) to match. Can be a comma-separated list of cuisines.
+     * @param keywords  The keyword(s) to match. Can be a comma-separated list of keywords.
+     * @return A list of Document objects representing the matching restaurants, sorted by rating in descending order.
+     *         Returns null if no criteria are provided or an error occurs.
+     */
+    public static List<Document> searchRestaurants(String location, String name, String cuisine, String keywords, String rating) {
+        try {
+            List<Bson> aggregationPipeline = new ArrayList<>();
+
+            // Match by location
+            if (location != null && !location.isEmpty()) {
+                String[] locationArray = location.split(",");
+                Bson matchLocation = Aggregates.match(Filters.in("location", Arrays.asList(locationArray)));
+                aggregationPipeline.add(matchLocation);
+            }
+
+            // Match by name
+            if (name != null && !name.isEmpty()) {
+                Bson matchName = Aggregates.match(Filters.regex("restaurant_name", Pattern.quote(name), "i"));
+                aggregationPipeline.add(matchName);
+            }
+
+            // Match by cuisine
+            if (cuisine != null && !cuisine.isEmpty()) {
+                String[] cusineArray = cuisine.split(",");
+                Bson matchCuisine = Aggregates.match(Filters.in("tag", Arrays.asList(cusineArray)));
+                aggregationPipeline.add(matchCuisine);
+            }
+
+            // Match by keywords
+            if (keywords != null && !keywords.isEmpty()) {
+                String[] keywordArray = keywords.split(",");
+                Bson matchKeywords = Aggregates.match(Filters.in("tag", Arrays.asList(keywordArray)));
+                aggregationPipeline.add(matchKeywords);
+            }
+
+            // Match by rating
+            if (rating != null && !rating.isEmpty()) {
+                double minRating = Double.parseDouble(rating);
+                Bson matchRating = Aggregates.match(Filters.gte("rest_rating", minRating));
+                aggregationPipeline.add(matchRating);
+            }
+
+            if (location != null && !location.isEmpty() || name != null && !name.isEmpty() || cuisine != null && !cuisine.isEmpty() || keywords != null && !keywords.isEmpty()) {
+                Bson addTotalReviews = Aggregates.addFields(
+                        new Field<>("totalReviews", new Document("$size", "$reviews"))
+                );
+                aggregationPipeline.add(addTotalReviews);
+            }
+
+            // Check if any pipeline stages are added
+            if (aggregationPipeline.isEmpty()) {
+                // Add a dummy match stage to avoid the error
+                Bson matchDummy = Aggregates.match(new Document());
+                aggregationPipeline.add(matchDummy);
+            }
+
+            // Sort by rest_rating (nulls last) and restaurant_name
+            Bson sortByRating = Sorts.orderBy(
+                    Sorts.descending("rest_rating"),
+                    Sorts.descending("totalReviews"),
+                    Sorts.ascending("restaurant_name")
+            );
+            aggregationPipeline.add(Aggregates.sort(sortByRating));
+
+            // Perform aggregation
+            return restaurantCollection.aggregate(aggregationPipeline).into(new ArrayList<>());
+        } catch (Exception e) {
+            System.out.println("An error occurred while searching for restaurants");
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    /* ********* ANALYTICS METHOD ********* */
+    /**
+     * Retrieves the top K rated restaurants by cuisine.
+     *
+     * @param k       The number of restaurants to retrieve.
+     * @param cuisine The cuisine to match.
+     * @return A list of Document objects representing the top-rated restaurants, sorted by totalReviews in descending order.
+     *         Returns an empty list if no criteria are provided or an error occurs.
+     */
+    public static List<Document> getTopKRatedRestaurantsByCuisine(int k, String cuisine) {
+        try {
+            List<Bson> aggregationPipeline = new ArrayList<>();
+
+            // Match by cuisine
+            if (cuisine != null && !cuisine.isEmpty()) {
+                Bson matchCuisine = Aggregates.match(Filters.in("tag", cuisine));
+                aggregationPipeline.add(matchCuisine);
+            }
+
+            // Match by review rating
+            Bson matchRating = Aggregates.match(Filters.elemMatch("reviews", Filters.eq("review_rating", 5)));
+            aggregationPipeline.add(matchRating);
+
+            // Compute the total number of reviews of the restaurant and add the field
+            Bson addTotalReviews = Aggregates.addFields(
+                    new Field<>("totalReviews", new Document("$size", "$reviews"))
+            );
+            aggregationPipeline.add(addTotalReviews);
+
+            // Sort by totalReviews (descending)
+            Bson sortTotalReviews = Aggregates.sort(Sorts.descending("totalReviews"));
+            aggregationPipeline.add(sortTotalReviews);
+
+            // Limit results
+            Bson limitResults = Aggregates.limit(k);
+            aggregationPipeline.add(limitResults);
+
+            // Perform aggregation
+            return restaurantCollection.aggregate(aggregationPipeline).into(new ArrayList<>());
+        } catch (Exception e) {
+            System.out.println("An error occurred while retrieving top-rated Italian restaurants");
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Returns a list of documents of the most active users based on the number of reviews they have written.
+     *
+     * @param k the number of users to return as the most active users
+     * @return a list of documents of the most active users based on the number of reviews
+     */
+    public static List<Document> getUsersWithMostReviews(int k) {
+        List<Document> userList = new ArrayList<>();
+
+        AggregateIterable<Document> result = restaurantCollection.aggregate(Arrays.asList(
+                new Document("$unwind", "$reviews"),
+                new Document("$group", new Document("_id", "$reviews.reviewer_pseudo")
+                        .append("totalReviews", new Document("$sum", 1L))),
+                new Document("$sort", new Document("totalReviews", -1L)),
+                new Document("$limit", k)
+        ));
+
+        for (Document document : result) {
+            userList.add(document);
+        }
+
+        return userList;
+    }
+
+    /**
+     * Returns the top k restaurants that received reviews for the longest timespan between
+     * the latest review and the first review on a restaurant.
+     *
+     * @param k the number of restaurants to return with the highest lifespan
+     * @return a list of documents representing the top k restaurants with the highest lifespan
+     */
+    public static List<Document> getHighestLifespanRestaurants(int k){
+        List<Document> restaurantList = new ArrayList<>();
+
+        AggregateIterable<Document> result = restaurantCollection.aggregate(Arrays.asList(new Document("$unwind", "$reviews"),
+                new Document("$group",
+                        new Document("_id", "$_id")
+                                .append("rest_id",
+                                        new Document("$first", "$rest_id"))
+                                .append("minDate",
+                                        new Document("$min",
+                                                new Document("$toDate", "$reviews.review_date")))
+                                .append("maxDate",
+                                        new Document("$max",
+                                                new Document("$toDate", "$reviews.review_date")))),
+                new Document("$project",
+                        new Document("_id", 1L)
+                                .append("rest_id", 1L)
+                                .append("minDate",
+                                        new Document("$dateToString",
+                                                new Document("format", "%Y-%m-%d")
+                                                        .append("date", "$minDate")))
+                                .append("maxDate",
+                                        new Document("$dateToString",
+                                                new Document("format", "%Y-%m-%d")
+                                                        .append("date", "$maxDate")))
+                                .append("lifespan",
+                                        new Document("$divide", Arrays.asList(new Document("$subtract", Arrays.asList("$maxDate", "$minDate")), 24L * 60L * 60L * 1000L)))),
+                new Document("$sort",
+                        new Document("lifespan", -1L)),
+                new Document("$limit", k)
+        ));
+
+        for (Document document : result) {
+            restaurantList.add(document);
+        }
+
+        return restaurantList;
+    }
+
+    /**
+     * Returns the total number of reviews and the average rating for a given restaurant within a date range.
+     *
+     * @param restId     the ID of the restaurant to retrieve the total number of reviews and the average rating
+     * @param startDate  the start date of the date range
+     * @param endDate    the end date of the date range
+     * @return a document containing the results within the specified date range
+     */
+    public static Document getReviewsStatsByDateRange(String restId, String startDate, String endDate){
+
+        AggregateIterable<Document> result = restaurantCollection.aggregate(Arrays.asList(new Document("$match",
+                        new Document("rest_id", restId)),
+                new Document("$unwind", "$reviews"),
+                new Document("$match",
+                        new Document("$expr",
+                                new Document("$and", Arrays.asList(new Document("$gte", Arrays.asList(new Document("$dateFromString",
+                                                        new Document("dateString", endDate)
+                                                                .append("format", "%Y-%m-%d")),
+                                                new Document("$dateFromString",
+                                                        new Document("dateString", "$reviews.review_date")
+                                                                .append("format", "%Y-%m-%d")))),
+                                        new Document("$lt", Arrays.asList(new Document("$dateFromString",
+                                                        new Document("dateString", startDate)
+                                                                .append("format", "%Y-%m-%d")),
+                                                new Document("$dateFromString",
+                                                        new Document("dateString", "$reviews.review_date")
+                                                                .append("format", "%Y-%m-%d")))))))),
+                new Document("$group",
+                        new Document("_id",
+                                new BsonNull())
+                                .append("total_reviews",
+                                        new Document("$sum", 1L))
+                                .append("average_rating",
+                                        new Document("$avg", "$reviews.review_rating"))),
+                new Document("$project",
+                        new Document("total_reviews", 1L)
+                                .append("average_rating",
+                                        new Document("$round", Arrays.asList("$average_rating", 1L))))
+        ));
+
+        return result.first();
     }
 }
 

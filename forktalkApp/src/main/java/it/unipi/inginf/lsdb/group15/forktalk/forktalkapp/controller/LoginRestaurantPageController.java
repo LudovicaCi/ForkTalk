@@ -84,9 +84,9 @@ public class LoginRestaurantPageController implements Initializable {
             RestaurantDTO loggedRest = RestaurantDAO.loginRestaurant(usernameLoginField.getText(), passwordLoginField.getText());
 
             if (loggedRest != null) {
-                showAlert("login successful.");
                 Session.setLoggedUser(null);
                 Session.setLoggedRestaurant(loggedRest);
+                Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/RestaurantLoggedPage.fxml", event);
             } else {
                 showAlert("Login failed. Please try again.");
             }

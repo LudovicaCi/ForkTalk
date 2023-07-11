@@ -1,7 +1,10 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReviewDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,14 +28,32 @@ public class RestaurantWidgetController implements Initializable {
     public Text reviews;
     public Button showButton;
     public Text restName;
+    public Button deleteButton;
 
     FXMLLoader loader;
+    Document restaurant;
     Parent root;
     RestaurantPageController restPageController;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showButton.setOnAction(this::openRestaurantPage);
+        if(Session.loggedUser.getRole() != 2) {
+            deleteButton.setVisible(false);
+        }
+        deleteButton.setOnAction(this::deleteRestaurant);
+
+    }
+
+    private void deleteRestaurant(ActionEvent event) {
+        if(RestaurantDAO.deleteRestaurantById(restaurant.getString("rest_id"))){
+            Utils.showAlert("OK!");
+            Session.getFindRestaurantBarController().allRestaurants.remove(restaurant);
+            Session.getFindRestaurantBarController().resetView();
+            Session.getFindRestaurantBarController().loadNextBatch();
+        }else{
+            Utils.showAlert("Something went wrong! please try again.");
+        }
     }
 
     public void setRestaurant(Document restaurant) throws IOException {
@@ -57,6 +78,7 @@ public class RestaurantWidgetController implements Initializable {
                 String.valueOf(restaurant.get("tag")), reviewsDocuments, String.valueOf(restaurant.get("price")));
 
         restPageController.updateStarImages();
+        this.restaurant = restaurant;
     }
 
     private void openRestaurantPage(ActionEvent event) {

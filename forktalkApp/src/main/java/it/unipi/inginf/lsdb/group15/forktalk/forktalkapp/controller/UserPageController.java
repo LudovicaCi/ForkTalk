@@ -46,7 +46,7 @@ public class UserPageController implements Initializable {
     }
 
     private void openProfilePage(ActionEvent event) {
-        Utils.changeScene(" it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/PersonalPage.fxml", event);
+        Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/PersonalPage.fxml", event);
     }
 
     private void openPreviousPage(ActionEvent event) {

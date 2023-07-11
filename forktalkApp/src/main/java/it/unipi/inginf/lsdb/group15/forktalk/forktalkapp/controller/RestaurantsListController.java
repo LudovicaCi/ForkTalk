@@ -121,13 +121,18 @@ public class RestaurantsListController implements Initializable {
                 widgetController.restaurantId = this.restaurantId;
                 widgetController.username = this.username;
 
+                if(!this.username.equals(""))
+                    widgetController.deleteButton.setVisible(false);
+
                 if(currentPage.equals("Restaurant")) {
                     widgetController.currentPage = this.currentPage;
                     widgetController.restListButton.setText("Add");
+                    widgetController.deleteButton.setVisible(false);
                     widgetController.restListButton.setOnAction(event -> widgetController.addToThisList());
                 }
 
                 widgetController.setList(list);
+                Session.setRestaurantsListController(this);
 
                 ListsContainer.getChildren().add(listWidget);
             } catch (IOException e) {

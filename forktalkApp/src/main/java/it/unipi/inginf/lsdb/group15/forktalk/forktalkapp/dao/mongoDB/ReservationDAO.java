@@ -1,8 +1,11 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB;
 
 import com.mongodb.MongoException;
+import com.mongodb.client.ClientSession;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.UpdateResult;
+
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
@@ -150,7 +153,11 @@ public class ReservationDAO extends DriverDAO{
      * @return True if the reservation was successfully confirmed, false otherwise.
      */
     public static boolean makeLocalReservation(UserDTO user, RestaurantDTO rest, String date, String slot, int numberOfPerson) {
+        ClientSession clientSession = mongoClient.startSession();
+
         try {
+            clientSession.startTransaction();
+
             List<String> availableSlots = getFreeSlotsByDate(rest, date);
             assert availableSlots != null;
             if (availableSlots.contains(slot)) { // Controlla se lo slot desiderato è presente nella lista degli slot disponibili
@@ -220,6 +227,8 @@ public class ReservationDAO extends DriverDAO{
             UpdateResult userResult = userCollection.updateOne(userFilter, new Document("$set", userDocument));
             UpdateResult restResult = restaurantCollection.updateOne(restFilter, new Document("$set", restDocument));
 
+            clientSession.commitTransaction();
+
             // Check if the update was successful
             if (userResult.getModifiedCount() > 0 && restResult.getModifiedCount() > 0) {
                 System.out.println("The reservation has been successfully confirmed!");
@@ -230,6 +239,7 @@ public class ReservationDAO extends DriverDAO{
             }
         } catch (Exception e) {
             System.out.println("ERROR: An error occurred while making a reservation.");
+            clientSession.abortTransaction();
             e.printStackTrace();
             return false;
         }
@@ -237,8 +247,11 @@ public class ReservationDAO extends DriverDAO{
 
 
     public static boolean deleteReservation(UserDTO user, RestaurantDTO rest, ReservationDTO reservationToDelete) {
+        ClientSession clientSession = mongoClient.startSession();
 
         try {
+            clientSession.startTransaction();
+
             Bson userFilter = Filters.eq("username", user.getUsername());
             Bson restFilter = Filters.eq("username", rest.getUsername());
 
@@ -287,6 +300,8 @@ public class ReservationDAO extends DriverDAO{
             // Perform the update operation
             UpdateResult restResult = restaurantCollection.updateOne(restFilter, new Document("$set", restDocument));
 
+            clientSession.commitTransaction();
+
             // Check if the update was successful
             if (userResult.getModifiedCount() > 0 && restResult.getModifiedCount() > 0) {
                 System.out.println("The reservation has been successfully removed!");
@@ -298,6 +313,7 @@ public class ReservationDAO extends DriverDAO{
 
         }catch (MongoException e){
             System.out.println("An error occurred while deleting the reservation");
+            clientSession.abortTransaction();
             e.printStackTrace();
             return false;
         }

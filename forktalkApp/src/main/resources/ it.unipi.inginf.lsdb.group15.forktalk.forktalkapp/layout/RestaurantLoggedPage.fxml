@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.RestaurantLoggedPageController">
+    <top>
+        <HBox prefHeight="38.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="38.0" prefWidth="65.0">
+                <Button fx:id="backButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Back" textFill="#037b41">
+                    <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../img/angle-small-left.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+            <HBox prefHeight="38.0" prefWidth="448.0" />
+            <HBox alignment="CENTER" prefHeight="38.0" prefWidth="97.0">
+                <Button fx:id="logoutButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: transparent;" text="Logout" textFill="#037b41">
+                    <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../img/sign-out-alt.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+        </HBox>
+    </top>
+    <left>
+        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" prefHeight="362.0" prefWidth="216.0">
+                <HBox alignment="CENTER" prefHeight="67.0" prefWidth="199.0">
+                    <ImageView fitHeight="83.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../img/store.png" />
+                        <viewport>
+                            <Rectangle2D />
+                        </viewport>
+                  <HBox.margin>
+                     <Insets left="7.0" />
+                  </HBox.margin>
+                    </ImageView>
+                </HBox>
+                <HBox alignment="TOP_CENTER" prefHeight="27.0" prefWidth="199.0">
+                    <VBox alignment="TOP_CENTER" prefHeight="37.0" prefWidth="206.0">
+                        <Label fx:id="nameField" alignment="CENTER" text="Name" textAlignment="CENTER">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="usernameField" alignment="CENTER" text="Username" textFill="#0000007a" />
+                    </VBox>
+                </HBox>
+                <HBox prefHeight="59.0" prefWidth="200.0">
+                    <VBox alignment="CENTER" prefHeight="59.0" prefWidth="200.0">
+                        <padding>
+                            <Insets left="5.0" />
+                        </padding>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="nFollowers">
+                            <font>
+                                <Font name="System Bold" size="10.0" />
+                            </font>
+                        </Text>
+                        <Label text="Follower" textFill="#0000007f">
+                            <font>
+                                <Font size="10.0" />
+                            </font>
+                        </Label>
+                    </VBox>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="6.0" prefWidth="200.0">
+                    <VBox alignment="TOP_CENTER" prefHeight="6.0" prefWidth="200.0">
+                        <Line endX="100.0" startX="-50.0" stroke="#0000002e">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Line>
+                    </VBox>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="29.0" prefWidth="200.0">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <VBox.margin>
+                        <Insets left="10.0" />
+                    </VBox.margin>
+                    <VBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="171.0">
+                        <opaqueInsets>
+                            <Insets />
+                        </opaqueInsets>
+                        <HBox.margin>
+                            <Insets />
+                        </HBox.margin>
+                        <Button fx:id="showLists" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" style="-fx-background-color: transparent;" text="Add Reservations Slots" textFill="#b4b4b4">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@../img/rectangle-list.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </VBox>
+                </HBox>
+                <HBox alignment="CENTER" layoutX="10.0" layoutY="221.0" prefHeight="29.0" prefWidth="200.0">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <VBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="148.0">
+                        <opaqueInsets>
+                            <Insets />
+                        </opaqueInsets>
+                        <HBox.margin>
+                            <Insets left="-14.5" />
+                        </HBox.margin>
+                        <Button fx:id="reservationButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" style="-fx-background-color: transparent;" text="View Reservations" textFill="#b4b4b4">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@../img/booking.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </VBox>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+                </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="243.0" prefHeight="29.0" prefWidth="200.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="148.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets left="-14.5" />
+                     </HBox.margin>
+                     <children>
+                        <Button fx:id="reviewButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: transparent;" text="View Reviews" textFill="#b4b4b4">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/booking.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </HBox>
+                <HBox alignment="CENTER" layoutX="10.0" layoutY="225.0" prefHeight="29.0" prefWidth="200.0">
+                    <VBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="138.0">
+                        <Button fx:id="editButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Edit Profile" textFill="#b4b4b4">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@../img/edit.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <HBox.margin>
+                            <Insets left="-14.5" />
+                        </HBox.margin>
+                    </VBox>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+                </HBox>
+                <HBox alignment="CENTER" layoutX="10.0" layoutY="255.0" prefHeight="29.0" prefWidth="200.0">
+                    <VBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="153.0">
+                        <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="116.0" style="-fx-background-color: transparent;" text="Delete Profile" textFill="#b4b4b4">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@../img/delete.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <HBox.margin>
+                            <Insets left="-14.5" />
+                        </HBox.margin>
+                    </VBox>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+                </HBox>
+            </VBox>
+        </HBox>
+    </left>
+    <right>
+        <AnchorPane id="personalPage" fx:id="dynamicPane" prefHeight="362.0" prefWidth="398.0" style="-fx-background-color: #faf7f7;" BorderPane.alignment="CENTER" />
+    </right>
+    <bottom>
+        <HBox alignment="CENTER" prefHeight="32.0" prefWidth="600.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+            <Button fx:id="loadMoreButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="82.0" style="-fx-background-color: #037b41;" text="Load More" textFill="WHITE">
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+            <HBox.margin>
+               <Insets left="195.0" />
+            </HBox.margin>
+            </Button>
+            <HBox.margin>
+                <Insets top="10.0" />
+            </HBox.margin>
+        </HBox>
+    </bottom>
+</BorderPane>

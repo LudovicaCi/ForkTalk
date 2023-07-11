@@ -2,6 +2,7 @@ package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -35,7 +36,7 @@ public class FindUserBarController implements Initializable {
     public Button loadMoreButton;
 
     private VBox userContainer;
-    private List<Document> allUsers;
+    public List<Document> allUsers;
     private int currentIndex = 0;
 
     @Override
@@ -43,7 +44,8 @@ public class FindUserBarController implements Initializable {
         searchButton.setOnAction(this::searchUsers);
         loadMoreButton.setOnAction(this::loadMoreRestaurants);
         userContainer = new VBox();
-        loadMoreButton.setVisible(false); // Nascondi il pulsante "Carica altro" inizialmente
+        loadMoreButton.setVisible(false);
+        Session.setFindUserBarController(this);
     }
 
     public void searchUsers(ActionEvent event) {
@@ -63,7 +65,7 @@ public class FindUserBarController implements Initializable {
         loadNextBatch(); // Carica il prossimo batch di ristoranti
     }
 
-    private void loadNextBatch() {
+    public void loadNextBatch() {
         // Numero di ristoranti da caricare in ogni batch
         int batchSize = 5;
         if(allUsers.size() == 0) {
@@ -107,20 +109,14 @@ public class FindUserBarController implements Initializable {
 
         currentIndex += batchSize;
 
-        // Controlla se ci sono ulteriori ristoranti da caricare
-        if (currentIndex >= allUsers.size()) {
-            loadMoreButton.setVisible(false); // Nascondi il pulsante "Carica altro" se non ci sono più ristoranti da caricare
-        } else {
-            loadMoreButton.setVisible(true); // Mostra il pulsante "Carica altro" se ci sono ancora ristoranti da caricare
-        }
+        loadMoreButton.setVisible(currentIndex < allUsers.size());
 
         setupRestaurantView();
     }
 
-    private void resetView() {
+    public void resetView() {
         userContainer.getChildren().clear();
         currentIndex = 0;
-        allUsers = null;
         loadMoreButton.setVisible(false);
     }
 

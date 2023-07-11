@@ -68,7 +68,9 @@ public class DriverDAO {
     public static void openConnection() {
         try {
             //connectToLocal();
+
             connectToCluster();
+
             /*for (String name : db.listCollectionNames()) {
                 System.out.println(name);
             }

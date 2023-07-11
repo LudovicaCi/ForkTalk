@@ -2,6 +2,7 @@ package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
 
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,9 +33,10 @@ public class FindRestaurantBarController implements Initializable {
     public Button searchButton;
     public Button loadMoreButton;
     public AnchorPane dynamicPane;
+    public TextField ratingField;
 
     private VBox restaurantContainer;
-    private List<Document> allRestaurants;
+    public List<Document> allRestaurants;
     private int currentIndex = 0;
 
     @Override
@@ -42,7 +44,8 @@ public class FindRestaurantBarController implements Initializable {
         searchButton.setOnAction(this::searchRestaurants);
         loadMoreButton.setOnAction(this::loadMoreRestaurants);
         restaurantContainer = new VBox();
-        loadMoreButton.setVisible(false); // Nascondi il pulsante "Carica altro" inizialmente
+        loadMoreButton.setVisible(false);
+        Session.setFindRestaurantBarController(this);
     }
 
     public void searchRestaurants(ActionEvent event) {
@@ -52,8 +55,9 @@ public class FindRestaurantBarController implements Initializable {
         String name = nameField.getText().isEmpty() ? null : nameField.getText();
         String cuisine = cuisineField.getText().isEmpty() ? null : cuisineField.getText();
         String keywords = keywordsField.getText().isEmpty() ? null : keywordsField.getText();
+        String rating = ratingField.getText().isEmpty() ? null : ratingField.getText();
 
-        allRestaurants = RestaurantDAO.searchRestaurants(location, name, cuisine, keywords);
+        allRestaurants = RestaurantDAO.searchRestaurants(location, name, cuisine, keywords, rating);
 
         loadNextBatch(); // Carica il primo batch di ristoranti
     }
@@ -62,7 +66,7 @@ public class FindRestaurantBarController implements Initializable {
         loadNextBatch(); // Carica il prossimo batch di ristoranti
     }
 
-    private void loadNextBatch() {
+    public void loadNextBatch() {
         // Numero di ristoranti da caricare in ogni batch
         int batchSize = 5;
         if(allRestaurants.size() == 0) {
@@ -117,10 +121,9 @@ public class FindRestaurantBarController implements Initializable {
         setupRestaurantView();
     }
 
-    private void resetView() {
+    public void resetView() {
         restaurantContainer.getChildren().clear();
         currentIndex = 0;
-        allRestaurants = null;
         loadMoreButton.setVisible(false);
     }
 

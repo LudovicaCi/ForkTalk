@@ -1,6 +1,7 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB;
 
 import com.mongodb.MongoException;
+import com.mongodb.client.ClientSession;
 import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -63,12 +64,11 @@ public class UserDAO extends DriverDAO {
      * @return true if the deletion is successful, false if the user is not found or in case of an error.
      */
     public static boolean deleteUser(String username) {
+        ClientSession clientSession = mongoClient.startSession();
         try {
-            // Create a filter to match the username
-            Bson filter = eq("username", username);
+            clientSession.startTransaction();
 
-            // Delete the user document from the collection
-            DeleteResult userDeleteResult = userCollection.deleteOne(filter);
+            Bson filter = eq("username", username);
 
             // Update the user's reservations in the restaurant collection
             Bson reservationsFilter = eq("reservations.client_username", username);
@@ -82,12 +82,30 @@ public class UserDAO extends DriverDAO {
                     List.of(eq("reservation.client_username", username))
             );
 
+            // Delete the user document from the collection
+            DeleteResult userDeleteResult = userCollection.deleteOne(filter);
+
             UpdateResult reservationUpdateResult = restaurantCollection.updateMany(reservationsFilter, reservationsUpdate, updateOptions);
 
+            clientSession.commitTransaction();
             // Check if the deletion was successful in both collections
             return userDeleteResult.getDeletedCount() > 0 && reservationUpdateResult.getModifiedCount() > 0;
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
+            e.printStackTrace();
+            clientSession.abortTransaction();
+            return false;
+        }
+    }
+
+    public static boolean makeAdmin(String username){
+        try{
+            Bson userFilter = eq("username", username);
+            Bson setAdmin = set("role", 2);
+
+            UpdateResult result = userCollection.updateOne(userFilter, setAdmin);
+
+            return result.getModifiedCount() > 0;
+        }catch (MongoException e){
             e.printStackTrace();
             return false;
         }

@@ -1,9 +1,6 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model;
 
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.ListPageController;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.PersonalPageController;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.RestaurantPageController;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.RestaurantsListController;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.*;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 
@@ -15,6 +12,9 @@ public class Session {
     public static RestaurantsListController restaurantsListController;
     public static ListPageController listPageController;
     public static PersonalPageController personalPageController;
+    public static RestaurantLoggedPageController restaurantLoggedPageController;
+    public static FindRestaurantBarController findRestaurantBarController;
+    public static FindUserBarController findUserBarController;
     //    -------------------------------------
 
     /* ********* GET METHOD ********* */
@@ -40,6 +40,19 @@ public class Session {
     public static PersonalPageController getPersonalPageController() {
         return personalPageController;
     }
+
+    public static RestaurantLoggedPageController getRestaurantLoggedPageController() {
+        return restaurantLoggedPageController;
+    }
+
+    public static FindRestaurantBarController getFindRestaurantBarController() {
+        return findRestaurantBarController;
+    }
+
+    public static FindUserBarController getFindUserBarController() {
+        return findUserBarController;
+    }
+
     /* ********* SET METHOD ********* */
 
     public static void setLoggedUser(UserDTO loggedUser) {
@@ -64,5 +77,17 @@ public class Session {
 
     public static void setPersonalPageController(PersonalPageController personalPageController) {
         Session.personalPageController = personalPageController;
+    }
+
+    public static void setRestaurantLoggedPageController(RestaurantLoggedPageController restaurantLoggedPageController) {
+        Session.restaurantLoggedPageController = restaurantLoggedPageController;
+    }
+
+    public static void setFindRestaurantBarController(FindRestaurantBarController findRestaurantBarController) {
+        Session.findRestaurantBarController = findRestaurantBarController;
+    }
+
+    public static void setFindUserBarController(FindUserBarController findUserBarController) {
+        Session.findUserBarController = findUserBarController;
     }
 }

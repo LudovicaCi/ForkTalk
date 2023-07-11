@@ -36,6 +36,15 @@
                </VBox.margin>
             </TextField>
          </VBox>
+         <VBox alignment="CENTER" layoutX="369.0" layoutY="10.0" prefHeight="200.0" prefWidth="120.0">
+            <children>
+               <TextField fx:id="ratingField" alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by rating" style="-fx-background-radius: 7px;">
+                  <VBox.margin>
+                     <Insets left="5.0" right="5.0" />
+                  </VBox.margin>
+               </TextField>
+            </children>
+         </VBox>
          <VBox alignment="CENTER" layoutX="460.0" layoutY="10.0" prefHeight="30.0" prefWidth="101.0">
             <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="80.0" style="-fx-background-color: #037b41;" text="Search" textFill="WHITE">
                <VBox.margin>
@@ -48,7 +57,7 @@
                </graphic>
             </Button>
             <HBox.margin>
-               <Insets left="20.0" />
+               <Insets left="10.0" right="5.0" />
             </HBox.margin>
          </VBox>
       </HBox>

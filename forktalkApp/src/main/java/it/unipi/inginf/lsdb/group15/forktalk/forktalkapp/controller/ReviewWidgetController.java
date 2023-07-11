@@ -1,6 +1,7 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReviewDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
@@ -53,6 +54,16 @@ public class ReviewWidgetController implements Initializable {
         reviewID = review.getString("review_id");
 
         this.rate = (String.valueOf(review.get("review_rating")).equals("null")) ? 0.0 : Double.parseDouble(String.valueOf(review.get("review_rating")));
+    }
+
+    public void setReview(ReviewDTO review){
+        dateField.setText(review.getTimestamp());
+        contentField.setText(review.getContent());
+        usernameField.setText(review.getReviewer());
+        deleteButton.setVisible(false);
+        reviewID = review.getId();
+
+        this.rate = review.getRating();
     }
 
     public void updateStarImages() {
