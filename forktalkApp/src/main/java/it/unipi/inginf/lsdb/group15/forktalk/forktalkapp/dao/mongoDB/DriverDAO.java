@@ -16,7 +16,7 @@ public class DriverDAO {
     /**
      * Connects to the MongoDB cluster and initializes the necessary collections.
      */
-    public void connectToCluster() {
+    public static void connectToCluster() {
         try {
             //Create a mongodbDB client
             String clusterAddress = "mongodb://10.1.1.18:27017,10.1.1.19:27017,10.1.1.20:27017/" +
@@ -67,8 +67,8 @@ public class DriverDAO {
      */
     public static void openConnection() {
         try {
-            connectToLocal();
-
+            //connectToLocal();
+            connectToCluster();
             /*for (String name : db.listCollectionNames()) {
                 System.out.println(name);
             }
