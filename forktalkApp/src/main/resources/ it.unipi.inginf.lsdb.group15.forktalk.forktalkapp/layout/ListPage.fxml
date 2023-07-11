@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.ListPageController">
+   <center>
+      <AnchorPane prefHeight="316.0" prefWidth="600.0" style="-fx-background-color: white;">
+          <HBox prefHeight="38.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+              <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="38.0" prefWidth="65.0">
+                  <Button fx:id="backButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Back" textFill="#037b41">
+                      <graphic>
+                          <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                              <Image url="@../img/angle-small-left.png" />
+                          </ImageView>
+                      </graphic>
+                  </Button>
+              </HBox>
+              <HBox prefHeight="38.0" prefWidth="391.0" />
+              <HBox alignment="CENTER" prefHeight="38.0" prefWidth="34.0">
+                  <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="32.0" style="-fx-background-color: transparent;" textFill="#037b41">
+                      <graphic>
+                          <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <Image url="@../img/circle-user.png" />
+                          </ImageView>
+                      </graphic>
+                  </Button>
+                  <Button fx:id="browseButton" layoutX="10.0" layoutY="16.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="32.0" style="-fx-background-color: transparent;" textFill="#037b41">
+                      <graphic>
+                          <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <Image url="@../img/search-green.png" />
+                          </ImageView>
+                      </graphic>
+                  </Button>
+              </HBox>
+              <HBox alignment="CENTER" layoutX="465.0" layoutY="10.0" prefHeight="38.0" prefWidth="76.0">
+                  <Button fx:id="logoutButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" style="-fx-background-color: transparent;" text="Logout" textFill="#037b41">
+                      <graphic>
+                          <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                              <Image url="@../img/sign-out-alt.png" />
+                          </ImageView>
+                      </graphic>
+                  </Button>
+              </HBox>
+          </HBox>
+          <HBox alignment="CENTER" layoutY="200.0" prefHeight="162.0" prefWidth="600.0">
+            <children>
+               <AnchorPane fx:id="dynamicPane" prefHeight="162.0" prefWidth="600.0" />
+            </children>
+          </HBox>
+          <HBox layoutY="38.0" prefHeight="117.0" prefWidth="600.0">
+              <VBox alignment="CENTER" prefHeight="142.0" prefWidth="105.0">
+                  <HBox.margin>
+                      <Insets left="10.0" />
+                  </HBox.margin>
+                  <ImageView fitHeight="117.0" fitWidth="113.0" pickOnBounds="true" preserveRatio="true">
+                      <Image url="@../img/menu.png" />
+                  </ImageView>
+                       <Button fx:id="followButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #037b41; -fx-background-radius: 25px;" text="Follow" textFill="WHITE">
+                        <effect>
+                            <Glow />
+                        </effect>
+                  <VBox.margin>
+                     <Insets top="3.0" />
+                  </VBox.margin>
+                    </Button>
+              </VBox>
+              <HBox prefHeight="60.0" prefWidth="453.0">
+                  <VBox prefHeight="107.0" prefWidth="400.0">
+                      <HBox.margin>
+                          <Insets top="10.0" />
+                      </HBox.margin>
+                      <Label fx:id="titleField" text="Title">
+                          <font>
+                              <Font name="System Bold" size="28.0" />
+                          </font>
+                      </Label>
+                      <HBox prefHeight="20.0" prefWidth="349.0">
+                           <Label fx:id="authorField" text="Author" textFill="#0000007f">
+                               <font>
+                                   <Font size="10.0" />
+                               </font>
+                           </Label>
+                      </HBox>
+                  <HBox layoutX="10.0" layoutY="45.0" prefHeight="20.0" prefWidth="349.0">
+                     <children>
+                        <Label fx:id="follower" layoutX="20.0" layoutY="10.0" text="n">
+                           <font>
+                              <Font name="System Bold" size="10.0" />
+                           </font>
+                        </Label>
+                        <Label text="Follower" textFill="#0000007f">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="3.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="71.0" prefHeight="20.0" prefWidth="349.0">
+                     <children>
+                        <Label fx:id="numberRest" text="n">
+                           <font>
+                              <Font name="System Bold" size="10.0" />
+                           </font>
+                        </Label>
+                        <Label text="Restaurants" textFill="#0000007f">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="3.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  </VBox>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+              </HBox>
+          </HBox>
+      </AnchorPane>
+   </center>
+    <bottom>
+        <HBox alignment="CENTER" prefHeight="37.0" prefWidth="600.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+            <Button fx:id="loadMoreButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;" text="Load More" textFill="WHITE">
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+            </Button>
+            <HBox.margin>
+                <Insets top="10.0" />
+            </HBox.margin>
+        </HBox>
+    </bottom>
+</BorderPane>

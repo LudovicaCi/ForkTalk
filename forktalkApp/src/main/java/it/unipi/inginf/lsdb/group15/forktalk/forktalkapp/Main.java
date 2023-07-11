@@ -1,8 +1,17 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.DriverDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
+import org.bson.Document;
 
 import java.io.IOException;
+import java.util.List;
+
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.ReservationDAO.makeLocalReservation;
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -271,6 +280,86 @@ public class Main {
         //delete a reservation: FUNZIONA
         //ReservationDTO reservation = new ReservationDTO("filo87", "Filippo", "Rossi", "g10259438-d19087750", "Band of Burgers", "Walthamstow", " Hoe Street Walthamstow   ", "2023-06-30 19:30:00", 5);
         //System.out.println(deleteReservation(Objects.requireNonNull(UserDAO.getUserByUsername("filo87")), Objects.requireNonNull(getRestaurantByUsername("band-of-burgers_695")), reservation));
+
+        //checkUsername: FUNZIONA
+        //System.out.println(UserDAO.isUsernameTaken("lcocchella"));
+
+        //checkEmail
+        //System.out.println(UserDAO.isEmailTaken("lcocchella@yahoo.it"));
+
+        //System.out.println(UserDAO.deleteUser("bogdanp_UK"));
+        // Test the search function
+        /*String location = "London";
+        String name = null;
+        String cuisine = null;
+        String keywords = null;
+
+        List<Document> results = searchRestaurants(location, name, cuisine, keywords);
+
+        System.out.println("Search Results:");
+        for (Document document : results) {
+            System.out.println(document.toJson());
+        }*/
+
+        // Esempio di utilizzo della funzione deleteReviewById
+        /*String reviewId = "dfsj3423";
+        boolean deletionResult = deleteReviewById(reviewId);
+
+        if (deletionResult) {
+            System.out.println("Review deleted successfully.");
+        } else {
+            System.out.println("No matching review found or error occurred while deleting the review.");
+        }*/
+
+        // Esempio di utilizzo della funzione searchUsers
+        /*List<Document> users = UserDAO.searchUsers("", "Jeremy", "", "");
+
+        // Stampa dei risultati
+        for (Document user : users) {
+            System.out.println(user.toJson());
+        }*/
+
+        // ID del ristorante da cercare
+        /*String restId = "g10283565-d3296811";
+
+        // Chiamata alla funzione getRestaurantDocumentById per ottenere il documento del ristorante
+        Document restaurantDocument = getRestaurantDocumentById(restId);
+
+        // Verifica se il documento del ristorante è stato trovato o è null
+        if (restaurantDocument != null) {
+            // Stampa il valore del campo "rest_id" del documento del ristorante
+            String restIdValue = restaurantDocument.getString("rest_id");
+            System.out.println("Restaurant ID: " + restIdValue);
+
+            // Stampa il valore del campo "rest_name" del documento del ristorante
+            String restNameValue = restaurantDocument.getString("rest_name");
+            System.out.println("Restaurant Name: " + restNameValue);
+
+            // Stampa il valore del campo "rest_rating" del documento del ristorante
+            double restRatingValue = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating")));
+            System.out.println("Restaurant Rating: " + restRatingValue);
+
+            List<Document> reviews = restaurantDocument.getList("reviews", Document.class);
+        } else {
+            System.out.println("Restaurant not found.");
+        }*/
+
+        String date = "2023-07-30";
+        String slot = "19:30";
+        int numberOfPerson = 4;
+
+        UserDTO user = UserDAO.getUserByUsername("lcocchella");
+
+        RestaurantDTO rest = RestaurantDAO.getRestaurantById("g10259438-d19087750");
+
+        if(makeLocalReservation(user, rest, date, slot, numberOfPerson))
+            System.out.println("Success!");
+        else
+            System.out.println("ERROR!");
+
+        /*RestaurantDTO rest = RestaurantDAO.getRestaurantById("g10259438-d19087750");
+
+        RestaurantDAO.addFreeSlot(rest);*/
 
         DriverDAO.closeConnection();
     }

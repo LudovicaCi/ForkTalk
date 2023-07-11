@@ -21,7 +21,6 @@
             <version>4.9.0</version>
         </dependency>
 
-        <!-- Aggiungi la dipendenza di Gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -75,7 +74,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.MainApp
+                                it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.ForkTalkGUI
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

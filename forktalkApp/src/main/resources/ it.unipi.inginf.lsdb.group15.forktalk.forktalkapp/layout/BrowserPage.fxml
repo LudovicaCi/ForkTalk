@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.BrowserPageController">
+    <HBox prefHeight="60.0" prefWidth="600.0" style="fx: #037B41;" BorderPane.alignment="CENTER">
+        <ImageView fitHeight="83.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
+            <HBox.margin>
+                <Insets left="10.0" />
+            </HBox.margin>
+            <Image url="@../img/FORKtALK.png" />
+        </ImageView>
+        <HBox prefHeight="83.0" prefWidth="395.0" />
+        <VBox alignment="TOP_CENTER" prefHeight="71.0" prefWidth="61.0">
+            <Button fx:id="userButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="68.0" style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../img/circle-user.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+        </VBox>
+        <VBox alignment="TOP_CENTER" prefHeight="66.0" prefWidth="102.0">
+            <Button fx:id="logoutButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="89.0" style="-fx-background-color: transparent;" text="Logout" textFill="#037b41">
+                <graphic>
+                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../img/sign-out-alt.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+        </VBox>
+    </HBox>
+    <ToolBar layoutX="-1.0" layoutY="83.0" prefHeight="36.0" prefWidth="600.0" style="-fx-background-color: #037b41;" AnchorPane.rightAnchor="0.0">
+        <Button fx:id="findRestButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Find restaurants" textFill="WHITE" />
+        <VBox prefHeight="25.0" prefWidth="2.0">
+            <Line startY="20.0" stroke="WHITE">
+                <VBox.margin>
+                    <Insets top="2.5" />
+                </VBox.margin>
+            </Line>
+        </VBox>
+        <Button fx:id="findUserButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Find users" textFill="WHITE" />
+        <VBox prefHeight="25.0" prefWidth="2.0">
+            <Line startY="20.0" stroke="WHITE">
+                <VBox.margin>
+                    <Insets top="2.5" />
+                </VBox.margin>
+            </Line>
+        </VBox>
+        <Button fx:id="findListsButton" layoutX="81.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Find restaurant lists" textFill="WHITE" />
+    </ToolBar>
+   <BorderPane layoutY="119.0" prefHeight="281.0" prefWidth="600.0">
+      <top>
+          <AnchorPane BorderPane.alignment="CENTER">
+              <HBox fx:id="searchBarPane" alignment="CENTER" layoutY="4.0" prefHeight="281.0" prefWidth="600.0" />
+          </AnchorPane>
+      </top>
+   </BorderPane>
+</AnchorPane>

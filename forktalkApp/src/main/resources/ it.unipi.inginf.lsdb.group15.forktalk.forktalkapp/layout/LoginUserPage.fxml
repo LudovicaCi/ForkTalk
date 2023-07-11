@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.LoginUserPageController">
+   <top>
+      <HBox prefHeight="31.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <HBox alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="38.0" prefWidth="65.0">
+            <Button fx:id="backButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Back"
+                    textFill="#037b41">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../img/angle-small-left.png"/>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </HBox>
+      </HBox>
+   </top>
+   <left>
+      <VBox prefHeight="400.0" prefWidth="290.0" BorderPane.alignment="CENTER">
+         <VBox prefHeight="340.0" prefWidth="243.0" style="-fx-background-color: #037B41;">
+            <VBox.margin>
+               <Insets bottom="30.0" left="30.0" right="20.0" top="10.0"/>
+            </VBox.margin>
+            <HBox alignment="CENTER" prefHeight="106.0" prefWidth="235.0">
+               <ImageView fitHeight="41.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@../img/LOGIN1.png"/>
+               </ImageView>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="20.0" style="-fx-background-color: transparent;">
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" top="30.0"/>
+               </VBox.margin>
+               <TextField fx:id="usernameLoginField" alignment="CENTER" promptText="username"/>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="20.0" style="-fx-background-color: transparent;">
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" top="15.0"/>
+               </VBox.margin>
+               <PasswordField fx:id="passwordLoginField" alignment="CENTER" promptText="password"/>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <Button fx:id="loginButton" mnemonicParsing="false" style="-fx-background-color: white;"
+                       text="Login" textFill="#037b41">
+                  <effect>
+                     <DropShadow blurType="GAUSSIAN" height="15.16" radius="6.5925" width="13.21">
+                        <color>
+                           <Color red="1.0" green="1.0" blue="1.0"/>
+                        </color>
+                     </DropShadow>
+                  </effect>
+               </Button>
+            </HBox>
+         </VBox>
+      </VBox>
+   </left>
+   <right>
+      <VBox prefHeight="400.0" prefWidth="290.0" BorderPane.alignment="CENTER">
+         <VBox prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #037B41;">
+            <VBox.margin>
+               <Insets bottom="30.0" left="20.0" right="30.0" top="10.0"/>
+            </VBox.margin>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <ImageView fitHeight="53.0" fitWidth="194.0" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@../img/LOGIN.png"/>
+               </ImageView>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="19.0" prefWidth="235.0">
+               <TextField fx:id="nameField" alignment="CENTER" layoutX="53.0" layoutY="19.0" promptText="name"/>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="110.0" prefHeight="14.0" prefWidth="235.0">
+               <padding>
+                  <Insets top="5.0"/>
+               </padding>
+               <TextField fx:id="surnameField" alignment="CENTER" layoutX="10.0" layoutY="10.0"
+                          promptText="surname"/>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="210.0" prefHeight="6.0" prefWidth="235.0">
+               <padding>
+                  <Insets top="5.0"/>
+               </padding>
+               <TextField fx:id="emailField" alignment="CENTER" layoutX="10.0" layoutY="10.0" promptText="email"/>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="265.0" prefHeight="20.0" prefWidth="235.0">
+               <padding>
+                  <Insets top="5.0"/>
+               </padding>
+               <TextField fx:id="usernameField" alignment="CENTER" layoutX="10.0" layoutY="10.0"
+                          promptText="username"/>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="282.0" prefHeight="23.0" prefWidth="235.0">
+               <padding>
+                  <Insets top="5.0"/>
+               </padding>
+               <PasswordField fx:id="passwordField" alignment="CENTER" promptText="password"/>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="293.0" prefHeight="23.0" prefWidth="235.0">
+               <padding>
+                  <Insets top="5.0"/>
+               </padding>
+               <TextField fx:id="originField" alignment="CENTER" promptText="origin"/>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="253.0" prefHeight="54.0" prefWidth="235.0">
+               <Button fx:id="signupButton" mnemonicParsing="false" style="-fx-background-color: white;"
+                       text="Signup" textFill="#037b41">
+                  <effect>
+                     <DropShadow blurType="GAUSSIAN" height="15.16" radius="6.5925" width="13.21">
+                        <color>
+                           <Color red="1.0" green="1.0" blue="1.0"/>
+                        </color>
+                     </DropShadow>
+                  </effect>
+               </Button>
+            </HBox>
+         </VBox>
+      </VBox>
+   </right>
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <HBox alignment="CENTER" prefHeight="260.0" prefWidth="80.0">
+            <ImageView fitHeight="34.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../img/or.png"/>
+            </ImageView>
+         </HBox>
+      </VBox>
+   </center>
+</BorderPane>

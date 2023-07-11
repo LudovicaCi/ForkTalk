@@ -13,5 +13,6 @@ module forktalkApp {
 
     exports it.unipi.inginf.lsdb.group15.forktalk.forktalkapp;
     exports it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
+    exports it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto;
     opens it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller to javafx.fxml;
 }

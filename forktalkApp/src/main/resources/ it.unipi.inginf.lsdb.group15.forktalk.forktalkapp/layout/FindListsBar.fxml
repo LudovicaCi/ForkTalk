@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="281.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.FindRestaurantBarController">
+<top>
+    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="25.0" prefWidth="120.0">
+            <TextField alignment="CENTER" prefHeight="25.0" prefWidth="176.0" promptText="by title" style="-fx-background-radius: 7px;">
+                <VBox.margin>
+                    <Insets left="5.0" right="5.0" />
+                </VBox.margin>
+            </TextField>
+        </VBox>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
+            <TextField alignment="CENTER" prefHeight="20.0" prefWidth="20.0" promptText="by author" style="-fx-background-radius: 7px;">
+                <VBox.margin>
+                    <Insets left="5.0" right="5.0" />
+                </VBox.margin>
+            </TextField>
+        </VBox>
+         <HBox prefHeight="37.0" prefWidth="264.0" />
+        <VBox alignment="CENTER" layoutX="460.0" layoutY="10.0" prefHeight="30.0" prefWidth="101.0">
+            <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="80.0" style="-fx-background-color: #037b41;" text="Search" textFill="WHITE">
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+                <graphic>
+                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../img/search_white.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </VBox>
+    </HBox>
+</top>
+<center>
+    <AnchorPane fx:id="dynamicPane" prefHeight="250.0" prefWidth="600.0" style="-fx-background-color: #faf7f7;" BorderPane.alignment="CENTER">
+        <BorderPane.margin>
+            <Insets top="3.0" />
+        </BorderPane.margin>
+        <opaqueInsets>
+            <Insets />
+        </opaqueInsets>
+    </AnchorPane>
+</center>
+<bottom>
+    <HBox alignment="CENTER" prefHeight="37.0" prefWidth="600.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+        <Button fx:id="loadMoreButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="80.0" style="-fx-background-color: #037b41;" text="Load More" textFill="WHITE">
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+        </Button>
+        <HBox.margin>
+            <Insets top="10.0" />
+        </HBox.margin>
+    </HBox>
+</bottom>
+</BorderPane>

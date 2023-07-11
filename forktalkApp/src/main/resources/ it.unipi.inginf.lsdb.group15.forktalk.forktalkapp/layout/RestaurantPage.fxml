@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.RestaurantPageController">
+   <top>
+      <HBox prefHeight="38.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="38.0" prefWidth="65.0">
+            <Button fx:id="backButton" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Back" textFill="#037b41">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../img/angle-small-left.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+         </HBox>
+         <HBox prefHeight="38.0" prefWidth="391.0" />
+         <HBox alignment="CENTER" prefHeight="38.0" prefWidth="34.0">
+            <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="32.0" style="-fx-background-color: transparent;" textFill="#037b41">
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../img/circle-user.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="browseButton" layoutX="10.0" layoutY="16.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="32.0" style="-fx-background-color: transparent;" textFill="#037b41">
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../img/search-green.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+         </HBox>
+         <HBox alignment="CENTER" layoutX="465.0" layoutY="10.0" prefHeight="38.0" prefWidth="76.0">
+            <Button fx:id="logoutButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" style="-fx-background-color: transparent;" text="Logout" textFill="#037b41">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../img/sign-out-alt.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+         </HBox>
+      </HBox>
+   </top>
+   <center>
+      <BorderPane>
+         <top>
+            <VBox BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="40.0" prefWidth="600.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="40.0" prefWidth="245.0" style="-fx-border-color: #037b41;">
+                           <children>
+                              <Text fx:id="restName" strokeType="OUTSIDE" strokeWidth="0.0" text="Restaurant Name" textAlignment="JUSTIFY">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <HBox style="-fx-background-color: #037b41;">
+                           <children>
+                              <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Button fx:id="showReview" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="Show reviews" textFill="WHITE" wrapText="true" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="25.0" prefWidth="2.0">
+                                 <Line startY="20.0" stroke="WHITE">
+                                    <VBox.margin>
+                                       <Insets top="10.0" />
+                                    </VBox.margin>
+                                 </Line>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Button fx:id="writeReview" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="Write review" textFill="WHITE" wrapText="true" />
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="106.0" layoutY="10.0" prefHeight="25.0" prefWidth="2.0">
+                                 <children>
+                                    <Line startY="20.0" stroke="WHITE">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Line>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Button fx:id="addToList" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="Add to list" textFill="WHITE" wrapText="true" />
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="203.0" layoutY="10.0" prefHeight="25.0" prefWidth="2.0">
+                                 <children>
+                                    <Line startY="20.0" stroke="WHITE">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Line>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Button fx:id="bookTableButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="Book a table" textFill="WHITE" wrapText="true" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children></HBox>
+                  <HBox prefHeight="36.0" prefWidth="600.0">
+                     <children>
+                        <HBox prefHeight="36.0" prefWidth="130.0">
+                           <children>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="25.0" prefWidth="25.0">
+                                       <children>
+                                          <ImageView fx:id="star1" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="25.0">
+                                       <children>
+                                          <ImageView fx:id="star2" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" layoutX="35.0" layoutY="10.0" prefHeight="25.0" prefWidth="25.0">
+                                       <children>
+                                          <ImageView fx:id="star3" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" layoutX="61.0" layoutY="10.0" prefHeight="25.0" prefWidth="25.0">
+                                       <children>
+                                          <ImageView fx:id="star4" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" layoutX="86.0" layoutY="10.0" prefHeight="25.0" prefWidth="25.0">
+                                       <children>
+                                          <ImageView fx:id="star5" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="15.0" />
+                                 </HBox.margin>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Text fx:id="totalReviews" strokeType="OUTSIDE" strokeWidth="0.0" text="number" />
+                              <Text fx:id="totalReviews1" layoutX="10.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="reviews">
+                                 <HBox.margin>
+                                    <Insets left="2.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <VBox layoutX="93.0" layoutY="10.0" prefHeight="25.0" prefWidth="2.0">
+                                 <children>
+                                    <Line startY="20.0" stroke="#b4b4b4">
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Line>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <HBox.margin>
+                              <Insets left="3.0" />
+                           </HBox.margin>
+                        </HBox>
+                        <VBox alignment="CENTER_LEFT" layoutX="210.0" layoutY="10.0" prefHeight="36.0" prefWidth="353.0">
+                           <children>
+                              <Text fx:id="tagField" strokeType="OUTSIDE" strokeWidth="0.0" text="tag" wrappingWidth="364.0" />
+                           </children>
+                        </VBox>
+                     </children></HBox>
+                  <HBox layoutX="10.0" layoutY="50.0" prefHeight="36.0" prefWidth="600.0">
+                     <children>
+                        <HBox>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                           <children>
+                              <HBox>
+                                 <children>
+                                    <HBox prefHeight="36.0" prefWidth="487.0">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="0.0">
+                                             <children>
+                                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../img/placeholder.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="36.0" prefWidth="453.0">
+                                             <children>
+                                                <Text fx:id="addressField" strokeType="OUTSIDE" strokeWidth="0.0" text="address" wrappingWidth="456.00006103515625" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <VBox prefHeight="25.0" prefWidth="2.0">
+                           <children>
+                              <Line startY="20.0" stroke="#b4b4b4">
+                                 <VBox.margin>
+                                    <Insets left="3.0" right="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Line>
+                           </children>
+                        </VBox>
+                        <HBox layoutX="25.0" layoutY="10.0">
+                           <children>
+                              <HBox>
+                                 <children>
+                                    <HBox prefHeight="36.0" prefWidth="55.0">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="0.0">
+                                             <children>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../img/euro.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="36.0" prefWidth="0.0">
+                                             <children>
+                                                <Text fx:id="priceField" strokeType="OUTSIDE" strokeWidth="0.0" text="price" wrappingWidth="25.99995231628418">
+                                                   <VBox.margin>
+                                                      <Insets left="3.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <VBox prefHeight="25.0" prefWidth="2.0">
+                                       <children>
+                                          <Line startY="20.0" stroke="#b4b4b4">
+                                             <VBox.margin>
+                                                <Insets left="3.0" right="5.0" top="10.0" />
+                                             </VBox.margin>
+                                          </Line>
+                                       </children>
+                                    </VBox>
+                                    <HBox alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="36.0" prefWidth="30.0">
+                                       <children>
+                                          <VBox alignment="CENTER" prefHeight="36.0" prefWidth="0.0">
+                                             <children>
+                                                <Button fx:id="likeButton" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                                                   <graphic>
+                                                      <ImageView fitHeight="20.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@../img/empty_heart.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                                   <VBox.margin>
+                                                      <Insets left="-2.0" top="2.0" />
+                                                   </VBox.margin>
+                                                </Button>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets top="3.0" />
+                                             </HBox.margin>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </children></HBox>
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <AnchorPane id="restaurantPage" fx:id="dynamicPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: transparent;">
+               <BorderPane.margin>
+                  <Insets top="3.0" />
+               </BorderPane.margin></AnchorPane>
+         </center>
+         <bottom>
+            <HBox fx:id="bottomBox" alignment="CENTER" prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <Button fx:id="loadMoreButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #037b41;" text="Load More" textFill="WHITE">
+                  <VBox.margin>
+                     <Insets />
+                  </VBox.margin>
+               </Button>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </HBox>
+         </bottom>
+      </BorderPane>
+   </center>
+</BorderPane>

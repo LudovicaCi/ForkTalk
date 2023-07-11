@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="590.0" style="-fx-background-color: white; -fx-border-color: #b4b4b4;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="115.0">
+      <ImageView fitHeight="97.0" fitWidth="83.0" layoutX="115.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../img/store.png" />
+      </ImageView>
+   </VBox>
+   <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="336.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="335.0">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <Text fx:id="restName" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+            <font>
+               <Font name="System Bold" size="24.0" />
+            </font>
+            <HBox.margin>
+               <Insets left="20.0" />
+            </HBox.margin>
+         </Text>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="45.0" prefHeight="45.0" prefWidth="301.0">
+         <VBox.margin>
+            <Insets top="1.0" />
+         </VBox.margin>
+         <VBox alignment="CENTER" prefHeight="25.0" prefWidth="25.0">
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+               <Image url="@../img/placeholder.png" />
+            </ImageView>
+         </VBox>
+         <Text fx:id="location" strokeType="OUTSIDE" strokeWidth="0.0" text="location">
+            <HBox.margin>
+               <Insets left="10.0" />
+            </HBox.margin>
+         </Text>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="45.0" prefHeight="45.0" prefWidth="301.0">
+         <VBox.margin>
+            <Insets top="1.0" />
+         </VBox.margin>
+         <VBox alignment="CENTER" prefHeight="25.0" prefWidth="25.0">
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="21.0" />
+               </VBox.margin>
+               <Image url="@../img/review.png" />
+            </ImageView>
+         </VBox>
+         <Text fx:id="rating" strokeType="OUTSIDE" strokeWidth="0.0" text="rating">
+            <HBox.margin>
+               <Insets left="10.0" />
+            </HBox.margin>
+         </Text>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="65.0" prefHeight="45.0" prefWidth="301.0">
+         <VBox.margin>
+            <Insets top="1.0" />
+         </VBox.margin>
+         <VBox alignment="CENTER" prefHeight="25.0" prefWidth="25.0">
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+               <Image url="@../img/feedback.png" />
+            </ImageView>
+         </VBox>
+         <Text fx:id="reviews" strokeType="OUTSIDE" strokeWidth="0.0" text="reviews">
+            <HBox.margin>
+               <Insets left="10.0" />
+            </HBox.margin>
+         </Text>
+      </HBox>
+      <HBox layoutX="10.0" layoutY="102.0" prefHeight="80.0" prefWidth="336.0">
+         <opaqueInsets>
+            <Insets top="1.0" />
+         </opaqueInsets>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+         <Button fx:id="showButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #037b41;" text="Go to Restaurant " textFill="WHITE">
+            <HBox.margin>
+               <Insets top="2.0" />
+            </HBox.margin>
+            <effect>
+               <Glow />
+            </effect>
+         </Button>
+      </HBox>
+   </VBox>
+</HBox>
