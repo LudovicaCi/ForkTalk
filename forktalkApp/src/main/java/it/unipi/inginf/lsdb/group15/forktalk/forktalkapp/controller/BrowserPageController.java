@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -25,6 +26,9 @@ public class BrowserPageController implements Initializable {
     public Button findUserButton;
     public Button findListsButton;
     public AnchorPane dynamicPane;
+    public MenuItem topKRestButton;
+    public MenuItem activeUserButton;
+    public MenuItem lifespanButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,6 +55,94 @@ public class BrowserPageController implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+        topKRestButton.setOnAction(event -> {
+            try {
+                openTopKAnalyticsPane();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        activeUserButton.setOnAction(event -> {
+            try {
+                openMostActiveAnalyticsPane();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        lifespanButton.setOnAction(event -> {
+            try {
+                openHighestLifeSpanRestPane();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void openTopKAnalyticsPane() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/AnalyticsPane.fxml"));
+        AnalyticsPaneController analyticsPaneController = new AnalyticsPaneController();
+        loader.setController(analyticsPaneController);
+        Parent findTopRoot = loader.load();
+
+        analyticsPaneController.searchButton.setOnAction(event -> analyticsPaneController.searchTopKRatedRestaurantsByCuisine());
+
+        Region findTopRegion = (Region) findTopRoot;
+
+        findTopRegion.setPrefWidth(searchBarPane.getWidth());
+        findTopRegion.setPrefHeight(searchBarPane.getHeight());
+
+        AnchorPane.setTopAnchor(findTopRoot, 0.0);
+        AnchorPane.setRightAnchor(findTopRoot, 0.0);
+        AnchorPane.setBottomAnchor(findTopRoot, 0.0);
+        AnchorPane.setLeftAnchor(findTopRoot, 0.0);
+
+        searchBarPane.getChildren().setAll(findTopRoot);
+    }
+
+    private void openMostActiveAnalyticsPane() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/AnalyticsPane.fxml"));
+        AnalyticsPaneController analyticsPaneController = new AnalyticsPaneController();
+        loader.setController(analyticsPaneController);
+        Parent findTopRoot = loader.load();
+
+        analyticsPaneController.cuisineField.setVisible(false);
+        analyticsPaneController.entity = 0;
+        analyticsPaneController.searchButton.setOnAction(event -> analyticsPaneController.searchKMostActiveUsers());
+
+
+        Region findTopRegion = (Region) findTopRoot;
+
+        findTopRegion.setPrefWidth(searchBarPane.getWidth());
+        findTopRegion.setPrefHeight(searchBarPane.getHeight());
+
+        AnchorPane.setTopAnchor(findTopRoot, 0.0);
+        AnchorPane.setRightAnchor(findTopRoot, 0.0);
+        AnchorPane.setBottomAnchor(findTopRoot, 0.0);
+        AnchorPane.setLeftAnchor(findTopRoot, 0.0);
+
+        searchBarPane.getChildren().setAll(findTopRoot);
+    }
+
+    private void openHighestLifeSpanRestPane() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/AnalyticsPane.fxml"));
+        AnalyticsPaneController analyticsPaneController = new AnalyticsPaneController();
+        loader.setController(analyticsPaneController);
+        Parent findTopRoot = loader.load();
+
+        analyticsPaneController.cuisineField.setVisible(false);
+        analyticsPaneController.searchButton.setOnAction(event -> analyticsPaneController.searchKHighestLifespanRestaurants());
+
+        Region findTopRegion = (Region) findTopRoot;
+
+        findTopRegion.setPrefWidth(searchBarPane.getWidth());
+        findTopRegion.setPrefHeight(searchBarPane.getHeight());
+
+        AnchorPane.setTopAnchor(findTopRoot, 0.0);
+        AnchorPane.setRightAnchor(findTopRoot, 0.0);
+        AnchorPane.setBottomAnchor(findTopRoot, 0.0);
+        AnchorPane.setLeftAnchor(findTopRoot, 0.0);
+
+        searchBarPane.getChildren().setAll(findTopRoot);
     }
 
     private void openListsBar() throws IOException {

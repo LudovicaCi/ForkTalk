@@ -15,6 +15,7 @@ import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Restaurant;
 import java.lang.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import org.bson.Document;
@@ -88,11 +89,43 @@ public class UserDAO extends DriverDAO {
             UpdateResult reservationUpdateResult = restaurantCollection.updateMany(reservationsFilter, reservationsUpdate, updateOptions);
 
             clientSession.commitTransaction();
-            // Check if the deletion was successful in both collections
-            return userDeleteResult.getDeletedCount() > 0 && reservationUpdateResult.getModifiedCount() > 0;
+
+            if(Objects.requireNonNull(UserDAO.getUserByUsername(username)).getReservations().size() == 0){
+                return userDeleteResult.getDeletedCount() > 0 && reservationUpdateResult.getModifiedCount() == 0;
+            }else {
+                return userDeleteResult.getDeletedCount() > 0 && reservationUpdateResult.getModifiedCount() > 0;
+            }
         } catch (MongoException e) {
             e.printStackTrace();
             clientSession.abortTransaction();
+            return false;
+        }
+    }
+
+    public static boolean suspendUser(String username){
+        try{
+            Bson userFilter = eq("username", username);
+            Bson setAdmin = set("suspended", 1);
+
+            UpdateResult result = userCollection.updateOne(userFilter, setAdmin);
+
+            return result.getModifiedCount() > 0;
+        }catch (MongoException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean unsuspendUser(String username){
+        try{
+            Bson userFilter = eq("username", username);
+            Bson setAdmin = set("suspended", 0);
+
+            UpdateResult result = userCollection.updateOne(userFilter, setAdmin);
+
+            return result.getModifiedCount() > 0;
+        }catch (MongoException e){
+            e.printStackTrace();
             return false;
         }
     }
@@ -321,6 +354,17 @@ public class UserDAO extends DriverDAO {
             return user;
         }catch (MongoException e){
             System.out.println("An error occurred while retrieving the user");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Document getUserDocumentByUsername(String username){
+        try {
+            Bson filter = Filters.eq("username", username);
+
+            return userCollection.find(filter).first();
+        }catch (MongoException e){
             e.printStackTrace();
             return null;
         }

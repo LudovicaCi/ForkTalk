@@ -93,9 +93,13 @@ public class LoginUserPageController implements Initializable {
             UserDTO loggedUser = UserDAO.loginUser(usernameLoginField.getText(), passwordLoginField.getText());
 
             if (loggedUser != null) {
-                Session.setLoggedUser(loggedUser);
-                Session.setLoggedRestaurant(null);
-                Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/BrowserPage.fxml", event);
+                if(loggedUser.getSuspended() == 1){
+                    Utils.showAlert("it's not possible to login because your account has been \nsuspended! Please try later.");
+                }else {
+                    Session.setLoggedUser(loggedUser);
+                    Session.setLoggedRestaurant(null);
+                    Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/BrowserPage.fxml", event);
+                }
             } else {
                 showAlert("Login failed. Please try again.");
             }

@@ -105,20 +105,13 @@
                <Insets left="2.0" top="2.0" />
             </HBox.margin>
          </Button>
-         <Button fx:id="deleteButton" layoutX="103.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="17.0" style="-fx-background-color: transparent;" textFill="WHITE">
+         <Button fx:id="suspendedButton" layoutX="105.0" layoutY="12.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: a2282a;" text="Suspend Account" textFill="WHITE">
             <effect>
                <Glow />
             </effect>
             <HBox.margin>
-               <Insets />
+               <Insets left="2.0" top="2.0" />
             </HBox.margin>
-            <graphic>
-               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../img/delete_1.png" />
-                  </image>
-               </ImageView>
-            </graphic>
          </Button>
         </HBox>
     </VBox>

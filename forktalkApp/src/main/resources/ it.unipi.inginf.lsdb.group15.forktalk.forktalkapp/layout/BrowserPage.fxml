@@ -52,6 +52,22 @@
             </Line>
         </VBox>
         <Button fx:id="findListsButton" layoutX="81.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Find restaurant lists" textFill="WHITE" />
+      <VBox layoutX="194.0" layoutY="10.0" prefHeight="25.0" prefWidth="2.0">
+         <children>
+            <Line startY="20.0" stroke="WHITE">
+               <VBox.margin>
+                  <Insets top="2.5" />
+               </VBox.margin>
+            </Line>
+         </children>
+      </VBox>
+      <MenuButton mnemonicParsing="false" style="-fx-background-color: transparent;" text="Analytics" textFill="WHITE">
+        <items>
+          <MenuItem fx:id="topKRestButton" mnemonicParsing="false" style="-fx-text-fill: #037b41;" text="Top K Rated Restaurants By Cuisine" />
+          <MenuItem fx:id="activeUserButton" mnemonicParsing="false" style="-fx-text-fill: #037b41;" text="K Most Active Users" />
+            <MenuItem fx:id="lifespanButton" mnemonicParsing="false" style="-fx-text-fill: #037b41;" text="K Highest Lifespan Restaurants" />
+        </items>
+      </MenuButton>
     </ToolBar>
    <BorderPane layoutY="119.0" prefHeight="281.0" prefWidth="600.0">
       <top>

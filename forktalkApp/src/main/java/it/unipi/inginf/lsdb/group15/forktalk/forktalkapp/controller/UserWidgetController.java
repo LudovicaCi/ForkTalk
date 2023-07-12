@@ -26,7 +26,7 @@ public class UserWidgetController implements Initializable {
     public Text originField;
     public Button showButton;
     public Button adminButton;
-    public Button deleteButton;
+    public Button suspendedButton;
     Document user;
 
     FXMLLoader loader;
@@ -37,19 +37,25 @@ public class UserWidgetController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showButton.setOnAction(this::openRestaurantPage);
         adminButton.setOnAction(this::makeAdmin);
-        deleteButton.setOnAction(this::deleteUser);
         if(Session.loggedUser.getRole() != 2) {
             adminButton.setVisible(false);
-            deleteButton.setVisible(false);
+            suspendedButton.setVisible(false);
         }
     }
 
-    private void deleteUser(ActionEvent event) {
-        if(UserDAO.deleteUser(usernameField.getText())){
-            Utils.showAlert("OK!");
-            Session.getFindUserBarController().allUsers.remove(user);
-            Session.getFindUserBarController().resetView();
-            Session.getFindUserBarController().loadNextBatch();
+    private void suspendUser(ActionEvent event) {
+        if(UserDAO.suspendUser(usernameField.getText())){
+            suspendedButton.setText("Unsuspend Account");
+            suspendedButton.setOnAction(this::unsuspendUser);
+        }else{
+            Utils.showAlert("Something went wrong! Please try again.");
+        }
+    }
+
+    private void unsuspendUser(ActionEvent event) {
+        if(UserDAO.unsuspendUser(usernameField.getText())){
+            suspendedButton.setText("Suspend Account");
+            suspendedButton.setOnAction(this::suspendUser);
         }else{
             Utils.showAlert("Something went wrong! Please try again.");
         }
@@ -69,6 +75,13 @@ public class UserWidgetController implements Initializable {
             userName.setText(user.getString("name").trim() + " " + user.getString("surname"));
             emailField.setText(user.getString("email"));
             originField.setText(user.getString("origin"));
+            if(user.getInteger("suspended") == 0) {
+                suspendedButton.setText("Suspend Account");
+                suspendedButton.setOnAction(this::suspendUser);
+            }else{
+                suspendedButton.setText("Unsuspend Account");
+                suspendedButton.setOnAction(this::unsuspendUser);
+            }
 
             loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/UserPage.fxml"));
             root = loader.load();
