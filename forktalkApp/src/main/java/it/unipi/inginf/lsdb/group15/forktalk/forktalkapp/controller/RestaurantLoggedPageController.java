@@ -11,9 +11,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
@@ -42,6 +44,8 @@ public class RestaurantLoggedPageController implements Initializable {
 
     public VBox pageContainer;
     public Button reservationButton;
+    public Button addSlotsButton;
+    public Button statisticsButton;
     private int currentIndex = 0;
 
 
@@ -57,6 +61,20 @@ public class RestaurantLoggedPageController implements Initializable {
         pageContainer = new VBox();
         reservationButton.setOnAction(this::createReservationGridPane);
         Session.setRestaurantLoggedPageController(this);
+        addSlotsButton.setOnAction(event -> {
+            try {
+                openAddSlotsPage();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        statisticsButton.setOnAction(event -> {
+            try {
+                openStatisticsPage();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void openPreviousPage(ActionEvent event) {
@@ -67,6 +85,57 @@ public class RestaurantLoggedPageController implements Initializable {
         Session.setLoggedUser(null);
         Session.setLoggedRestaurant(null);
         Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/FirstPage.fxml", event);
+    }
+
+    public void openStatisticsPage() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/RestaurantStatistics.fxml"));
+        Parent editProfileRoot = loader.load();
+
+        Region editProfileRegion = (Region) editProfileRoot;
+
+        editProfileRegion.setPrefWidth(dynamicPane.getWidth());
+        editProfileRegion.setPrefHeight(dynamicPane.getHeight());
+
+        AnchorPane.setTopAnchor(editProfileRoot, 0.0);
+        AnchorPane.setRightAnchor(editProfileRoot, 0.0);
+        AnchorPane.setBottomAnchor(editProfileRoot, 0.0);
+        AnchorPane.setLeftAnchor(editProfileRoot, 0.0);
+
+        dynamicPane.getChildren().setAll(editProfileRoot);
+    }
+
+    public void openAddSlotsPage() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/AddReservationSlots.fxml"));
+        Parent editProfileRoot = loader.load();
+
+        Region editProfileRegion = (Region) editProfileRoot;
+
+        editProfileRegion.setPrefWidth(dynamicPane.getWidth());
+        editProfileRegion.setPrefHeight(dynamicPane.getHeight());
+
+        AnchorPane.setTopAnchor(editProfileRoot, 0.0);
+        AnchorPane.setRightAnchor(editProfileRoot, 0.0);
+        AnchorPane.setBottomAnchor(editProfileRoot, 0.0);
+        AnchorPane.setLeftAnchor(editProfileRoot, 0.0);
+
+        dynamicPane.getChildren().setAll(editProfileRoot);
+    }
+
+    private void handleModifyRestaurant() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/EditProfilePage.fxml"));
+        Parent editProfileRoot = loader.load();
+
+        Region editProfileRegion = (Region) editProfileRoot;
+
+        editProfileRegion.setPrefWidth(dynamicPane.getWidth());
+        editProfileRegion.setPrefHeight(dynamicPane.getHeight());
+
+        AnchorPane.setTopAnchor(editProfileRoot, 0.0);
+        AnchorPane.setRightAnchor(editProfileRoot, 0.0);
+        AnchorPane.setBottomAnchor(editProfileRoot, 0.0);
+        AnchorPane.setLeftAnchor(editProfileRoot, 0.0);
+
+        dynamicPane.getChildren().setAll(editProfileRoot);
     }
 
     public void showReviews(ActionEvent event) {

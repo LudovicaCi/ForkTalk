@@ -401,10 +401,19 @@ public class Main {
             System.out.println("-------------------------------------");
         } */
 
-        Document result = RestaurantDAO.getReviewsStatsByDateRange("g1096773-d1953140", "2015-01-01", "2015-12-31");
+        Document result = RestaurantDAO.getReviewsStatsByDateRange("g10029240-d1827365", "2015-01-01", "2015-12-31");
 
-        System.out.println("Tot Reviews: " + result.getLong("total_reviews"));
-        System.out.println("avg_rating: " + result.getDouble("average_rating"));
+        if(result == null){
+            System.out.println("Tot Reviews: 0");
+            System.out.println("avg_rating: 0.0");
+        }else {
+            System.out.println("Tot Reviews: " + result.getLong("total_reviews"));
+            System.out.println("avg_rating: " + result.getDouble("average_rating"));
+        }
+
+        /*result.getDouble("average_rating")RestaurantDTO rest = RestaurantDAO.getRestaurantById("g528819-d10490489");
+
+        System.out.println(RestaurantDAO.addFreeSlot(rest, 2, "20:00", "2023-07-28")); */
 
         DriverDAO.closeConnection();
     }

@@ -896,7 +896,7 @@ public class RestaurantDAO extends DriverDAO {
      * @param rest The RestaurantDTO object representing the restaurant.
      * @return true if the free slots are successfully added, false otherwise.
      */
-    public static boolean addFreeSlot(RestaurantDTO rest) {
+    /*public static boolean addFreeSlot(RestaurantDTO rest) {
         try {
             ArrayList<String> timeSlotToAdd = new ArrayList<>();
             ArrayList<String> availableTimeSlot = new ArrayList<>();
@@ -978,6 +978,114 @@ public class RestaurantDAO extends DriverDAO {
                     System.out.println("Enter the maximum capacity of the restaurant:");
                     int n = scanner.nextInt();
                     setMaxClient(n, rest);
+                }
+
+                // Retrieve the existing reservations from the restaurant document
+                List<Document> reservationsDoc = restaurantDocument.getList("reservations", Document.class);
+                if(reservationsDoc == null){
+                    reservationsDoc = new ArrayList<>();
+                }
+
+                reservationsDoc.addAll(newReservationDocs);
+
+                // Update the restaurant document with the updated reservation list
+                restaurantDocument.append("reservations", reservationsDoc);
+
+                // Perform the update operation to update the restaurant document in the collection
+                UpdateResult result = restaurantCollection.updateOne(filter, new Document("$set", restaurantDocument));
+
+                // Check if the update was successful
+                if (result.getModifiedCount() > 0) {
+                    System.out.println("Time Slots added successfully.");
+                    return true;
+                } else {
+                    System.out.println("No matching restaurant document found.");
+                    return false;
+                }
+            } else {
+                System.out.println("ERROR: The date must be after the current date.");
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR: An error occurred while adding FreeSlots");
+            e.printStackTrace();
+            return false;
+        }
+    }*/
+
+    public static boolean addFreeSlot(RestaurantDTO rest, int numberOfSlots, String timeSlot, String inputDate) {
+        try {
+            ArrayList<String> timeSlotToAdd = new ArrayList<>();
+            ArrayList<String> availableTimeSlot = new ArrayList<>();
+
+            // Generating available time slots
+            for (int hour = 8; hour <= 23; hour++) {
+                availableTimeSlot.add(String.format("%02d:00", hour));
+                availableTimeSlot.add(String.format("%02d:30", hour));
+            }
+
+            /*System.out.println("Slots available:");
+            for (String time : availableTimeSlot) {
+                System.out.println(time);
+            } */
+
+            //Scanner scanner = new Scanner(System.in);
+
+            // Getting the number of slots to add
+            //System.out.println("Enter how many slots you want to add");
+            //int numberOfSlots = scanner.nextInt();
+
+            // Adding selected slots
+            for (int i = 0; i < numberOfSlots; i++) {
+                //System.out.println("Slots available:");
+                //for (String time : availableTimeSlot) {
+                   // System.out.println(time);
+                //}
+                //System.out.println("Enter the time slot you want to add");
+                //String timeSlot = scanner.next();
+
+                if (availableTimeSlot.contains(timeSlot)) {
+                    timeSlotToAdd.add(timeSlot);
+                } else {
+                    System.out.println("ERROR: Time Slot not valid or available");
+                    return false;
+                }
+            }
+
+            // Getting the date for adding new slots
+            //System.out.println("Enter the date in which you want to add the new slots in yyyy-MM-dd");
+            //String inputDate = scanner.next();
+
+            String pattern = "yyyy-MM-dd";
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+            LocalDate currentDate = LocalDate.now();
+            LocalDate enteredDate = LocalDate.parse(inputDate, dateFormatter);
+
+            // Checking if the entered date is after the current date
+            if (enteredDate.isAfter(currentDate)) {
+                ArrayList<ReservationDTO> newReservationsList = new ArrayList<>();
+
+                for(String slot: timeSlotToAdd){
+                    String newDate = enteredDate + " " + slot + ":00";
+                    newReservationsList.add(new ReservationDTO(newDate));
+                }
+
+                ArrayList<Document> newReservationDocs = Utility.packRestaurantReservations(newReservationsList);
+
+                // Create a filter to match the username
+                Bson filter = Filters.eq("username", rest.getUsername());
+
+                // Find the matching restaurant document in the collection
+                Document restaurantDocument = restaurantCollection.find(filter).first();
+
+                if(restaurantDocument == null){
+                    System.out.println("Restaurant hasn't been found!");
+                    return false;
+                }
+
+                //check if the capacity of the restaurant is set
+                if(restaurantDocument.getInteger("max_number_of_client")==null) {
+                    setMaxClient(20, rest);
                 }
 
                 // Retrieve the existing reservations from the restaurant document

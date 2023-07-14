@@ -95,10 +95,10 @@
                         <HBox.margin>
                             <Insets />
                         </HBox.margin>
-                        <Button fx:id="showLists" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" style="-fx-background-color: transparent;" text="Add Reservations Slots" textFill="#b4b4b4">
+                        <Button fx:id="addSlotsButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" style="-fx-background-color: transparent;" text="Add Reservations Slots" textFill="#b4b4b4">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
-                                    <Image url="@../img/rectangle-list.png" />
+                                    <Image url="@../img/add.png" />
                                 </ImageView>
                             </graphic>
                         </Button>
@@ -144,10 +144,22 @@
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../img/booking.png" />
+                                    <Image url="@../img/rectangle-list.png" />
                                  </image>
                               </ImageView>
                            </graphic>
+                        </Button>
+                        <Button fx:id="statisticsButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: transparent;" text="View Statistics" textFill="#b4b4b4">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/bar-chart.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <VBox.margin>
+                              <Insets left="2.0" />
+                           </VBox.margin>
                         </Button>
                      </children>
                   </VBox>

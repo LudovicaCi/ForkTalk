@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="398.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.RestaurantStatisticsController">
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="37.0" prefWidth="398.0">
+               <children>
+                  <Text fill="#037b41" strokeType="OUTSIDE" strokeWidth="0.0" text="See reviews' statistics for this period of time">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Text>
+               </children>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </HBox>
+            <VBox prefHeight="141.0" prefWidth="398.0">
+               <children>
+                  <VBox alignment="TOP_CENTER">
+                     <children>
+                        <Text fill="#00000080" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert start date:" />
+                        <HBox alignment="CENTER" prefHeight="12.0" prefWidth="398.0">
+                           <children>
+                              <DatePicker fx:id="startDate"/>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0">
+                     <children>
+                        <Text fill="#00000080" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert end date:" />
+                        <HBox alignment="CENTER" prefHeight="12.0" prefWidth="398.0">
+                           <children>
+                              <DatePicker fx:id="endDate"/>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" prefHeight="37.0" prefWidth="398.0">
+                     <children>
+                        <Button fx:id="showResultsButton" mnemonicParsing="false" style="-fx-background-color: #037b41;" text="View Results" textFill="WHITE" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </VBox>
+            <VBox prefHeight="120.0" prefWidth="398.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="23.0" prefWidth="307.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total number of reviews:" textAlignment="CENTER" />
+                        <Text fx:id="totReview" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="398.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Average rating value" textAlignment="CENTER" />
+                        <Text fx:id="avgRate" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets top="50.0" />
+               </padding></VBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
