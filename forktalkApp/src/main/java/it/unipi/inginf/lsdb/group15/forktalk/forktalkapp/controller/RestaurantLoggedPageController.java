@@ -9,12 +9,10 @@ import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
@@ -22,12 +20,10 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import org.bson.Document;
 
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -75,6 +71,13 @@ public class RestaurantLoggedPageController implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+        deleteButton.setOnAction(event -> {
+            try {
+                handleDeleteRestaurant();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void openPreviousPage(ActionEvent event) {
@@ -102,6 +105,23 @@ public class RestaurantLoggedPageController implements Initializable {
         AnchorPane.setLeftAnchor(editProfileRoot, 0.0);
 
         dynamicPane.getChildren().setAll(editProfileRoot);
+    }
+
+    private void handleDeleteRestaurant() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/DeleteAccount.fxml"));
+        Parent deleteProfileRoot = loader.load();
+
+        Region deleteProfileRegion = (Region) deleteProfileRoot;
+
+        deleteProfileRegion.setPrefWidth(dynamicPane.getWidth());
+        deleteProfileRegion.setPrefHeight(dynamicPane.getHeight());
+
+        AnchorPane.setTopAnchor(deleteProfileRoot, 0.0);
+        AnchorPane.setRightAnchor(deleteProfileRoot, 0.0);
+        AnchorPane.setBottomAnchor(deleteProfileRoot, 0.0);
+        AnchorPane.setLeftAnchor(deleteProfileRoot, 0.0);
+
+        dynamicPane.getChildren().setAll(deleteProfileRoot);
     }
 
     public void openAddSlotsPage() throws IOException {

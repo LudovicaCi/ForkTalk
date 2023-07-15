@@ -9,14 +9,14 @@ public class DriverDAO {
     //    -------------------------------------
     static MongoClient mongoClient;
     private static MongoDatabase db;
-    static MongoCollection<Document> userCollection;
-    static MongoCollection<Document> restaurantCollection;
+    public static MongoCollection<Document> userCollection;
+    public static MongoCollection<Document> restaurantCollection;
     //    -------------------------------------
 
     /**
      * Connects to the MongoDB cluster and initializes the necessary collections.
      */
-    public static void connectToCluster() {
+    public static boolean connectToCluster() {
         try {
             //Create a mongodbDB client
             String clusterAddress = "mongodb://10.1.1.18:27017,10.1.1.19:27017,10.1.1.20:27017/" +
@@ -31,16 +31,18 @@ public class DriverDAO {
             restaurantCollection = db.getCollection("Restaurants");
 
             System.out.println("Successfully connected to the database.");
+            return true;
         } catch (MongoException e) {
             System.err.println("An error occurred while connecting to the database:");
             e.printStackTrace();
+            return false;
         }
     }
 
     /**
      * Connects to the local MongoDB instance and initializes the necessary collections.
      */
-    public static void connectToLocal() {
+    public static boolean connectToLocal() {
         try {
             // Create connection string
             ConnectionString uri = new ConnectionString("mongodb://localhost:27017/?retryWrites=false");
@@ -56,33 +58,25 @@ public class DriverDAO {
             restaurantCollection = db.getCollection("Restaurants");
 
             System.out.println("Successfully connected to the local database.");
+            return true;
         } catch (MongoException e) {
             System.err.println("An error occurred while connecting to the local database:");
             e.printStackTrace();
+            return false;
         }
     }
 
     /**
      * Opens the database connection by connecting to the MongoDB instance.
      */
-    public static void openConnection() {
+    public static boolean openConnection() {
         try {
-            //connectToLocal();
+            return connectToCluster();
 
-            connectToCluster();
-
-            /*for (String name : db.listCollectionNames()) {
-                System.out.println(name);
-            }
-
-            System.out.println("**************** USERS ******************");
-            System.out.println(userCollection.countDocuments());
-
-            System.out.println("**************** RESTAURANTS ******************");
-            System.out.println(restaurantCollection.countDocuments()); */
         } catch (MongoException e) {
             System.err.println("ERROR: Failed to open the database connection.");
             e.printStackTrace();
+            return false;
         }
     }
 

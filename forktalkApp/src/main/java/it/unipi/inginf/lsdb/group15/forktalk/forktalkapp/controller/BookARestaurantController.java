@@ -84,7 +84,7 @@ public class BookARestaurantController implements Initializable{
                 return;
             }
 
-            if(ReservationDAO.makeLocalReservation(Session.getLoggedUser(), rest, dateString,slot, numberOfPersons)) {
+            if(ReservationDAO.makeReservation(Session.getLoggedUser(), rest, dateString,slot, numberOfPersons)) {
                 Session.loggedUser.setReservations(UserDAO.getReservations(Session.getLoggedUser()));
                 showConfirmationDialog();
                 Session.getRestaurantPageController().showBookingPane();

@@ -1,6 +1,7 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.neo4j.Neo4jUserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantsListDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
@@ -57,8 +58,13 @@ public class RestaurantsListController implements Initializable {
             Utils.showAlert("The title field is empty. Please write a title.");
         }else{
             if(UserDAO.createRestaurantListToUser(Session.getLoggedUser(), titleField.getText())) {
-                Session.getLoggedUser().setRestaurantLists(UserDAO.getRestaurantListsByUser(Session.loggedUser));
-                refreshLists();
+                if(Neo4jUserDAO.addRestaurantList(Session.getLoggedUser(), titleField.getText())) {
+                    Session.getLoggedUser().setRestaurantLists(UserDAO.getRestaurantListsByUser(Session.loggedUser));
+                    refreshLists();
+                }else{
+                    UserDAO.recoverRestaurantList(Session.loggedUser.getUsername(), Session.loggedUser.getRestaurantLists());
+                    Utils.showAlert("Something went wrong! Please try again.");
+                }
             }else
                 Utils.showAlert("Something went wrong! Please try again.");
         }

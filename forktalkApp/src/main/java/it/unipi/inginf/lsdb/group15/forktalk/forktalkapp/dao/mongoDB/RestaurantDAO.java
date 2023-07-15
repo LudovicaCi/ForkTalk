@@ -3,16 +3,15 @@ package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB;
 import com.mongodb.MongoException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReviewDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 import org.bson.BsonNull;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -137,6 +136,7 @@ public class RestaurantDAO extends DriverDAO {
                     .append("tag", restaurant.getFeatures())
                     .append("location", restaurant.getLocation())
                     .append("rest_rating", restaurant.getRating())
+                    .append("reviews", new ArrayList<>())
                     .append("coordinates", Utility.packCoordinates(restaurant.getCoordinates()));
 
             // Insert the restaurant document into the collection
@@ -234,13 +234,20 @@ public class RestaurantDAO extends DriverDAO {
     /**
      * Deletes a restaurant based on the specified username.
      *
-     * @param restId The id of the restaurant to be deleted.
+     * @param rest The restaurant to be deleted.
      * @return true if the restaurant was successfully deleted, false otherwise.
      */
-    public static boolean deleteRestaurantById(String restId) {
+    public static boolean deleteRestaurant(RestaurantDTO rest) {
         try {
+            for(ReservationDTO reservation : rest.getReservations()){
+                UserDTO user = UserDAO.getUserByUsername(reservation.getClientUsername());
+                assert user != null;
+                if(!ReservationDAO.deleteReservation(user, rest, reservation))
+                    return false;
+            }
+
             // Create a filter to match the username
-            Bson filter = Filters.eq("rest_id", restId);
+            Bson filter = Filters.eq("rest_id", rest.getId());
 
             // Delete the restaurant document that matches the filter
             DeleteResult deleteResult = restaurantCollection.deleteOne(filter);
@@ -257,6 +264,29 @@ public class RestaurantDAO extends DriverDAO {
             System.out.println("An error occurred while deleting the restaurant.");
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public static void recoverRestaurant(RestaurantDTO rest){
+        try{
+
+            Document restDoc = Utility.packRestaurantDTO(rest);
+            InsertOneResult insertOneResult = restaurantCollection.insertOne(restDoc);
+            if(insertOneResult.wasAcknowledged()) {
+                for (ReservationDTO reservation : rest.getReservations()) {
+                    UserDTO user = UserDAO.getUserByUsername(reservation.getClientUsername());
+                    String[] parts = reservation.getDate().split(" ");
+
+                    String date = parts[0];
+                    String time = parts[1].substring(0, 5);
+                    assert user != null;
+                    if (!ReservationDAO.makeReservation(user, rest, date, time, reservation.getPeople()))
+                        return;
+                }
+            }else{
+            }
+        }catch (MongoException e){
+            e.printStackTrace();
         }
     }
 

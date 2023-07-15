@@ -1,6 +1,8 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.neo4j.Neo4jRestaurantDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
@@ -104,6 +106,7 @@ public class LoginRestaurantPageController implements Initializable {
             showAlert("All fields are required.");
         } else {
             RestaurantDTO newRest = new RestaurantDTO();
+            newRest.setId(Utility.generateUniqueRestaurantId());
             newRest.setName(name.getText());
             newRest.setCountry(country.getText());
             newRest.setCounty(county.getText());
@@ -133,9 +136,14 @@ public class LoginRestaurantPageController implements Initializable {
 
             boolean success = RestaurantDAO.addRestaurant(newRest);
             if (success) {
-                showAlert("Registration successful.");
-                Session.setLoggedUser(null);
-                Session.setLoggedRestaurant(newRest);
+                if(Neo4jRestaurantDAO.addRestaurant(newRest)) {
+                    showAlert("Registration successful.");
+                    Session.setLoggedUser(null);
+                    Session.setLoggedRestaurant(newRest);
+                }else{
+                    RestaurantDAO.deleteRestaurant(newRest);
+                    showAlert("Registration failed. Please try again.");
+                }
             } else {
                 showAlert("Registration failed. Please try again.");
             }

@@ -2,16 +2,9 @@ package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.DriverDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 import org.bson.Document;
 
 import java.io.IOException;
-import java.util.List;
-
-import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.ReservationDAO.makeLocalReservation;
-import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {

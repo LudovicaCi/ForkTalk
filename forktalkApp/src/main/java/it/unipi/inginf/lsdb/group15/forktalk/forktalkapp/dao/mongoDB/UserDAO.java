@@ -4,26 +4,29 @@ import com.mongodb.MongoException;
 import com.mongodb.client.ClientSession;
 import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantsListDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Restaurant;
 
 import java.lang.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import static com.mongodb.client.model.Aggregates.match;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility.packRestaurantLists;
 
 public class UserDAO extends DriverDAO {
 
@@ -88,17 +91,101 @@ public class UserDAO extends DriverDAO {
 
             UpdateResult reservationUpdateResult = restaurantCollection.updateMany(reservationsFilter, reservationsUpdate, updateOptions);
 
-            clientSession.commitTransaction();
-
-            if(Objects.requireNonNull(UserDAO.getUserByUsername(username)).getReservations().size() == 0){
-                return userDeleteResult.getDeletedCount() > 0 && reservationUpdateResult.getModifiedCount() == 0;
+            if(Session.loggedUser.getReservations().size() == 0){
+                if(userDeleteResult.getDeletedCount() > 0 && reservationUpdateResult.getModifiedCount() == 0){
+                    System.out.println("Delete Successful.");
+                    clientSession.commitTransaction();
+                    return true;
+                }else{
+                    System.out.println("Delete Unsuccessful.");
+                    clientSession.abortTransaction();
+                    return false;
+                }
             }else {
-                return userDeleteResult.getDeletedCount() > 0 && reservationUpdateResult.getModifiedCount() > 0;
+                if(userDeleteResult.getDeletedCount() > 0 && reservationUpdateResult.getModifiedCount() > 0) {
+                    System.out.println("Delete Successful.");
+                    clientSession.commitTransaction();
+                    return true;
+                }else{
+                    clientSession.abortTransaction();
+                    System.out.println("Delete Unsuccessful.");
+                    return false;
+                }
             }
         } catch (MongoException e) {
             e.printStackTrace();
             clientSession.abortTransaction();
             return false;
+        }
+    }
+
+    public static void recoverUser(UserDTO user){
+        ClientSession clientSession = mongoClient.startSession();
+        boolean res = true;
+        try {
+            clientSession.startTransaction();
+            Document userDoc = Utility.packUser(user);
+
+            if(user.getReservations() !=null){
+                for(ReservationDTO reservation: user.getReservations()){
+                    Bson restFilter = Filters.eq("username", reservation.getRestaurantID());
+
+                    Document restDocument = restaurantCollection.find(restFilter).first();
+
+                    assert restDocument != null;
+                    ReservationDTO newReservation = new ReservationDTO(user.getUsername(), user.getName(), user.getSurname(), restDocument.getString("rest_id"), restDocument.getString("restaurant_name"), restDocument.getString("city"), restDocument.getString("address"), reservation.getDate(), reservation.getPeople());
+
+                    Document newRestDocument = Utility.packRestaurantOneReservation(newReservation);
+
+                    // Retrieve the existing reservations from the restaurant document
+                    List<Document> reservationsRestDocs = restDocument.getList("reservations", Document.class);
+                    if (reservationsRestDocs != null) {
+                        Iterator<Document> iterator = reservationsRestDocs.iterator();
+                        boolean slotAvailable = false;
+                        while (iterator.hasNext()) {
+                            Document doc = iterator.next();
+                            if (doc.getString("date").equals(reservation.getDate()) && doc.getString("client_username") == null) {
+                                iterator.remove();
+                                slotAvailable = true;
+                                break;
+                            }
+                        }
+
+                        if (!slotAvailable) {
+                            System.out.println("Invalid or unavailable time slot. Please choose another slot.");
+                            return;
+                        }
+                    } else {
+                        //reservationsRestDocs = new ArrayList<>();
+                        return;
+                    }
+
+                    reservationsRestDocs.add(newRestDocument);
+                    // Update the restaurant document with the updated reservation list
+                    restDocument.append("reservations", reservationsRestDocs);
+
+                    UpdateResult restResult = restaurantCollection.updateOne(restFilter, new Document("$set", restDocument));
+                    if(restResult.getModifiedCount() > 0){
+                        res = true;
+                    }else{
+                        res = false;
+                        break;
+                    }
+                }
+            }
+
+            InsertOneResult userResult = userCollection.insertOne(userDoc);
+
+            if(userResult.wasAcknowledged() && res){
+                clientSession.commitTransaction();
+                System.out.println("User recover correctly.");
+            }else{
+                clientSession.abortTransaction();
+                System.out.println("Something went wrong.");
+            }
+        }catch (MongoException e){
+            e.printStackTrace();
+            clientSession.abortTransaction();
         }
     }
 
@@ -729,6 +816,26 @@ public class UserDAO extends DriverDAO {
         }
     }
 
+    public static void recoverRestaurantList(String username, ArrayList<RestaurantsListDTO> newRestaurantLists) {
+        try {
+            Bson filter = eq("username", username);
+
+            // Create a new document with the updated restaurantList field
+            Document updatedDocument = new Document("$set", new Document("restaurantsList", packRestaurantLists(newRestaurantLists)));
+
+            // Perform the update operation to replace the existing document with the updated one
+            UpdateResult result = userCollection.updateOne(filter, updatedDocument);
+
+            if (result.getModifiedCount() > 0) {
+                System.out.println("Restaurant list updated successfully.");
+            } else {
+                System.out.println("No document found for the given username: " + username);
+            }
+        } catch (MongoException e) {
+            System.err.println("An error occurred while updating the restaurant list:");
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Removes a restaurant from a restaurantsList of a user.

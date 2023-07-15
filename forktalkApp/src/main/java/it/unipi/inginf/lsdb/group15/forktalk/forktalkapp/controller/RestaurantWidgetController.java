@@ -2,7 +2,7 @@ package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReviewDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.neo4j.Neo4jRestaurantDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class RestaurantWidgetController implements Initializable {
@@ -46,11 +47,16 @@ public class RestaurantWidgetController implements Initializable {
     }
 
     private void deleteRestaurant(ActionEvent event) {
-        if(RestaurantDAO.deleteRestaurantById(restaurant.getString("rest_id"))){
-            Utils.showAlert("OK!");
-            Session.getFindRestaurantBarController().allRestaurants.remove(restaurant);
-            Session.getFindRestaurantBarController().resetView();
-            Session.getFindRestaurantBarController().loadNextBatch();
+        if(RestaurantDAO.deleteRestaurant(Utility.unpackRestaurant(restaurant))){
+            if(Neo4jRestaurantDAO.deleteRestaurant(Utility.unpackRestaurant(restaurant))) {
+                Utils.showAlert("OK!");
+                Session.getFindRestaurantBarController().allRestaurants.remove(restaurant);
+                Session.getFindRestaurantBarController().resetView();
+                Session.getFindRestaurantBarController().loadNextBatch();
+            }else{
+                RestaurantDAO.recoverRestaurant(Utility.unpackRestaurant(restaurant));
+                Utils.showAlert("Something went wrong! please try again.");
+            }
         }else{
             Utils.showAlert("Something went wrong! please try again.");
         }

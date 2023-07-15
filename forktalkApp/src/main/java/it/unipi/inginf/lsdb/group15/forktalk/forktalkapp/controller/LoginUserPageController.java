@@ -1,6 +1,7 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.neo4j.Neo4jUserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
@@ -77,10 +78,15 @@ public class LoginUserPageController implements Initializable {
 
             boolean success = UserDAO.registerUser(newUser);
             if (success) {
-                showAlert("Registration successful.");
-                Session.setLoggedUser(newUser);
-                Session.setLoggedRestaurant(null);
-                Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/BrowserPage.fxml", event);
+                if(Neo4jUserDAO.addUser(newUser)) {
+                    showAlert("Registration successful.");
+                    Session.setLoggedUser(newUser);
+                    Session.setLoggedRestaurant(null);
+                    Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/BrowserPage.fxml", event);
+                }else{
+                    UserDAO.deleteUser(newUser.getUsername());
+                    showAlert("Registration failed. Please try again.");
+                }
             } else {
                 showAlert("Registration failed. Please try again.");
             }

@@ -2,7 +2,6 @@ package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.ClientSession;
-import com.mongodb.client.MongoClient;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.UpdateResult;
 
@@ -14,9 +13,6 @@ import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 
 import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO.*;
@@ -152,7 +148,7 @@ public class ReservationDAO extends DriverDAO{
      * @param numberOfPerson The number of people for the reservation.
      * @return True if the reservation was successfully confirmed, false otherwise.
      */
-    public static boolean makeLocalReservation(UserDTO user, RestaurantDTO rest, String date, String slot, int numberOfPerson) {
+    public static boolean makeReservation(UserDTO user, RestaurantDTO rest, String date, String slot, int numberOfPerson) {
         ClientSession clientSession = mongoClient.startSession();
 
         try {
@@ -208,15 +204,23 @@ public class ReservationDAO extends DriverDAO{
             List<Document> reservationsRestDocs = restDocument.getList("reservations", Document.class);
             if (reservationsRestDocs != null) {
                 Iterator<Document> iterator = reservationsRestDocs.iterator();
+                boolean slotAvailable = false;
                 while (iterator.hasNext()) {
                     Document doc = iterator.next();
                     if (doc.getString("date").equals(date + " " + slot + ":00") && doc.getString("client_username") == null) {
+                        slotAvailable = true;
                         iterator.remove();
                         break;
                     }
                 }
+
+                if (!slotAvailable) {
+                    System.out.println("Invalid or unavailable time slot. Please choose another slot.");
+                    return false;
+                }
             } else {
-                reservationsRestDocs = new ArrayList<>();
+                //reservationsRestDocs = new ArrayList<>();
+                return false;
             }
 
             reservationsRestDocs.add(newRestDocument);
@@ -227,14 +231,14 @@ public class ReservationDAO extends DriverDAO{
             UpdateResult userResult = userCollection.updateOne(userFilter, new Document("$set", userDocument));
             UpdateResult restResult = restaurantCollection.updateOne(restFilter, new Document("$set", restDocument));
 
-            clientSession.commitTransaction();
-
             // Check if the update was successful
             if (userResult.getModifiedCount() > 0 && restResult.getModifiedCount() > 0) {
+                clientSession.commitTransaction();
                 System.out.println("The reservation has been successfully confirmed!");
                 return true;
             } else {
                 System.out.println("The reservation unfortunately could not be processed!");
+                clientSession.abortTransaction();
                 return false;
             }
         } catch (Exception e) {
@@ -300,14 +304,15 @@ public class ReservationDAO extends DriverDAO{
             // Perform the update operation
             UpdateResult restResult = restaurantCollection.updateOne(restFilter, new Document("$set", restDocument));
 
-            clientSession.commitTransaction();
 
             // Check if the update was successful
             if (userResult.getModifiedCount() > 0 && restResult.getModifiedCount() > 0) {
                 System.out.println("The reservation has been successfully removed!");
+                clientSession.commitTransaction();
                 return true;
             } else {
                 System.out.println("The reservation unfortunately could not be removed!");
+                clientSession.abortTransaction();
                 return false;
             }
 

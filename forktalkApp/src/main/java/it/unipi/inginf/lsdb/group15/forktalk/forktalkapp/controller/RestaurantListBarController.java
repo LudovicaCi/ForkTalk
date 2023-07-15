@@ -3,6 +3,7 @@ package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 import com.mongodb.internal.client.model.Util;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.neo4j.Neo4jUserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantsListDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
@@ -46,8 +47,13 @@ public class RestaurantListBarController implements Initializable {
 
     private void deleteList(ActionEvent event) {
         if(UserDAO.deleteRestaurantListFromUser(Session.loggedUser, titleField.getText())){
-            Session.loggedUser.setRestaurantLists(UserDAO.getRestaurantListsByUser(Session.getLoggedUser()));
-            Session.getRestaurantsListController().refreshLists();
+            if(Neo4jUserDAO.deleteRestaurantList(Session.loggedUser, titleField.getText())) {
+                Session.loggedUser.setRestaurantLists(UserDAO.getRestaurantListsByUser(Session.getLoggedUser()));
+                Session.getRestaurantsListController().refreshLists();
+            }else{
+                UserDAO.recoverRestaurantList(Session.loggedUser.getUsername(), Session.loggedUser.getRestaurantLists());
+                Utils.showAlert("Something went wrong! Please try again.");
+            }
         }else{
             Utils.showAlert("Something went wrong! Please try again.");
         }

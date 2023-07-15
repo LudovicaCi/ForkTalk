@@ -1,19 +1,112 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils;
 
 import com.mongodb.MongoException;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantsListDTO;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReviewDTO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.DriverDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.*;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Restaurant;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.mongodb.client.model.Filters.eq;
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.DriverDAO.restaurantCollection;
+
 public class Utility {
+    public static Document packUser(UserDTO user) {
+        Document document = new Document();
+        document.put("email", user.getEmail());
+        document.put("username", user.getUsername());
+        document.put("password", user.getPassword());
+        document.put("name", user.getName());
+        document.put("surname", user.getSurname());
+        document.put("origin", user.getOrigin());
+        document.put("suspended", user.getSuspended());
+        document.put("role", user.getRole());
+
+        document.put("reservations", packUserReservations(user.getReservations()));
+
+        ArrayList<Document> restaurantListsDocuments = new ArrayList<>();
+        for (RestaurantsListDTO restaurantList : user.getRestaurantLists()) {
+            Document restaurantListDocument = new Document();
+            restaurantListDocument.put("title", restaurantList.getTitle());
+
+            ArrayList<Document> restaurantsDocuments = new ArrayList<>();
+            for (RestaurantDTO restaurant : restaurantList.getRestaurants()) {
+                Document restaurantDocument = new Document();
+                restaurantDocument.put("restaurant_id", restaurant.getId());
+                restaurantDocument.put("restaurant_name", restaurant.getName());
+
+                restaurantsDocuments.add(restaurantDocument);
+            }
+            restaurantListDocument.put("restaurants", restaurantsDocuments);
+
+            restaurantListsDocuments.add(restaurantListDocument);
+        }
+        document.put("restaurantsList", restaurantListsDocuments);
+
+        return document;
+    }
+
+    public static Document packRestaurantDTO(RestaurantDTO restaurantDTO) {
+        Document restaurantDoc = new Document();
+        restaurantDoc.append("rest_id", restaurantDTO.getId())
+                .append("restaurant_name", restaurantDTO.getName())
+                .append("username", restaurantDTO.getUsername())
+                .append("email", restaurantDTO.getEmail())
+                .append("password", restaurantDTO.getPassword())
+                .append("coordinates", restaurantDTO.getCoordinates())
+                .append("location", restaurantDTO.getLocation())
+                .append("country", restaurantDTO.getCountry())
+                .append("county", restaurantDTO.getCounty())
+                .append("district", restaurantDTO.getDistrict())
+                .append("city", restaurantDTO.getCity())
+                .append("address", restaurantDTO.getAddress())
+                .append("street_number", restaurantDTO.getStreetNumber())
+                .append("postcode", restaurantDTO.getPostCode())
+                .append("price", restaurantDTO.getPrice())
+                .append("tag", restaurantDTO.getFeatures())
+                .append("reservations", new ArrayList<Document>())
+                .append("rest_rating", restaurantDTO.getRating())
+                .append("reviews", packReviews(restaurantDTO.getReviews()));
+
+        return restaurantDoc;
+    }
+
+    public static RestaurantDTO unpackRestaurant(Document restaurantDoc) {
+        RestaurantDTO restaurant = new RestaurantDTO();
+        restaurant.setId(restaurantDoc.getString("rest_id"));
+        restaurant.setName(restaurantDoc.getString("restaurant_name"));
+        restaurant.setUsername(restaurantDoc.getString("username"));
+        restaurant.setEmail(restaurantDoc.getString("email"));
+        restaurant.setPassword(restaurantDoc.getString("password"));
+        restaurant.setCoordinates((ArrayList<String>) unpackCoordinates(restaurantDoc.getList("coordinates", Document.class)));
+        restaurant.setLocation((ArrayList<String>) restaurantDoc.getList("location", String.class));
+        restaurant.setCountry(restaurantDoc.getString("country"));
+        restaurant.setCounty(restaurantDoc.getString("county"));
+        restaurant.setDistrict(restaurantDoc.getString("district"));
+        restaurant.setCity(restaurantDoc.getString("city"));
+        restaurant.setAddress(restaurantDoc.getString("address"));
+        restaurant.setStreetNumber(String.valueOf(restaurantDoc.getInteger("street_number")));
+        restaurant.setPostCode(restaurantDoc.getString("postcode"));
+        Integer price = restaurantDoc.getInteger("price");
+        restaurant.setPrice(price != null ? price : 0);
+        restaurant.setFeatures((ArrayList<String>) restaurantDoc.getList("tag", String.class));
+        Object ratingObj = restaurantDoc.get("rest_rating");
+        double rating;
+        if(ratingObj == null)
+            rating = 0.0;
+        else
+            rating = Double.parseDouble(String.valueOf(ratingObj));
+        restaurant.setRating(rating);
+        restaurant.setReservations((ArrayList<ReservationDTO>) unpackRestaurantReservations(restaurantDoc.getList("reservations", Document.class)));
+        restaurant.setReviews((ArrayList<ReviewDTO>) unpackReviews(restaurantDoc.getList("reviews", Document.class)));
+
+        return restaurant;
+    }
 
     /**
      * Packs the coordinates into a list of MongoDB Documents.
@@ -33,6 +126,21 @@ public class Utility {
 
         return coordinatesDocuments;
     }
+
+    public static List<String> unpackCoordinates(List<Document> coordinatesDocuments) {
+        List<String> coordinates = new ArrayList<>();
+
+        for (Document coordinateDocument : coordinatesDocuments) {
+            String latitude = coordinateDocument.getString("latitude");
+            String longitude = coordinateDocument.getString("longitude");
+
+            coordinates.add(latitude);
+            coordinates.add(longitude);
+        }
+
+        return coordinates;
+    }
+
 
     /**
      * Packs the restaurant reservations into a list of MongoDB Documents.
@@ -104,14 +212,21 @@ public class Utility {
      */
     public static Document packOneReview(ReviewDTO review) {
 
-        Document reviewDocument = new Document()
+        return new Document()
                 .append("review_id", review.getId())
                 .append("review_date", review.getTimestamp())
                 .append("review_rating", review.getRating())
                 .append("review_content", review.getContent())
                 .append("reviewer_pseudo", review.getReviewer());
+    }
 
-        return reviewDocument;
+    private static List<Document> packReviews(List<ReviewDTO> reviews) {
+        List<Document> reviewDocs = new ArrayList<>();
+        for (ReviewDTO review : reviews) {
+            Document reviewDoc = packOneReview(review);
+            reviewDocs.add(reviewDoc);
+        }
+        return reviewDocs;
     }
 
 
@@ -144,6 +259,50 @@ public class Utility {
             return null;
         }
     }
+
+    public static Document packOneRestaurantList(RestaurantsListDTO restaurantList) {
+        try {
+            Document document = new Document();
+            document.append("title", restaurantList.getTitle());
+
+            List<Document> restaurantsDocuments = new ArrayList<>();
+            List<RestaurantDTO> restaurants = restaurantList.getRestaurants();
+
+            for (RestaurantDTO restaurant : restaurants) {
+                Document restaurantDoc = new Document();
+                restaurantDoc.append("restaurant_id", restaurant.getId());
+                restaurantDoc.append("restaurant_name", restaurant.getName());
+
+                restaurantsDocuments.add(restaurantDoc);
+            }
+
+            document.append("restaurants", restaurantsDocuments);
+
+            return document;
+        } catch (MongoException e) {
+            System.err.println("An error occurred while packing the restaurant list:");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<Document> packRestaurantLists(ArrayList<RestaurantsListDTO> restaurantLists) {
+        try {
+            List<Document> documents = new ArrayList<>();
+
+            for (RestaurantsListDTO restaurantList : restaurantLists) {
+                Document document = packOneRestaurantList(restaurantList);
+                documents.add(document);
+            }
+
+            return documents;
+        } catch (MongoException e) {
+            System.err.println("An error occurred while packing the restaurant lists:");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     /**
      * Unpacks a single restaurant list from a MongoDB Document.
@@ -188,6 +347,18 @@ public class Utility {
             return null;
         }
     }
+
+    private static List<ReservationDTO> unpackRestaurantReservations(List<Document> reservationDocs) {
+        List<ReservationDTO> reservations = new ArrayList<>();
+        for (Document reservationDoc : reservationDocs) {
+            ReservationDTO reservationDTO = unpackOneRestaurantReservation(reservationDoc);
+            if (reservationDTO != null) {
+                reservations.add(reservationDTO);
+            }
+        }
+        return reservations;
+    }
+
 
     /**
      * Unpacks a single restaurant reservation from a MongoDB Document.
@@ -236,6 +407,18 @@ public class Utility {
         }
     }
 
+    public static List<ReviewDTO> unpackReviews(List<Document> reviewDocs) {
+        List<ReviewDTO> reviews = new ArrayList<>();
+        for (Document reviewDoc : reviewDocs) {
+            ReviewDTO reviewDTO = unpackOneReview(reviewDoc);
+            if (reviewDTO != null) {
+                reviews.add(reviewDTO);
+            }
+        }
+        return reviews;
+    }
+
+
     public static String generateUniqueReviewId(String restId, List<Document> reviewsDocuments) {
         String reviewId;
         boolean isUnique;
@@ -256,4 +439,32 @@ public class Utility {
         Random random = new Random();
         return random.nextInt(1000000);
     }
+
+    public static boolean isRestaurantIdUnique(String restaurantId) {
+        Bson filter = eq("restaurant_id", restaurantId);
+        long count = restaurantCollection.countDocuments(filter);
+        return count == 0;
+    }
+
+    public static String generateUniqueRestaurantId() {
+        String prefix = "g";
+        String suffix = "-d";
+        Random random = new Random();
+
+        String restaurantId;
+        boolean isUnique = false;
+
+        do {
+            // Genera un numero casuale di 8 cifre per la parte numerica
+            int randomNumber1 = random.nextInt(90000000) + 10000000;
+            int randomNumber2 = random.nextInt(90000000) + 10000000;
+
+            restaurantId = prefix + randomNumber1 + suffix + randomNumber2;
+            isUnique = isRestaurantIdUnique(restaurantId);
+        } while (!isUnique);
+
+        return restaurantId;
+    }
+
+
 }
