@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="328.0" prefWidth="398.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller.EditRestaurantLoggedPageController">
+    <VBox alignment="CENTER" prefHeight="240.0" prefWidth="398.0" style="-fx-border-color: #037b41; -fx-border-width: 0 0 0.5 0;" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text fill="#037b41" strokeType="OUTSIDE" strokeWidth="0.0" text="EDIT PROFILE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
+         <HBox alignment="CENTER" prefHeight="23.0" prefWidth="235.0">
+             <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+                 <TextField fx:id="name" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="name">
+                     <VBox.margin>
+                         <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                 </TextField>
+             </VBox>
+             <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+                 <TextField fx:id="emailField" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="email">
+                     <VBox.margin>
+                         <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                 </TextField>
+             </VBox>
+         <opaqueInsets>
+            <Insets top="5.0" />
+         </opaqueInsets>
+         <VBox.margin>
+            <Insets top="2.0" />
+         </VBox.margin>
+         </HBox>
+         <HBox alignment="CENTER" prefHeight="15.0" prefWidth="235.0">
+             <padding>
+                 <Insets top="2.0" />
+             </padding>
+             <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+                 <TextField fx:id="username" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="username">
+                     <VBox.margin>
+                         <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                 </TextField>
+             </VBox>
+             <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+                 <PasswordField fx:id="password" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="password">
+                     <VBox.margin>
+                         <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                 </PasswordField>
+             </VBox>
+         </HBox>
+         <HBox alignment="CENTER" prefHeight="19.0" prefWidth="235.0">
+             <padding>
+                 <Insets top="2.0" />
+             </padding>
+             <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+                 <TextField fx:id="country" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="country">
+                     <VBox.margin>
+                         <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                 </TextField>
+             </VBox>
+             <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+                 <TextField fx:id="county" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="county">
+                     <VBox.margin>
+                         <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                 </TextField>
+             </VBox>
+         </HBox>
+         <HBox alignment="CENTER" prefHeight="9.0" prefWidth="235.0">
+             <padding>
+                 <Insets top="2.0" />
+             </padding>
+             <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+                 <TextField fx:id="district" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="district">
+                     <VBox.margin>
+                         <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                 </TextField>
+             </VBox>
+             <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+                 <TextField fx:id="city" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="city">
+                     <VBox.margin>
+                         <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                 </TextField>
+             </VBox>
+         </HBox>
+         <HBox alignment="CENTER" prefHeight="19.0" prefWidth="235.0">
+             <padding>
+                 <Insets top="2.0" />
+             </padding>
+             <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+                 <TextField fx:id="address" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="address">
+                     <VBox.margin>
+                         <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                 </TextField>
+             </VBox>
+             <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+                 <TextField fx:id="street_number" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="street number">
+                     <VBox.margin>
+                         <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                 </TextField>
+             </VBox>
+         </HBox>
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="141.0" prefHeight="19.0" prefWidth="235.0">
+         <padding>
+            <Insets top="2.0" />
+         </padding>
+         <children>
+            <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+               <children>
+                  <TextField fx:id="postcode" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="postcode">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+               <children>
+                  <TextField fx:id="price" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="price">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="187.0" prefHeight="19.0" prefWidth="235.0">
+         <padding>
+            <Insets top="2.0" />
+         </padding>
+         <children>
+            <VBox alignment="CENTER" prefHeight="35.0" prefWidth="165.0">
+               <children>
+                  <TextField fx:id="feature" alignment="CENTER" prefHeight="25.0" prefWidth="150.0" promptText="Asian, sushi, lunch...">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+           <Button fx:id="updateButton" mnemonicParsing="false" prefWidth="56.0" style="-fx-background-color: #037b41;" text="Update" textFill="WHITE">
+         <VBox.margin>
+            <Insets bottom="5.0" top="1.0" />
+         </VBox.margin>
+         <effect>
+            <Glow />
+         </effect>
+           </Button>
+    </VBox>
+   <HBox alignment="CENTER" layoutX="-5.0" layoutY="244.0" prefHeight="87.0" prefWidth="405.0" AnchorPane.topAnchor="244.0">
+      <padding>
+         <Insets top="2.0" />
+      </padding>
+      <children>
+         <VBox alignment="TOP_CENTER" prefHeight="81.0" prefWidth="402.0">
+            <children>
+               <Text fill="#037b41" strokeType="OUTSIDE" strokeWidth="0.0" text="SET/CHANGE THE AVAILABILITY PER DAY" textAlignment="CENTER" wrappingWidth="380.5078125">
+                  <VBox.margin>
+                     <Insets top="2.0" />
+                  </VBox.margin>
+                  <font>
+                     <Font size="16.0" />
+                  </font>
+               </Text>
+               <VBox prefHeight="25.0" prefWidth="267.0">
+                  <children>
+                     <HBox alignment="CENTER" prefHeight="25.0" prefWidth="222.0">
+                        <children>
+                           <TextField fx:id="maxClient" alignment="CENTER" prefHeight="25.0" prefWidth="164.0" promptText="max number of client" />
+                        </children>
+                        <VBox.margin>
+                           <Insets top="2.0" />
+                        </VBox.margin>
+                     </HBox>
+                  </children>
+               </VBox>
+               <Button fx:id="setButton" mnemonicParsing="false" prefWidth="56.0" style="-fx-background-color: #037b41;" text="Set" textFill="WHITE">
+                  <effect>
+                     <Glow />
+                  </effect>
+                  <VBox.margin>
+                     <Insets left="4.0" top="2.0" />
+                  </VBox.margin>
+               </Button>
+            </children>
+         </VBox>
+      </children>
+   </HBox>
+</AnchorPane>

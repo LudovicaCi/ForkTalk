@@ -202,14 +202,11 @@ public class RestaurantDAO extends DriverDAO {
             if (restaurant.getPrice() > 0) {
                 updateDocument.append("price", restaurant.getPrice());
             }
-            if (restaurant.getFeatures() != null) {
+            if (restaurant.getFeatures().size() != 0) {
                 updateDocument.append("tag", restaurant.getFeatures());
             }
             if (restaurant.getLocation() != null) {
                 updateDocument.append("location", restaurant.getLocation());
-            }
-            if (restaurant.getCoordinates() != null) {
-                updateDocument.append("coordinates", Utility.packCoordinates(restaurant.getCoordinates()));
             }
 
             // Perform the update operation

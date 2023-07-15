@@ -78,6 +78,13 @@ public class RestaurantLoggedPageController implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+        editButton.setOnAction(event -> {
+            try{
+                handleModifyRestaurant();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void openPreviousPage(ActionEvent event) {
@@ -107,7 +114,7 @@ public class RestaurantLoggedPageController implements Initializable {
         dynamicPane.getChildren().setAll(editProfileRoot);
     }
 
-    private void handleDeleteRestaurant() throws IOException {
+    public void handleDeleteRestaurant() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/DeleteAccount.fxml"));
         Parent deleteProfileRoot = loader.load();
 
@@ -141,8 +148,8 @@ public class RestaurantLoggedPageController implements Initializable {
         dynamicPane.getChildren().setAll(editProfileRoot);
     }
 
-    private void handleModifyRestaurant() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/EditProfilePage.fxml"));
+    public void handleModifyRestaurant() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/EditRestaurantLoggedPage.fxml"));
         Parent editProfileRoot = loader.load();
 
         Region editProfileRegion = (Region) editProfileRoot;
@@ -159,12 +166,14 @@ public class RestaurantLoggedPageController implements Initializable {
     }
 
     public void showReviews(ActionEvent event) {
+        dynamicPane.getChildren().clear();
         currentIndex = 0; // Reimposta l'indice corrente a 0
         pageContainer.getChildren().clear(); // Rimuovi i ristoranti precedenti dalla vista
         loadNextBatch(); // Carica il primo batch di ristoranti
     }
 
     public void showReviews() {
+        dynamicPane.getChildren().clear();
         currentIndex = 0; // Reimposta l'indice corrente a 0
         pageContainer.getChildren().clear(); // Rimuovi i ristoranti precedenti dalla vista
         loadNextBatch(); // Carica il primo batch di ristoranti

@@ -75,6 +75,28 @@ public class RestaurantDTO{
         this.reservations = new ArrayList<>();
     }
 
+    public RestaurantDTO(RestaurantDTO originalRestObj) {
+        this.id = originalRestObj.id;
+        this.email = originalRestObj.email;
+        this.username = originalRestObj.username;
+        this.password = originalRestObj.password;
+        this.name = originalRestObj.name;
+        this.coordinates = new ArrayList<>(originalRestObj.coordinates);
+        this.location = new ArrayList<>(originalRestObj.location);
+        this.country = originalRestObj.country;
+        this.county = originalRestObj.county;
+        this.district = originalRestObj.district;
+        this.city = originalRestObj.city;
+        this.address = originalRestObj.address;
+        this.streetNumber = originalRestObj.streetNumber;
+        this.postCode = originalRestObj.postCode;
+        this.price = originalRestObj.price;
+        this.features = new ArrayList<>(originalRestObj.features);
+        this.reservations = new ArrayList<>(originalRestObj.reservations);
+        this.rating = originalRestObj.rating;
+        this.reviews = new ArrayList<>(originalRestObj.reviews);
+    }
+
 
     /* ********* GET METHOD ********* */
 
