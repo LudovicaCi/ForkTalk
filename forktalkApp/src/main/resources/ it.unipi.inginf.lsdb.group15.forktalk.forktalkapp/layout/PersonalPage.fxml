@@ -63,7 +63,7 @@
                         <padding>
                             <Insets left="5.0" />
                         </padding>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="nFollowers">
+                        <Text fx:id="followersNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="nFollowers">
                             <font>
                                 <Font name="System Bold" size="10.0" />
                             </font>
@@ -78,7 +78,7 @@
                         <HBox.margin>
                             <Insets left="5.0" />
                         </HBox.margin>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="nFollowing">
+                        <Text fx:id="followingNumbers" strokeType="OUTSIDE" strokeWidth="0.0" text="nFollowing">
                             <font>
                                 <Font name="System Bold" size="10.0" />
                             </font>

@@ -23,12 +23,11 @@
         </children>
     </HBox>
     <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="110.0" prefHeight="2.0" prefWidth="429.0" spacing="10">
-        <VBox alignment="CENTER_LEFT" prefHeight="17.0" prefWidth="18.0">
-            <Text fx:id="nFollowers" strokeType="OUTSIDE" strokeWidth="0.0" text="n" wrappingWidth="10.736329078674316">
-            <VBox.margin>
-               <Insets left="5.0" />
-            </VBox.margin></Text>
-        </VBox>
+         <Text fx:id="nFollowers" strokeType="OUTSIDE" strokeWidth="0.0" text="n">
+         <HBox.margin>
+            <Insets left="5.0" right="3.0" />
+         </HBox.margin>
+      </Text>
       <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="23.0" prefWidth="44.0">
          <children>
             <Text fill="#00000080" strokeType="OUTSIDE" strokeWidth="0.0" text="Followers" />

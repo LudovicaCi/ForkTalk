@@ -530,28 +530,25 @@ public class UserDAO extends DriverDAO {
         try {
             // Check if there are other lists with the same name
             Document document = userCollection.find(Filters.and(eq("username", user.getUsername()),
-                    eq("readingLists.title", title))).first();
+                    eq("restaurantsList.title", title))).first();
             if (document != null) {
                 System.err.println("ERROR: Name already in use.");
                 return false;
             }
 
-            // Create the new reading_list
-            Document readingList = new Document("title", title)
+            Document restaurantList = new Document("title", title)
                     .append("restaurants", List.of());
 
-            // Insert the new reading_list
             userCollection.updateOne(
                     eq("username", user.getUsername()),
                     new Document().append(
                             "$push",
-                            new Document("restaurantsList", readingList)
+                            new Document("restaurantsList", restaurantList)
                     )
             );
 
             return true;
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
         }
@@ -560,27 +557,24 @@ public class UserDAO extends DriverDAO {
     /**
      * Deletes a restaurant list from a user.
      *
-     * @param user  The UserDTO object representing the user.
+     * @param username  The username representing the user.
      * @param title The title of the restaurant list to delete.
      * @return true if the deletion is successful, false if the list is not found or in case of an error.
      */
-    public static boolean deleteRestaurantListFromUser(UserDTO user, String title) {
+    public static boolean deleteRestaurantListFromUser(String username, String title) {
         try {
-            // Find the user document
-            Document userDocument = userCollection.find(eq("username", user.getUsername())).first();
+            Document userDocument = userCollection.find(eq("username", username)).first();
 
-            // Check if the user document exists
             if (userDocument == null) {
                 System.err.println("ERROR: User not found.");
                 return false;
             }
 
-            // Find the index of the reading_list with the specified title
             int listIndex = -1;
-            List<Document> readingLists = userDocument.getList("restaurantsList", Document.class);
-            if (readingLists != null) {
-                for (int i = 0; i < readingLists.size(); i++) {
-                    Document list = readingLists.get(i);
+            List<Document> restaurantsList = userDocument.getList("restaurantsList", Document.class);
+            if (restaurantsList != null) {
+                for (int i = 0; i < restaurantsList.size(); i++) {
+                    Document list = restaurantsList.get(i);
                     if (list.getString("title").equals(title)) {
                         listIndex = i;
                         break;
@@ -588,15 +582,13 @@ public class UserDAO extends DriverDAO {
                 }
             }
 
-            // If the reading_list is found, remove it from the user document
             if (listIndex != -1) {
                 userDocument.getList("restaurantsList", Document.class).remove(listIndex);
 
-                // Update the user document in the collection
-                userCollection.replaceOne(eq("username", user.getUsername()), userDocument);
+                userCollection.replaceOne(eq("username", username), userDocument);
                 return true;
             } else {
-                System.err.println("ERROR: Reading list not found.");
+                System.err.println("ERROR: Restaurant list not found.");
                 return false;
             }
         } catch (MongoException e) {
@@ -716,10 +708,19 @@ public class UserDAO extends DriverDAO {
                 return null;
             }
 
-            // Get the restaurantsList field from the user document
-            List<Document> restaurantLists = userDocument.getList("restaurantsList", Document.class);
+            List<Document> restaurantLists;
+
+            if (userDocument.containsKey("restaurantList")) {
+                restaurantLists = userDocument.getList("restaurantList", Document.class);
+
+            }else if (userDocument.containsKey("restaurantsList")) {
+                restaurantLists = userDocument.getList("restaurantsList", Document.class);
+            }else{
+                restaurantLists = null;
+            }
 
             // Iterate over the restaurantLists and find the list with the given title
+            assert restaurantLists != null;
             for (Document list : restaurantLists) {
                 String listTitle = list.getString("title");
                 if (listTitle.equals(title)) {

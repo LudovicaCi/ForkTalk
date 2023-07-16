@@ -1,5 +1,6 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.neo4j.Neo4jUserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
@@ -32,6 +33,8 @@ public class PersonalPageController implements Initializable {
     public Text nListPosted;
 
     public VBox pageContainer;
+    public Text followersNumber;
+    public Text followingNumbers;
 
 
     @Override
@@ -41,6 +44,8 @@ public class PersonalPageController implements Initializable {
         nameField.setText(Session.getLoggedUser().getName() + " " + Session.getLoggedUser().getSurname());
         usernameField.setText(Session.getLoggedUser().getUsername());
         searchButton.setOnAction(this::openSearchPage);
+        followersNumber.setText(String.valueOf(Neo4jUserDAO.getNumFollowersUser(Session.loggedUser.getUsername())));
+        followingNumbers.setText(String.valueOf(Neo4jUserDAO.getNumFollowingUsers(Session.loggedUser.getUsername())));
         nListPosted.setText(String.valueOf(Session.loggedUser.getRestaurantLists().size()));
         pageContainer = new VBox();
         editButton.setOnAction(event -> {

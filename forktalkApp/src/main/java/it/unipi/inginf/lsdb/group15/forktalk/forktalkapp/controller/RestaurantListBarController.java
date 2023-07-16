@@ -34,6 +34,7 @@ public class RestaurantListBarController implements Initializable {
     public String restaurantId = "";
     public String currentPage = "";
     public String username = "";
+    public String author = " ";
 
     FXMLLoader loader;
     Parent root;
@@ -43,19 +44,41 @@ public class RestaurantListBarController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         restListButton.setOnAction(this::OpenListPage);
         deleteButton.setOnAction(this::deleteList);
+        nFollowers.setText("0");
     }
 
     private void deleteList(ActionEvent event) {
-        if(UserDAO.deleteRestaurantListFromUser(Session.loggedUser, titleField.getText())){
-            if(Neo4jUserDAO.deleteRestaurantList(Session.loggedUser, titleField.getText())) {
-                Session.loggedUser.setRestaurantLists(UserDAO.getRestaurantListsByUser(Session.getLoggedUser()));
-                Session.getRestaurantsListController().refreshLists();
-            }else{
-                UserDAO.recoverRestaurantList(Session.loggedUser.getUsername(), Session.loggedUser.getRestaurantLists());
+        if(Session.loggedUser.getUsername().equals(author)) {
+            if (UserDAO.deleteRestaurantListFromUser(Session.loggedUser.getUsername(), titleField.getText())) {
+                if (Neo4jUserDAO.deleteRestaurantList(Session.loggedUser.getUsername(), titleField.getText())){
+                    if(!currentPage.equals("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/FindListsBar.fxml")) {
+                        Session.loggedUser.setRestaurantLists(UserDAO.getRestaurantListsByUser(Session.getLoggedUser()));
+                        Session.getRestaurantsListController().refreshLists();
+                    }else {
+                        Session.getFindListsBarController().refreshLists();
+                    }
+                } else {
+                    UserDAO.recoverRestaurantList(Session.loggedUser.getUsername(), Session.loggedUser.getRestaurantLists());
+                    Utils.showAlert("Something went wrong! Please try again.");
+                }
+            } else {
                 Utils.showAlert("Something went wrong! Please try again.");
             }
-        }else{
-            Utils.showAlert("Something went wrong! Please try again.");
+        }else if(!Session.loggedUser.getUsername().equals(author) && Session.loggedUser.getRole() == 2){
+            if (UserDAO.deleteRestaurantListFromUser(author, titleField.getText())) {
+                if (Neo4jUserDAO.deleteRestaurantList(author, titleField.getText())) {
+                    if(!currentPage.equals("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/FindListsBar.fxml")) {
+                        Session.getRestaurantsListController().refreshLists();
+                    }else {
+                        Session.getFindListsBarController().refreshLists();
+                    }
+                } else {
+                    UserDAO.recoverRestaurantList(Session.loggedUser.getUsername(), Session.loggedUser.getRestaurantLists());
+                    Utils.showAlert("Something went wrong! Please try again.");
+                }
+            } else {
+                Utils.showAlert("Something went wrong! Please try again.");
+            }
         }
     }
 
@@ -73,9 +96,23 @@ public class RestaurantListBarController implements Initializable {
             Utils.showAlert("Something went wrong! please try again.");
     }
 
-    public void setList(RestaurantsListDTO list) throws IOException {
+    /*public void setList(RestaurantsListDTO list, String author) throws IOException {
         titleField.setText(list.getTitle());
-        nFollowers.setText("0");
+        nFollowers.setText(String.valueOf(Neo4jUserDAO.getNumFollowersRestaurantList(author, list.getTitle())));
+
+        loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/ListPage.fxml"));
+        root = loader.load();
+        listPageController = loader.getController();
+
+        listPageController.setListPageInfo(titleField.getText(), this.username.equals("") ? Session.getLoggedUser().getUsername() : this.username);
+
+        listPageController.showRestaurants();
+    } */
+
+    public void setList(String title, String author) throws IOException {
+        this.author = author;
+        titleField.setText(title);
+        nFollowers.setText(String.valueOf(Neo4jUserDAO.getNumFollowersRestaurantList(author, title)));
 
         loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/ListPage.fxml"));
         root = loader.load();

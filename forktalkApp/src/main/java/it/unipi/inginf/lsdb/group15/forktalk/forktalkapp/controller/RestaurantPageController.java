@@ -1,6 +1,7 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.neo4j.Neo4jUserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
@@ -97,11 +98,20 @@ public class RestaurantPageController implements Initializable {
 
         Image newImage;
         if (url.substring(url.lastIndexOf('/') + 1).equals("empty_heart.png")) {
-            newImage = new Image("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/img/heart.png");
+            Neo4jUserDAO.likeRestaurant(Session.loggedUser.getUsername(), restId);
+            if(Neo4jUserDAO.isUserLikesRestaurant(Session.loggedUser.getUsername(), restId)) {
+                newImage = new Image("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/img/heart.png");
+                ((ImageView) likeButton.getGraphic()).setImage(newImage);
+            }else
+                Utils.showAlert("Something went wrong! Please try again.");
         } else {
-            newImage = new Image("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/img/empty_heart.png");
+            Neo4jUserDAO.unlikeRestaurant(Session.loggedUser.getUsername(), restId);
+            if(!Neo4jUserDAO.isUserLikesRestaurant(Session.loggedUser.getUsername(), restId)) {
+                newImage = new Image("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/img/empty_heart.png");
+                ((ImageView) likeButton.getGraphic()).setImage(newImage);
+            }else
+                Utils.showAlert("Something went wrong! Please try again.");
         }
-        ((ImageView) likeButton.getGraphic()).setImage(newImage);
     }
 
     private void showListPane() throws IOException {
@@ -229,6 +239,15 @@ public class RestaurantPageController implements Initializable {
         totalReviews.setText(total);
         addressField.setText(address);
         tagField.setText(tag);
+
+        Image newImage;
+        if (Neo4jUserDAO.isUserLikesRestaurant(Session.loggedUser.getUsername(), id)) {
+            newImage = new Image("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/img/heart.png");
+        } else {
+            newImage = new Image("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/img/empty_heart.png");
+        }
+        ((ImageView) likeButton.getGraphic()).setImage(newImage);
+
         if(price.equals("null"))
             priceField.setText("N/A");
         else

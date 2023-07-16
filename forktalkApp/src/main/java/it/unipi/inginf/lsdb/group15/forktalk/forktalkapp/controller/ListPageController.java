@@ -1,6 +1,7 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.neo4j.Neo4jUserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantsListDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
@@ -60,6 +61,28 @@ public class ListPageController implements Initializable {
         loadMoreButton.setOnAction(this::loadMoreRestaurants);
         Session.setListPageController(this);
         loadMoreButton.setVisible(false);
+        follower.setText("0");
+        followButton.setOnAction(this::followList);
+    }
+
+    private void followList(ActionEvent event) {
+        if(followButton.getText().equals("Follow")){
+            Neo4jUserDAO.userFollowRestaurantList(Session.loggedUser.getUsername(), titleField.getText(), authorField.getText());
+            if(Neo4jUserDAO.isUserFollowingRestaurantList(Session.loggedUser.getUsername(), authorField.getText(), titleField.getText())){
+                followButton.setText("Unfollow");
+                follower.setText(String.valueOf(Neo4jUserDAO.getNumFollowersRestaurantList(authorField.getText(), titleField.getText())));
+            }else{
+                Utils.showAlert("Something went wrong! Please try again.");
+            }
+        }else if(followButton.getText().equals("Unfollow")){
+            Neo4jUserDAO.userUnfollowRestaurantList(Session.loggedUser.getUsername(), titleField.getText(), authorField.getText());
+            if(!Neo4jUserDAO.isUserFollowingRestaurantList(Session.loggedUser.getUsername(), authorField.getText(), titleField.getText())){
+                followButton.setText("Follow");
+                follower.setText(String.valueOf(Neo4jUserDAO.getNumFollowersRestaurantList(authorField.getText(), titleField.getText())));
+            }else{
+                Utils.showAlert("Something went wrong! Please try again.");
+            }
+        }
     }
 
     private void logout(ActionEvent event) {
@@ -83,7 +106,7 @@ public class ListPageController implements Initializable {
     public void setListPageInfo(String title, String author){
         titleField.setText(title);
         authorField.setText(author);
-        follower.setText("0");
+        follower.setText(String.valueOf(Neo4jUserDAO.getNumFollowersRestaurantList(author, title)));
         if(authorField.getText().equals(Session.getLoggedUser().getUsername())) {
             restaurantOfList = Objects.requireNonNull(UserDAO.getRestaurantsFromLists(Session.loggedUser, titleField.getText())).getRestaurants();
             followButton.setVisible(false);
@@ -93,6 +116,8 @@ public class ListPageController implements Initializable {
             restaurantOfList = Objects.requireNonNull(UserDAO.getRestaurantsFromLists(currentUser, titleField.getText())).getRestaurants();
         }
         numberRest.setText(String.valueOf(restaurantOfList.size()));
+        if(Neo4jUserDAO.isUserFollowingRestaurantList(Session.loggedUser.getUsername(), author, title))
+            followButton.setText("Unfollow");
         Session.setListPageController(this);
     }
 

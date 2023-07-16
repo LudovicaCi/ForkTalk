@@ -1,6 +1,8 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.UserDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils.Utility;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.UserDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
@@ -87,7 +89,18 @@ public class UserWidgetController implements Initializable {
             root = loader.load();
             userPageController = loader.getController();
 
-            userPageController.setUserInfo(user.getString("username"), user.getString("name").trim() + " " + user.getString("surname"));
+            String sizeList;
+
+            if (user.containsKey("restaurantList")) {
+                sizeList = String.valueOf(user.getList("restaurantList", Document.class).size());
+
+            }else if (user.containsKey("restaurantsList")) {
+                sizeList = String.valueOf(user.getList("restaurantsList", Document.class).size());
+            }else{
+                sizeList = "0";
+            }
+
+            userPageController.setUserInfo(user.getString("username"), user.getString("name").trim() + " " + user.getString("surname"), sizeList);
         }catch (IOException e){
             e.printStackTrace();
         }

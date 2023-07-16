@@ -15,6 +15,7 @@ public class Session {
     public static RestaurantLoggedPageController restaurantLoggedPageController;
     public static FindRestaurantBarController findRestaurantBarController;
     public static FindUserBarController findUserBarController;
+    public static FindListsBarController findListsBarController;
     //    -------------------------------------
 
     /* ********* GET METHOD ********* */
@@ -53,6 +54,8 @@ public class Session {
         return findUserBarController;
     }
 
+    public static FindListsBarController getFindListsBarController(){return findListsBarController;}
+
     /* ********* SET METHOD ********* */
 
     public static void setLoggedUser(UserDTO loggedUser) {
@@ -89,5 +92,9 @@ public class Session {
 
     public static void setFindUserBarController(FindUserBarController findUserBarController) {
         Session.findUserBarController = findUserBarController;
+    }
+
+    public static void setFindListsBarController(FindListsBarController findListsBarController) {
+        Session.findListsBarController = findListsBarController;
     }
 }

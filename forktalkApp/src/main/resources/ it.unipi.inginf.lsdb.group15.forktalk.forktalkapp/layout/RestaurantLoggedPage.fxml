@@ -60,12 +60,12 @@
                         <padding>
                             <Insets left="5.0" />
                         </padding>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="nFollowers">
+                        <Text fx:id="numberLikes" strokeType="OUTSIDE" strokeWidth="0.0" text="nLikes">
                             <font>
                                 <Font name="System Bold" size="10.0" />
                             </font>
                         </Text>
-                        <Label text="Follower" textFill="#0000007f">
+                        <Label text="Likes" textFill="#0000007f">
                             <font>
                                 <Font size="10.0" />
                             </font>

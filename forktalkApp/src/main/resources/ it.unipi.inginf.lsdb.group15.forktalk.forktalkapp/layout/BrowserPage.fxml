@@ -66,6 +66,12 @@
           <MenuItem fx:id="topKRestButton" mnemonicParsing="false" style="-fx-text-fill: #037b41;" text="Top K Rated Restaurants By Cuisine" />
           <MenuItem fx:id="activeUserButton" mnemonicParsing="false" style="-fx-text-fill: #037b41;" text="K Most Active Users" />
             <MenuItem fx:id="lifespanButton" mnemonicParsing="false" style="-fx-text-fill: #037b41;" text="K Highest Lifespan Restaurants" />
+            <MenuItem fx:id="followedUsers" mnemonicParsing="false" style="-fx-text-fill: #037b41;" text="Most Followed Users" />
+            <MenuItem fx:id="likedRestaurants" mnemonicParsing="false" style="-fx-text-fill: #037b41;" text="Most Followed Restaurants" />
+            <MenuItem fx:id="followedLists" mnemonicParsing="false" style="-fx-text-fill: #037b41;" text="Most Followed RestaurantList" />
+            <MenuItem fx:id="suggestedUsers" mnemonicParsing="false" style="-fx-text-fill: #037b41;" text="Suggested Users" />
+            <MenuItem fx:id="suggestedRestaurants" mnemonicParsing="false" style="-fx-text-fill: #037b41;" text="Suggested Restaurants" />
+            <MenuItem fx:id="suggestedLists" mnemonicParsing="false" style="-fx-text-fill: #037b41;" text="Suggested Restaurant Lists" />
         </items>
       </MenuButton>
     </ToolBar>

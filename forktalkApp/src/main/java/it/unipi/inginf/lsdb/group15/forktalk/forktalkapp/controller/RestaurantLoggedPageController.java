@@ -1,6 +1,7 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.controller;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.neo4j.Neo4jRestaurantDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReservationDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.ReviewDTO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
@@ -42,6 +43,7 @@ public class RestaurantLoggedPageController implements Initializable {
     public Button reservationButton;
     public Button addSlotsButton;
     public Button statisticsButton;
+    public Text numberLikes;
     private int currentIndex = 0;
 
 
@@ -52,6 +54,7 @@ public class RestaurantLoggedPageController implements Initializable {
         nameField.setText(Session.getLoggedRestaurant().getName());
         usernameField.setText(Session.getLoggedRestaurant().getUsername());
         loadMoreButton.setVisible(false);
+        numberLikes.setText(String.valueOf(Neo4jRestaurantDAO.getNumLikesRestaurant(Session.getLoggedRestaurant().getId())));
         loadMoreButton.setOnAction(this::loadMoreReviews);
         reviewButton.setOnAction(this::showReviews);
         pageContainer = new VBox();

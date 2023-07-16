@@ -127,8 +127,9 @@ public class RestaurantsListController implements Initializable {
                 widgetController.restaurantId = this.restaurantId;
                 widgetController.username = this.username;
 
-                if(!this.username.equals(""))
+                if(!this.username.equals("") && Session.loggedUser.getRole() == 1)
                     widgetController.deleteButton.setVisible(false);
+
 
                 if(currentPage.equals("Restaurant")) {
                     widgetController.currentPage = this.currentPage;
@@ -137,7 +138,7 @@ public class RestaurantsListController implements Initializable {
                     widgetController.restListButton.setOnAction(event -> widgetController.addToThisList());
                 }
 
-                widgetController.setList(list);
+                widgetController.setList(list.getTitle(), this.username.equals("") ? Session.loggedUser.getUsername() : this.username);
                 Session.setRestaurantsListController(this);
 
                 ListsContainer.getChildren().add(listWidget);
