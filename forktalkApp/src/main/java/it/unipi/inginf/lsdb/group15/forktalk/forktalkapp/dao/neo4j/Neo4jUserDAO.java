@@ -13,6 +13,13 @@ import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.neo4j.Neo4jD
 import static org.neo4j.driver.Values.parameters;
 
 public class Neo4jUserDAO {
+
+    /**
+     * Adds a new user to the Neo4j graph database.
+     *
+     * @param user The UserDTO object representing the user to be added
+     * @return true if the user is successfully added, false otherwise
+     */
     public static boolean addUser(UserDTO user){
         boolean res;
         try (Session session = driver.session()){
@@ -29,6 +36,12 @@ public class Neo4jUserDAO {
         return res;
     }
 
+    /**
+     * Deletes a user from the Neo4j graph database.
+     *
+     * @param username The username of the user to be deleted
+     * @return true if the user is successfully deleted, false otherwise
+     */
     public static boolean deleteUser(String username){
         boolean res;
         try (Session session = driver.session()){
@@ -45,6 +58,13 @@ public class Neo4jUserDAO {
         return res;
     }
 
+    /**
+     * Adds a new restaurant list to the Neo4j graph database for a user.
+     *
+     * @param user  The UserDTO object representing the user who owns the restaurant list
+     * @param title The title of the restaurant list
+     * @return true if the restaurant list is successfully added, false otherwise
+     */
     public static boolean addRestaurantList(UserDTO user, String title){
         boolean res;
         try (Session session = driver.session()){
@@ -61,6 +81,13 @@ public class Neo4jUserDAO {
         return res;
     }
 
+    /**
+     * Deletes a restaurant list from the Neo4j graph database for a user.
+     *
+     * @param username The username of the user who owns the restaurant list
+     * @param title    The title of the restaurant list
+     * @return true if the restaurant list is successfully deleted, false otherwise
+     */
     public static boolean deleteRestaurantList(String username, String title){
         boolean res;
         try (Session session = driver.session()){
@@ -77,6 +104,12 @@ public class Neo4jUserDAO {
         return res;
     }
 
+    /**
+     * Retrieves the number of followers for a user from the Neo4j graph database.
+     *
+     * @param username The username of the user
+     * @return The number of followers for the user
+     */
     public static int getNumFollowersUser(String username) {
         int numFollowers;
         try (Session session = driver.session()) {
@@ -89,6 +122,13 @@ public class Neo4jUserDAO {
         return numFollowers;
     }
 
+    /**
+     * Retrieves the number of followers for a restaurant list from the Neo4j graph database.
+     *
+     * @param owner The username of the owner of the restaurant list
+     * @param title The title of the restaurant list
+     * @return The number of followers for the restaurant list
+     */
     public static int getNumFollowersRestaurantList(String owner, String title) {
         int numFollowers;
         try (Session session = driver.session()) {
@@ -101,6 +141,12 @@ public class Neo4jUserDAO {
         return numFollowers;
     }
 
+    /**
+     * Retrieves the number of users that a user is following from the Neo4j graph database.
+     *
+     * @param username The username of the user
+     * @return The number of users that the user is following
+     */
     public static int getNumFollowingUsers(String username) {
         int numFollowers;
         try (Session session = driver.session()) {
@@ -112,6 +158,13 @@ public class Neo4jUserDAO {
         return numFollowers;
     }
 
+    /**
+     * Checks if a user likes a specific restaurant in the Neo4j graph database.
+     *
+     * @param username The username of the user
+     * @param rest_id  The ID of the restaurant
+     * @return true if the user likes the restaurant, false otherwise
+     */
     public static boolean isUserLikesRestaurant(String username, String rest_id){
         boolean res = false;
         try(Session session = driver.session()){
@@ -128,6 +181,14 @@ public class Neo4jUserDAO {
         return res;
     }
 
+    /**
+     * Checks if a user is following a specific restaurant list in the Neo4j graph database.
+     *
+     * @param user   The username of the user
+     * @param owner  The username of the owner of the restaurant list
+     * @param title  The title of the restaurant list
+     * @return true if the user is following the restaurant list, false otherwise
+     */
     public static boolean isUserFollowingRestaurantList (String user, String owner, String title) {
         boolean res = false;
         try(Session session = driver.session()) {
@@ -144,6 +205,13 @@ public class Neo4jUserDAO {
         return res;
     }
 
+    /**
+     * Checks if User A is following User B.
+     *
+     * @param usernameA the username of User A
+     * @param usernameB the username of User B
+     * @return true if User A is following User B, false otherwise
+     */
     public static boolean isUserAFollowingUserB (String usernameA, String usernameB) {
         boolean res = false;
         try(Session session = driver.session()) {
@@ -151,10 +219,7 @@ public class Neo4jUserDAO {
                 Result r = tx.run("MATCH (a:User{username:$usernameA})-[r:Follows]->(b:User{username:$usernameB}) " +
                         "RETURN COUNT(*)", parameters("usernameA", usernameA, "usernameB", usernameB));
                 Record record = r.next();
-                if (record.get(0).asInt() == 0)
-                    return false;
-                else
-                    return true;
+                return record.get(0).asInt() != 0;
             });
         }
         catch (Exception e) {
@@ -163,6 +228,12 @@ public class Neo4jUserDAO {
         return res;
     }
 
+    /**
+     * Adds a like relationship between a user and a restaurant.
+     *
+     * @param username the username of the user
+     * @param rest_id  the ID of the restaurant
+     */
     public static void likeRestaurant(String username, String rest_id) {
         try(Session session = driver.session()) {
             session.writeTransaction(tx -> {
@@ -178,6 +249,12 @@ public class Neo4jUserDAO {
         }
     }
 
+    /**
+     * Creates a "Likes" relationship between a user and a restaurant in the Neo4j graph database.
+     *
+     * @param username The username of the user
+     * @param rest_id  The ID of the restaurant
+     */
     public static void unlikeRestaurant(String username, String rest_id) {
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> {
@@ -192,6 +269,12 @@ public class Neo4jUserDAO {
         }
     }
 
+    /**
+     * Creates a "Follows" relationship between user A and user B in the Neo4j graph database.
+     *
+     * @param usernameA The username of user A
+     * @param usernameB The username of user B
+     */
     public static void userAFollowsUserB (String usernameA, String usernameB) {
         try (Session session = driver.session()){
             session.writeTransaction(tx -> {
@@ -203,6 +286,12 @@ public class Neo4jUserDAO {
         }
     }
 
+    /**
+     * Removes the "Follows" relationship between user A and user B in the Neo4j graph database.
+     *
+     * @param usernameA The username of user A
+     * @param usernameB The username of user B
+     */
     public static void userAUnfollowUserB (String usernameA, String usernameB) {
         try (Session session = driver.session()){
             session.writeTransaction(tx -> {
@@ -214,6 +303,13 @@ public class Neo4jUserDAO {
         }
     }
 
+    /**
+     * Creates a "Follows" relationship between a user and a restaurant list in the Neo4j graph database.
+     *
+     * @param username The username of the user
+     * @param title    The title of the restaurant list
+     * @param owner    The username of the owner of the restaurant list
+     */
     public static void userFollowRestaurantList (String username, String title, String owner) {
         try (Session session = driver.session()){
             session.writeTransaction(tx -> {
@@ -225,6 +321,13 @@ public class Neo4jUserDAO {
         }
     }
 
+    /**
+     * Removes the "Follows" relationship between a user and a restaurant list in the Neo4j graph database.
+     *
+     * @param username The username of the user
+     * @param title    The title of the restaurant list
+     * @param owner    The username of the owner of the restaurant list
+     */
     public static void userUnfollowRestaurantList (String username, String title, String owner) {
         try (Session session = driver.session()){
             session.writeTransaction(tx -> {
@@ -236,6 +339,13 @@ public class Neo4jUserDAO {
         }
     }
 
+    /**
+     * Searches for restaurant lists in the Neo4j graph database based on a search title.
+     * Returns a list of nodes representing the matching restaurant lists, ordered by the number of followers in descending order.
+     *
+     * @param searchTitle The search title to match against restaurant list titles
+     * @return A list of nodes representing the matching restaurant lists
+     */
     public static List<Node> searchRestaurantList(String searchTitle) {
         List<Node> nodeList = new ArrayList<>();
 
@@ -261,8 +371,10 @@ public class Neo4jUserDAO {
         return nodeList;
     }
 
+    /* ********* ANALYTICS METHOD ********* */
+
     public static List<Node> getMostFollowedRestaurantList(int limit){
-        List<Node> restNode = new ArrayList<>();;
+        List<Node> restNode = new ArrayList<>();
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> {
                 var result = tx.run("""
@@ -284,8 +396,14 @@ public class Neo4jUserDAO {
         return restNode;
     }
 
+    /**
+     * Retrieves a list of nodes representing the users with the highest number of followers.
+     *
+     * @param limit the maximum number of users to return
+     * @return a list of nodes representing the users with the highest number of followers
+     */
     public static List<Node> getMostFollowedUsers(int limit){
-        List<Node> restNode = new ArrayList<>();;
+        List<Node> restNode = new ArrayList<>();
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> {
                 var result = tx.run("""
@@ -307,8 +425,16 @@ public class Neo4jUserDAO {
         return restNode;
     }
 
+    /**
+     * Retrieves a list of suggested restaurants for a given user based on
+     * their preferences and connections.
+     *
+     * @param username the username of the user for whom to suggest restaurants
+     * @param limit the maximum number of restaurants to return
+     * @return a list of suggested restaurants for the user
+     */
     public static List<Node> getSuggestedRestaurant(String username, int limit){
-        List<Node> restNode = new ArrayList<>();;
+        List<Node> restNode = new ArrayList<>();
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> {
                 var result = tx.run("""
@@ -326,13 +452,20 @@ public class Neo4jUserDAO {
                                     where r2 = similarRestaurant
                                 }
                                 RETURN DISTINCT r2 as r, 0 AS recommendationScore
+                                LIMIT $limit
+                                UNION
+                                MATCH (r:Restaurant) <- [l:Likes]-()
+                                RETURN r, COUNT(l) AS recommendationScore
+                                ORDER BY recommendationScore DESC
                                 LIMIT $limit""",
                         parameters("username", username, "limit", limit));
 
-                while (result.hasNext()) {
+                int count = 0;
+                while (result.hasNext() && count<limit) {
                     Record record = result.next();
                     Node restaurant = record.get("r").asNode();
                     restNode.add(restaurant);
+                    count++;
                 }
 
                 return restNode;
@@ -341,8 +474,15 @@ public class Neo4jUserDAO {
         return restNode;
     }
 
+    /**
+     * Retrieves a list of suggested restaurant lists for a given user based on their connections.
+     *
+     * @param username the username of the user for whom to suggest restaurant lists
+     * @param limit the maximum number of restaurant lists to return
+     * @return a list of suggested restaurant lists for the user
+     */
     public static List<Node> getSuggestedRestaurantList(String username, int limit){
-        List<Node> nodeList = new ArrayList<>();;
+        List<Node> nodeList = new ArrayList<>();
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> {
                 var result = tx.run("""
@@ -353,13 +493,21 @@ public class Neo4jUserDAO {
                                 WITH rl, COUNT(DISTINCT me) AS followCount
                                 RETURN rl, followCount AS recommendationScore
                                 ORDER BY recommendationScore DESC
+                                LIMIT $limit
+                                UNION
+                                MATCH (rl:RestaurantList) <- [l:Follows]-()
+                                WITH rl, COUNT(l) as numFollowers
+                                RETURN rl, numFollowers AS recommendationScore
+                                ORDER BY numFollowers DESC
                                 LIMIT $limit""",
                         parameters("username", username, "limit", limit));
 
-                while (result.hasNext()) {
+                int count = 0;
+                while (result.hasNext() && count < limit) {
                     Record record = result.next();
                     Node restaurant = record.get("rl").asNode();
                     nodeList.add(restaurant);
+                    count++;
                 }
 
                 return nodeList;
@@ -368,8 +516,15 @@ public class Neo4jUserDAO {
         return nodeList;
     }
 
+    /**
+     * Retrieves a list of suggested users for a given user based on their connections.
+     *
+     * @param username the username of the user for whom to suggest users
+     * @param limit the maximum number of users to return
+     * @return a list of suggested users for the user
+     */
     public static List<Node> getSuggestedUsers(String username, int limit){
-        List<Node> nodeList = new ArrayList<>();;
+        List<Node> nodeList = new ArrayList<>();
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> {
                 var result = tx.run("""
@@ -379,13 +534,21 @@ public class Neo4jUserDAO {
                                 WITH u, COUNT(DISTINCT me) AS followCount
                                 RETURN u, followCount AS recommendationScore
                                 ORDER BY recommendationScore DESC
+                                LIMIT $limit
+                                UNION
+                                MATCH (u:User) <- [l:Follows]-()
+                                WITH u, COUNT(l) as numFollowers
+                                RETURN u, numFollowers AS recommendationScore
+                                ORDER BY numFollowers DESC
                                 LIMIT $limit""",
                         parameters("username", username, "limit", limit));
 
-                while (result.hasNext()) {
+                int count = 0;
+                while (result.hasNext() && count<limit) {
                     Record record = result.next();
                     Node restaurant = record.get("u").asNode();
                     nodeList.add(restaurant);
+                    count++;
                 }
                 return nodeList;
             });

@@ -61,6 +61,7 @@ public class RestaurantsListController implements Initializable {
                 if(Neo4jUserDAO.addRestaurantList(Session.getLoggedUser(), titleField.getText())) {
                     Session.getLoggedUser().setRestaurantLists(UserDAO.getRestaurantListsByUser(Session.loggedUser));
                     refreshLists();
+                    Session.personalPageController.nListPosted.setText(String.valueOf(Session.loggedUser.getRestaurantLists().size()));
                 }else{
                     UserDAO.recoverRestaurantList(Session.loggedUser.getUsername(), Session.loggedUser.getRestaurantLists());
                     Utils.showAlert("Something went wrong! Please try again.");
@@ -77,11 +78,10 @@ public class RestaurantsListController implements Initializable {
     }
 
     public void loadMoreLists(ActionEvent event) {
-        loadNextBatch(); // Carica il prossimo batch di ristoranti
+        loadNextBatch();
     }
 
     private void loadNextBatch() {
-        // Numero di ristoranti da caricare in ogni batch
         int batchSize = 5;
         ArrayList<RestaurantsListDTO> restListsDocuments;
         if(!this.username.equals("")){
@@ -162,17 +162,15 @@ public class RestaurantsListController implements Initializable {
 
     private void setupListsView() {
         ScrollPane scrollPane = new ScrollPane(ListsContainer);
-        scrollPane.setFitToWidth(true); // Abilita la ridimensione automatica in larghezza
-        scrollPane.setFitToHeight(true); // Abilita la ridimensione automatica in altezza
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS); // Mostra sempre la barra di scorrimento verticale
-        scrollPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setStyle("-fx-background-color: transparent;");
 
-        // Rimuovi eventuali elementi precedenti dal dynamicPane
         dynamicPane.getChildren().clear();
 
         dynamicPane.setStyle("-fx-background-color: #F0F0F0;");
 
-        // Aggiungi lo ScrollPane contenente il GridPane all'AnchorPane e adatta alla grandezza dell'AnchorPane
         AnchorPane.setTopAnchor(scrollPane, 0.0);
         AnchorPane.setBottomAnchor(scrollPane, 0.0);
         AnchorPane.setLeftAnchor(scrollPane, 0.0);
@@ -181,7 +179,6 @@ public class RestaurantsListController implements Initializable {
     }
 
     public void refreshLists() {
-        // Resetta la vista corrente
         resetView();
         showLists();
     }

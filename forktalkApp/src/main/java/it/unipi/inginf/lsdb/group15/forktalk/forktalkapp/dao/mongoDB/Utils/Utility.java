@@ -1,9 +1,7 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.Utils;
 
 import com.mongodb.MongoException;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.DriverDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.*;
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Restaurant;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -16,6 +14,12 @@ import static com.mongodb.client.model.Filters.eq;
 import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.DriverDAO.restaurantCollection;
 
 public class Utility {
+    /**
+     * Packs a UserDTO object into a MongoDB Document.
+     *
+     * @param user the UserDTO object to be packed
+     * @return the packed MongoDB Document
+     */
     public static Document packUser(UserDTO user) {
         Document document = new Document();
         document.put("email", user.getEmail());
@@ -51,6 +55,12 @@ public class Utility {
         return document;
     }
 
+    /**
+     * Packs a RestaurantDTO object into a MongoDB Document.
+     *
+     * @param restaurantDTO the RestaurantDTO object to be packed
+     * @return the packed MongoDB Document
+     */
     public static Document packRestaurantDTO(RestaurantDTO restaurantDTO) {
         Document restaurantDoc = new Document();
         restaurantDoc.append("rest_id", restaurantDTO.getId())
@@ -76,6 +86,12 @@ public class Utility {
         return restaurantDoc;
     }
 
+    /**
+     * Unpacks a MongoDB Document into a RestaurantDTO object.
+     *
+     * @param restaurantDoc the MongoDB Document to be unpacked
+     * @return the unpacked RestaurantDTO object
+     */
     public static RestaurantDTO unpackRestaurant(Document restaurantDoc) {
         RestaurantDTO restaurant = new RestaurantDTO();
         restaurant.setId(restaurantDoc.getString("rest_id"));
@@ -127,6 +143,12 @@ public class Utility {
         return coordinatesDocuments;
     }
 
+    /**
+     * Unpacks a list of MongoDB Documents representing coordinates into a list of coordinates as strings.
+     *
+     * @param coordinatesDocuments the list of MongoDB Documents representing coordinates
+     * @return the unpacked list of coordinates as strings
+     */
     public static List<String> unpackCoordinates(List<Document> coordinatesDocuments) {
         List<String> coordinates = new ArrayList<>();
 
@@ -140,7 +162,6 @@ public class Utility {
 
         return coordinates;
     }
-
 
     /**
      * Packs the restaurant reservations into a list of MongoDB Documents.
@@ -165,6 +186,12 @@ public class Utility {
         return reservationsDocuments;
     }
 
+    /**
+     * Packs a ReservationDTO object into a MongoDB Document for a single reservation.
+     *
+     * @param reservation the ReservationDTO object to be packed
+     * @return the packed MongoDB Document
+     */
     public static Document packRestaurantOneReservation(ReservationDTO reservation){
 
         return new Document()
@@ -175,6 +202,12 @@ public class Utility {
                 .append("number of person", reservation.getPeople());
     }
 
+    /**
+     * Packs a list of ReservationDTO objects into an ArrayList of MongoDB Documents for user reservations.
+     *
+     * @param reservations the list of ReservationDTO objects to be packed
+     * @return the packed ArrayList of MongoDB Documents
+     */
     public static ArrayList<Document> packUserReservations(ArrayList<ReservationDTO> reservations) {
         ArrayList<Document> reservationsDocuments = new ArrayList<>();
 
@@ -193,6 +226,12 @@ public class Utility {
         return reservationsDocuments;
     }
 
+    /**
+     * Packs a ReservationDTO object into a MongoDB Document for a single user reservation.
+     *
+     * @param reservation the ReservationDTO object to be packed
+     * @return the packed MongoDB Document
+     */
     public static Document packUserOneReservation(ReservationDTO reservation){
 
         return new Document()
@@ -220,6 +259,12 @@ public class Utility {
                 .append("reviewer_pseudo", review.getReviewer());
     }
 
+    /**
+     * Packs a list of ReviewDTO objects into a List of MongoDB Documents.
+     *
+     * @param reviews the list of ReviewDTO objects to be packed
+     * @return the packed List of MongoDB Documents
+     */
     private static List<Document> packReviews(List<ReviewDTO> reviews) {
         List<Document> reviewDocs = new ArrayList<>();
         for (ReviewDTO review : reviews) {
@@ -229,21 +274,23 @@ public class Utility {
         return reviewDocs;
     }
 
-
+    /**
+     * Unpacks a MongoDB Document into a RestaurantsListDTO object for a single restaurant list.
+     *
+     * @param document the MongoDB Document to be unpacked
+     * @return the unpacked RestaurantsListDTO object
+     */
     public static RestaurantsListDTO unpackOneRestaurantList(Document document) {
         try {
-            // Retrieve the title of the restaurant list
             String title = document.getString("title");
 
             RestaurantsListDTO r_list = new RestaurantsListDTO(title);
 
-            // Retrieve the list of restaurants as Documents
             List<Document> restaurantsDocuments = document.getList("restaurants", Document.class);
 
-            // Convert the restaurantsDocuments to Restaurant objects
             if (restaurantsDocuments != null) {
                 for (Document restaurantDoc : restaurantsDocuments) {
-                    // Extract the necessary fields from the restaurantDoc and create a Restaurant object
+
                     String restaurantId = restaurantDoc.getString("restaurant_id");
                     String restaurantName = restaurantDoc.getString("restaurant_name");
 
@@ -286,6 +333,12 @@ public class Utility {
         }
     }
 
+    /**
+     * Packs a RestaurantsListDTO object for a single restaurant list into a MongoDB Document.
+     *
+     * @param restaurantLists the RestaurantsListDTO object to be packed
+     * @return the packed MongoDB Document
+     */
     public static List<Document> packRestaurantLists(ArrayList<RestaurantsListDTO> restaurantLists) {
         try {
             List<Document> documents = new ArrayList<>();
@@ -303,7 +356,6 @@ public class Utility {
         }
     }
 
-
     /**
      * Unpacks a single restaurant list from a MongoDB Document.
      *
@@ -312,7 +364,6 @@ public class Utility {
      */
     public static ReservationDTO unpackOneUserReservation(Document document) {
         try {
-            // Retrieve values from the document
             String dateStr = document.getString("date");
 
             String restaurantId = document.getString("restaurant_id");
@@ -329,10 +380,15 @@ public class Utility {
         }
     }
 
-
+    /**
+     * Unpacks a MongoDB Document into a ReservationDTO object for a single restaurant reservation.
+     *
+     * @param document the MongoDB Document to be unpacked
+     * @return the unpacked ReservationDTO object
+     */
     public static ReservationDTO unpackOneRestaurantReservation(Document document) {
         try {
-            // Retrieve values from the document
+
             String dateStr = document.getString("date");
 
             String clientUsername = document.getString("client_username");
@@ -348,6 +404,12 @@ public class Utility {
         }
     }
 
+    /**
+     * Unpacks a list of MongoDB Documents representing restaurant reservations into a list of ReservationDTO objects.
+     *
+     * @param reservationDocs the list of MongoDB Documents representing reservations
+     * @return the unpacked list of ReservationDTO objects
+     */
     private static List<ReservationDTO> unpackRestaurantReservations(List<Document> reservationDocs) {
         List<ReservationDTO> reservations = new ArrayList<>();
         for (Document reservationDoc : reservationDocs) {
@@ -359,7 +421,6 @@ public class Utility {
         return reservations;
     }
 
-
     /**
      * Unpacks a single restaurant reservation from a MongoDB Document.
      *
@@ -370,11 +431,9 @@ public class Utility {
         ArrayList<String> coordinate = new ArrayList<>();
 
         try {
-            // Extract the longitude and latitude from the document
             coordinate.add(document.getString("longitude"));
             coordinate.add(document.getString("latitude"));
         } catch (MongoException e) {
-            // Print the error message and stack trace
             System.err.println("An error occurred while unpacking of coordinates: " + e.getMessage());
             e.printStackTrace();
         }
@@ -391,7 +450,6 @@ public class Utility {
     public static ReviewDTO unpackOneReview(Document document) {
         ReviewDTO review = new ReviewDTO();
         try {
-            // Recupera i campi dalla recensione
             review.setId(document.getString("review_id"));
             String reviewDateStr = document.getString("review_date");
             review.setTimestamp(reviewDateStr);
@@ -452,10 +510,9 @@ public class Utility {
         Random random = new Random();
 
         String restaurantId;
-        boolean isUnique = false;
+        boolean isUnique;
 
         do {
-            // Genera un numero casuale di 8 cifre per la parte numerica
             int randomNumber1 = random.nextInt(90000000) + 10000000;
             int randomNumber2 = random.nextInt(90000000) + 10000000;
 
@@ -465,6 +522,4 @@ public class Utility {
 
         return restaurantId;
     }
-
-
 }

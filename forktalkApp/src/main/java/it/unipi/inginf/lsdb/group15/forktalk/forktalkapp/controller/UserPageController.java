@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -58,8 +57,10 @@ public class UserPageController implements Initializable {
             Neo4jUserDAO.userAUnfollowUserB(Session.loggedUser.getUsername(), usernameField.getText());
             if(!Neo4jUserDAO.isUserAFollowingUserB(Session.loggedUser.getUsername(), usernameField.getText())){
                 followButton.setText("Follow");
+                followersNumber.setText(String.valueOf(Neo4jUserDAO.getNumFollowersUser(usernameField.getText())));
             }else{
                 Utils.showAlert("Something went wrong! Please try again.");
+                followersNumber.setText(String.valueOf(Neo4jUserDAO.getNumFollowersUser(usernameField.getText())));
             }
         }
     }

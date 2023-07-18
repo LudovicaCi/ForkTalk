@@ -47,10 +47,8 @@ public class BookARestaurantController implements Initializable{
                 return;
             }
 
-            // Get the selected restaurant from your application's logic
             RestaurantDTO rest = RestaurantDAO.getRestaurantById(Session.getRestaurantPageController().restId);
 
-            // Get the selected date from the date picker
             LocalDate date = datePicker.getValue();
             LocalDate currentDate = LocalDate.now();
 
@@ -62,7 +60,6 @@ public class BookARestaurantController implements Initializable{
             assert date != null;
             String dateString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            // Get the entered time slot from the text field
             String slot = timeSlotTextField.getText();
             if (!slot.matches("\\d{2}:\\d{2}")) {
                 Utils.showAlert("Incorrect time slot format. Please enter in HH:mm format.");
@@ -76,7 +73,6 @@ public class BookARestaurantController implements Initializable{
                 return;
             }
 
-            // Get the entered number of persons from the text field
             int numberOfPersons = Integer.parseInt(numberOfPersonsTextField.getText());
 
             if (numberOfPersons > getEmptySeatsByDate(rest, dateString)) {
@@ -99,7 +95,7 @@ public class BookARestaurantController implements Initializable{
     }
 
     private void showConfirmationDialog() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Reservation Successful");
         alert.setHeaderText(null);
         alert.setContentText("Your reservation has been confirmed!");

@@ -170,24 +170,23 @@ public class RestaurantLoggedPageController implements Initializable {
 
     public void showReviews(ActionEvent event) {
         dynamicPane.getChildren().clear();
-        currentIndex = 0; // Reimposta l'indice corrente a 0
-        pageContainer.getChildren().clear(); // Rimuovi i ristoranti precedenti dalla vista
-        loadNextBatch(); // Carica il primo batch di ristoranti
+        currentIndex = 0;
+        pageContainer.getChildren().clear();
+        loadNextBatch();
     }
 
     public void showReviews() {
         dynamicPane.getChildren().clear();
-        currentIndex = 0; // Reimposta l'indice corrente a 0
-        pageContainer.getChildren().clear(); // Rimuovi i ristoranti precedenti dalla vista
-        loadNextBatch(); // Carica il primo batch di ristoranti
+        currentIndex = 0;
+        pageContainer.getChildren().clear();
+        loadNextBatch();
     }
 
     public void loadMoreReviews(ActionEvent event) {
-        loadNextBatch(); // Carica il prossimo batch di ristoranti
+        loadNextBatch();
     }
 
     private void loadNextBatch() {
-        // Numero di ristoranti da caricare in ogni batch
         int batchSize = 5;
         if(Session.loggedRestaurant.getReviews().size() == 0) {
             Text noListText = new Text("No Reviews Yet");
@@ -219,7 +218,6 @@ public class RestaurantLoggedPageController implements Initializable {
                 fxmlLoader.setController(widgetController);
                 VBox reviewWidget = fxmlLoader.load();
 
-                // Imposta le informazioni del ristorante nel widget
                 widgetController.setReview(review);
                 widgetController.updateStarImages();
 
@@ -231,9 +229,7 @@ public class RestaurantLoggedPageController implements Initializable {
 
         currentIndex += batchSize;
 
-        // Controlla se ci sono ulteriori ristoranti da caricare
-        // Mostra il pulsante "Carica altro" se ci sono ancora ristoranti da caricare
-        loadMoreButton.setVisible(currentIndex < Session.loggedRestaurant.getReviews().size()); // Nascondi il pulsante "Carica altro" se non ci sono più ristoranti da caricare
+        loadMoreButton.setVisible(currentIndex < Session.loggedRestaurant.getReviews().size());
 
         setupReviewView();
     }
@@ -246,17 +242,15 @@ public class RestaurantLoggedPageController implements Initializable {
 
     private void setupReviewView() {
         ScrollPane scrollPane = new ScrollPane(pageContainer);
-        scrollPane.setFitToWidth(true); // Abilita la ridimensione automatica in larghezza
-        scrollPane.setFitToHeight(true); // Abilita la ridimensione automatica in altezza
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS); // Mostra sempre la barra di scorrimento verticale
-        scrollPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setStyle("-fx-background-color: transparent;");
 
-        // Rimuovi eventuali elementi precedenti dal dynamicPane
         dynamicPane.getChildren().clear();
 
         dynamicPane.setStyle("-fx-background-color: #F0F0F0;");
 
-        // Aggiungi lo ScrollPane contenente il GridPane all'AnchorPane e adatta alla grandezza dell'AnchorPane
         AnchorPane.setTopAnchor(scrollPane, 0.0);
         AnchorPane.setBottomAnchor(scrollPane, 0.0);
         AnchorPane.setLeftAnchor(scrollPane, 0.0);
@@ -273,7 +267,6 @@ public class RestaurantLoggedPageController implements Initializable {
     public void createReservationGridPane(ActionEvent event) {
         pageContainer.getChildren().clear();
 
-        // Recupera la lista di prenotazioni dell'utente dalla classe Sessione
         List<ReservationDTO> reservationList = Session.getLoggedRestaurant().getReservations();
 
         for (ReservationDTO reservation : reservationList) {
@@ -283,7 +276,6 @@ public class RestaurantLoggedPageController implements Initializable {
                 fxmlLoader.setController(widgetController);
                 VBox reservationWidget = fxmlLoader.load();
 
-                // Imposta le informazioni della prenotazione nel widget
                 widgetController.setReservation(reservation);
 
                 pageContainer.getChildren().add(reservationWidget);
@@ -294,18 +286,16 @@ public class RestaurantLoggedPageController implements Initializable {
         }
 
         ScrollPane scrollPane = new ScrollPane(pageContainer);
-        scrollPane.setFitToWidth(true); // Abilita la ridimensione automatica in larghezza
-        scrollPane.setFitToHeight(true); // Abilita la ridimensione automatica in altezza
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS); // Mostra sempre la barra di scorrimento verticale
-        scrollPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setStyle("-fx-background-color: transparent;");
 
 
-        // Rimuovi eventuali elementi precedenti dal dynamicPane
         dynamicPane.getChildren().clear();
 
         dynamicPane.setStyle("-fx-background-color: #F0F0F0;");
 
-        // Aggiungi lo ScrollPane contenente il GridPane all'AnchorPane e adatta alla grandezza dell'AnchorPane
         AnchorPane.setTopAnchor(scrollPane, 0.0);
         AnchorPane.setBottomAnchor(scrollPane, 0.0);
         AnchorPane.setLeftAnchor(scrollPane, 0.0);

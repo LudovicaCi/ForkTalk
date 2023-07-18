@@ -1,13 +1,15 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp;
 
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.DriverDAO;
+import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.ReservationDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO;
 import org.bson.Document;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         DriverDAO.openConnection();
         //login: FUNZIONA
         /*UserDTO userDTO = MongoDBUserDAO.loginUser("ianmW7519KN", "cbzuu0Bq");
@@ -394,7 +396,7 @@ public class Main {
             System.out.println("-------------------------------------");
         } */
 
-        Document result = RestaurantDAO.getReviewsStatsByDateRange("g10029240-d1827365", "2015-01-01", "2015-12-31");
+       /* Document result = RestaurantDAO.getReviewsStatsByDateRange("g10029240-d1827365", "2015-01-01", "2015-12-31");
 
         if(result == null){
             System.out.println("Tot Reviews: 0");
@@ -402,7 +404,9 @@ public class Main {
         }else {
             System.out.println("Tot Reviews: " + result.getLong("total_reviews"));
             System.out.println("avg_rating: " + result.getDouble("average_rating"));
-        }
+        } */
+
+        ReservationDAO.deleteOldReservations();
 
         /*result.getDouble("average_rating")RestaurantDTO rest = RestaurantDAO.getRestaurantById("g528819-d10490489");
 

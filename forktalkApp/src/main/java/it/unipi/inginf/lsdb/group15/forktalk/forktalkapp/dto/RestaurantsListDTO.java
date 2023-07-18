@@ -1,7 +1,5 @@
 package it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto;
 
-import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Restaurant;
-
 import java.util.ArrayList;
 
 public class RestaurantsListDTO {

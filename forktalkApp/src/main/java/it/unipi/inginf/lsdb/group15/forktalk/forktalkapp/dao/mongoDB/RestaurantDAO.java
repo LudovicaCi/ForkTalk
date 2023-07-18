@@ -40,12 +40,12 @@ public class RestaurantDAO extends DriverDAO {
                     Filters.eq("username", username),
                     Filters.eq("password", password));
 
-            // Use the filter to find a matching restaurant document in the collection
+            // Find a matching restaurant document in the collection
             Document restaurantDocument = restaurantCollection.find(filter).first();
 
             // Check if a matching restaurant document was found
             if (restaurantDocument != null) {
-                // Extract the necessary fields from the document to create a RestaurantDTO object
+                // Extract the fields from the matching document
                 rest.setId(restaurantDocument.getString("rest_id"));
                 rest.setName(restaurantDocument.getString("restaurant_name"));
                 rest.setEmail(restaurantDocument.getString("email"));
@@ -70,7 +70,6 @@ public class RestaurantDAO extends DriverDAO {
                     rating = Double.parseDouble(String.valueOf(ratingObj));
                 rest.setRating(rating);
 
-                //retrieve coordinates
                 List<Document> coordinatesDocuments = restaurantDocument.getList("coordinates", Document.class);
 
                 if (coordinatesDocuments != null) {
@@ -79,7 +78,6 @@ public class RestaurantDAO extends DriverDAO {
                     }
                 }
 
-                //retrieve reservations
                 List<Document> reservationsDocuments = restaurantDocument.getList("reservations", Document.class);
 
                 if (reservationsDocuments != null) {
@@ -88,7 +86,6 @@ public class RestaurantDAO extends DriverDAO {
                     }
                 }
 
-                //retrieve reviews
                 List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
 
                 if (reviewsDocuments != null) {
@@ -102,7 +99,6 @@ public class RestaurantDAO extends DriverDAO {
                 return null;
             }
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             System.out.println("Username and Password are invalid");
             e.printStackTrace();
 
@@ -118,7 +114,6 @@ public class RestaurantDAO extends DriverDAO {
      */
     public static boolean addRestaurant(RestaurantDTO restaurant) {
         try {
-            // Create a new document with the restaurant data
             Document restaurantDocument = new Document();
             restaurantDocument.append("rest_id", restaurant.getId())
                     .append("restaurant_name", restaurant.getName())
@@ -139,33 +134,32 @@ public class RestaurantDAO extends DriverDAO {
                     .append("reviews", new ArrayList<>())
                     .append("coordinates", Utility.packCoordinates(restaurant.getCoordinates()));
 
-            // Insert the restaurant document into the collection
             restaurantCollection.insertOne(restaurantDocument);
 
-            System.out.println("Ristorante aggiunto con successo.");
+            System.out.println("Restaurant added successfully.");
             return true;
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
-            System.out.println("Si è verificato un errore durante l'aggiunta del ristorante.");
+            System.out.println("\"An error occurred while adding the restaurant.\".");
             e.printStackTrace();
             return false;
         }
     }
 
     /**
-     * Updates a restaurant with the specified changes.
+     * Updates a restaurant in the collection
      *
      * @param restaurant The RestaurantDTO object containing the updated restaurant data.
      * @return true if the restaurant was successfully updated, false otherwise.
      */
     public static boolean updateRestaurant(RestaurantDTO restaurant) {
         try {
-            // Create a filter to match the restaurant ID
+            // Creates a filter to match the id of the restaurant
             Bson filter = Filters.eq("rest_id", restaurant.getId());
 
-            // Create an update document with the changed values
+            // Creates an update document with the changed values
             Document updateDocument = new Document();
 
+            // Checks if the field contains a non-null value that corresponds to the updated value
             if (restaurant.getName() != null) {
                 updateDocument.append("restaurant_name", restaurant.getName());
             }
@@ -209,10 +203,10 @@ public class RestaurantDAO extends DriverDAO {
                 updateDocument.append("location", restaurant.getLocation());
             }
 
-            // Perform the update operation
+            // Performs the update operation
             UpdateResult updateResult = restaurantCollection.updateOne(filter, new Document("$set", updateDocument));
 
-            // Check the result of the update
+            // Checks the result of the update
             if (updateResult.getModifiedCount() > 0) {
                 System.out.println("Restaurant updated successfully.");
                 return true;
@@ -221,7 +215,6 @@ public class RestaurantDAO extends DriverDAO {
                 return false;
             }
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             System.out.println("An error occurred while updating the restaurant.");
             e.printStackTrace();
             return false;
@@ -229,7 +222,7 @@ public class RestaurantDAO extends DriverDAO {
     }
 
     /**
-     * Deletes a restaurant based on the specified username.
+     * Deletes a restaurant from the collection.
      *
      * @param rest The restaurant to be deleted.
      * @return true if the restaurant was successfully deleted, false otherwise.
@@ -243,18 +236,18 @@ public class RestaurantDAO extends DriverDAO {
                     return false;
             }
 
-            // Create a filter to match the username
+            // Creates a filter to match the username
             Bson filter = Filters.eq("rest_id", rest.getId());
 
-            // Delete the restaurant document that matches the filter
+            // Deletes the restaurant document that matches the filter
             DeleteResult deleteResult = restaurantCollection.deleteOne(filter);
 
-            // Check the result of the deletion
+            // Checks the result of the deletion
             if (deleteResult.getDeletedCount() > 0) {
                 System.out.println("Restaurant deleted successfully.");
                 return true;
             } else {
-                System.out.println("No restaurant found with the specified username.");
+                System.out.println("No restaurant.");
                 return false;
             }
         } catch (MongoException e) {
@@ -264,23 +257,33 @@ public class RestaurantDAO extends DriverDAO {
         }
     }
 
+    /**
+     * Recovers a restaurant from a RestaurantDTO object and its associated reservations.
+     *
+     * @param rest The RestaurantDTO object representing the restaurant to recover.
+     */
     public static void recoverRestaurant(RestaurantDTO rest){
         try{
-
+            // Converts a RestaurantDTO obeject to a MongoDB Document
             Document restDoc = Utility.packRestaurantDTO(rest);
+
+            // Inserts the document into the MongoDB collection
             InsertOneResult insertOneResult = restaurantCollection.insertOne(restDoc);
             if(insertOneResult.wasAcknowledged()) {
+                // Processes each reservation related to the restaurant
                 for (ReservationDTO reservation : rest.getReservations()) {
+                    // Retrieves the user associated with the reservation
                     UserDTO user = UserDAO.getUserByUsername(reservation.getClientUsername());
-                    String[] parts = reservation.getDate().split(" ");
 
+                    String[] parts = reservation.getDate().split(" ");
                     String date = parts[0];
                     String time = parts[1].substring(0, 5);
+
+                    // Makes the reservation
                     assert user != null;
                     if (!ReservationDAO.makeReservation(user, rest, date, time, reservation.getPeople()))
                         return;
                 }
-            }else{
             }
         }catch (MongoException e){
             e.printStackTrace();
@@ -296,17 +299,17 @@ public class RestaurantDAO extends DriverDAO {
     public static List<RestaurantDTO> getRestaurantsByName(String name) {
         List<RestaurantDTO> restaurants = new ArrayList<>();
         try {
-            // Create a filter to match the restaurant name
+            // Creates a filter to match the restaurant name
             Bson filter = Filters.eq("restaurant_name", name);
 
-            // Use the filter to find matching restaurant documents in the collection
+            // Uses the filter to find matching restaurant documents in the collection
             FindIterable<Document> restaurantDocuments = restaurantCollection.find(filter);
 
             // Iterate over the restaurant documents
             for (Document restaurantDocument : restaurantDocuments) {
                 RestaurantDTO rest = new RestaurantDTO();
 
-                // Extract the necessary fields from the document to create a RestaurantDTO object
+                // Extract the necessary fields from the document
                 rest.setId(restaurantDocument.getString("rest_id"));
                 rest.setName(restaurantDocument.getString("restaurant_name"));
                 rest.setEmail(restaurantDocument.getString("email"));
@@ -326,7 +329,6 @@ public class RestaurantDAO extends DriverDAO {
                 Double rating = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating")));
                 rest.setRating(rating);
 
-                // Retrieve coordinates
                 List<Document> coordinatesDocuments = restaurantDocument.getList("coordinates", Document.class);
 
                 if (coordinatesDocuments != null) {
@@ -335,7 +337,6 @@ public class RestaurantDAO extends DriverDAO {
                     }
                 }
 
-                // Retrieve reservations
                 List<Document> reservationsDocuments = restaurantDocument.getList("reservations", Document.class);
 
                 if (reservationsDocuments != null) {
@@ -344,7 +345,6 @@ public class RestaurantDAO extends DriverDAO {
                     }
                 }
 
-                // Retrieve reviews
                 List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
 
                 if (reviewsDocuments != null) {
@@ -373,15 +373,15 @@ public class RestaurantDAO extends DriverDAO {
     public static RestaurantDTO getRestaurantByUsername(String username) {
         RestaurantDTO rest = new RestaurantDTO();
         try {
-            // Create a filter to match the username
+            // Creates a filter to match the username
             Bson filter = Filters.eq("username", username);
 
-            // Use the filter to find a matching restaurant document in the collection
+            // Uses the filter to find a matching restaurant document in the collection
             Document restaurantDocument = restaurantCollection.find(filter).first();
 
-            // Check if a matching restaurant document was found
+            // Checks if a matching restaurant document was found
             if (restaurantDocument != null) {
-                // Extract the necessary fields from the document to create a RestaurantDTO object
+                // Extracts the necessary fields
                 rest.setId(restaurantDocument.getString("rest_id"));
                 rest.setName(restaurantDocument.getString("restaurant_name"));
                 rest.setEmail(restaurantDocument.getString("email"));
@@ -401,7 +401,6 @@ public class RestaurantDAO extends DriverDAO {
                 Double rating = Double.parseDouble(String.valueOf(restaurantDocument.get("rest_rating")));
                 rest.setRating(rating);
 
-                // Retrieve coordinates
                 List<Document> coordinatesDocuments = restaurantDocument.getList("coordinates", Document.class);
 
                 if (coordinatesDocuments != null) {
@@ -410,7 +409,6 @@ public class RestaurantDAO extends DriverDAO {
                     }
                 }
 
-                // Retrieve reservations
                 List<Document> reservationsDocuments = restaurantDocument.getList("reservations", Document.class);
 
                 if (reservationsDocuments != null) {
@@ -419,7 +417,6 @@ public class RestaurantDAO extends DriverDAO {
                     }
                 }
 
-                // Retrieve reviews
                 List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
 
                 if (reviewsDocuments != null) {
@@ -430,7 +427,7 @@ public class RestaurantDAO extends DriverDAO {
 
                 return rest;
             } else {
-                return null; // Return null if no matching restaurant document was found
+                return null;
             }
         } catch (MongoException e) {
             System.out.println("An error occurred while retrieving the restaurant");
@@ -448,15 +445,15 @@ public class RestaurantDAO extends DriverDAO {
     public static RestaurantDTO getRestaurantById(String restId) {
         RestaurantDTO rest = new RestaurantDTO();
         try {
-            // Create a filter to match the username
+            // Creates a filter to match the username
             Bson filter = Filters.eq("rest_id", restId);
 
-            // Use the filter to find a matching restaurant document in the collection
+            // Uses the filter to find a matching restaurant document in the collection
             Document restaurantDocument = restaurantCollection.find(filter).first();
 
-            // Check if a matching restaurant document was found
+            // Checks if a matching restaurant document was found
             if (restaurantDocument != null) {
-                // Extract the necessary fields from the document to create a RestaurantDTO object
+                // Extracts the necessary fields from the document
                 rest.setId(restaurantDocument.getString("rest_id"));
                 rest.setName(restaurantDocument.getString("restaurant_name"));
                 rest.setEmail(restaurantDocument.getString("email"));
@@ -482,7 +479,6 @@ public class RestaurantDAO extends DriverDAO {
                     rating = Double.parseDouble(String.valueOf(ratingObj));
                 rest.setRating(rating);
 
-                // Retrieve coordinates
                 List<Document> coordinatesDocuments = restaurantDocument.getList("coordinates", Document.class);
 
                 if (coordinatesDocuments != null) {
@@ -491,7 +487,6 @@ public class RestaurantDAO extends DriverDAO {
                     }
                 }
 
-                // Retrieve reservations
                 List<Document> reservationsDocuments = restaurantDocument.getList("reservations", Document.class);
 
                 if (reservationsDocuments != null) {
@@ -500,7 +495,6 @@ public class RestaurantDAO extends DriverDAO {
                     }
                 }
 
-                // Retrieve reviews
                 List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
 
                 if (reviewsDocuments != null) {
@@ -511,7 +505,7 @@ public class RestaurantDAO extends DriverDAO {
 
                 return rest;
             } else {
-                return null; // Return null if no matching restaurant document was found
+                return null;
             }
         } catch (MongoException e) {
             System.out.println("An error occurred while retrieving the restaurant");
@@ -520,12 +514,16 @@ public class RestaurantDAO extends DriverDAO {
         }
     }
 
+    /**
+     * Retrieves a restaurant document from the database using the restaurant ID.
+     *
+     * @param restId the ID of the restaurant to retrieve the document for
+     * @return the restaurant document corresponding to the specified ID, or null if no document is found
+     */
     public static Document getRestaurantDocumentById(String restId){
         try {
-            // Create a filter to match the username
+            // Creates a filter to match the username
             Bson filter = Filters.eq("rest_id", restId);
-
-            // Use the filter to find a matching restaurant document in the collection
 
             return restaurantCollection.find(filter).first();
         }catch (MongoException e){
@@ -542,13 +540,13 @@ public class RestaurantDAO extends DriverDAO {
      */
     public static ArrayList<ReviewDTO> getReviews(String username){
         try{
-            // Create a filter to match the username
+            // Creates a filter to match the username
             Bson filter = Filters.eq("username", username);
 
-            // Use the filter to find a matching restaurant document in the collection
+            // Uses the filter to find a matching restaurant document in the collection
             Document restaurantDocument = restaurantCollection.find(filter).first();
 
-            // Retrieve reviews
+            // Retrieves reviews
             assert restaurantDocument != null;
             List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
 
@@ -568,7 +566,7 @@ public class RestaurantDAO extends DriverDAO {
     }
 
     /**
-     * Writes a new review to the "reviews" key of a document in the collection, preserving existing reviews.
+     * Add a new review to the "reviews" key of a document in the collection.
      *
      * @param review   The review to be written.
      * @param restId The id of the restaurant associated with the restaurant document.
@@ -576,23 +574,23 @@ public class RestaurantDAO extends DriverDAO {
      */
     public static boolean writeReview(ReviewDTO review, String restId) {
         try {
-            // Create a filter to match the username
+            // Creates a filter to match the username
             Bson filter = Filters.eq("rest_id", restId);
 
-            // Find the matching restaurant document in the collection
+            // Finds the matching restaurant document in the collection
             Document restaurantDocument = restaurantCollection.find(filter).first();
 
-            // Retrieve the existing reviews from the restaurant document
+            // Retrieves the existing reviews from the restaurant document
             assert restaurantDocument != null;
             List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
 
-            //assign unique id to the review
+            // Assigns unique id to the review
             review.setId(Utility.generateUniqueReviewId(restaurantDocument.getString("rest_id"), reviewsDocuments));
 
-            // Create a new document for the review
+            // Creates a new document for the review
             Document reviewDoc = Utility.packOneReview(review);
 
-            // Add the new review to the existing reviews
+            // Adds the new review to the existing reviews
             reviewsDocuments.add(reviewDoc);
 
             if(restaurantDocument.get("rest_rating") == null){
@@ -608,13 +606,13 @@ public class RestaurantDAO extends DriverDAO {
                 restaurantDocument.append("rest_rating", roundedFinalRating);
             }
 
-            // Update the restaurant document with the updated reviews list
+            // Updates the restaurant document with the updated reviews list
             restaurantDocument.append("reviews", reviewsDocuments);
 
-            // Perform the update operation to update the restaurant document in the collection
+            // Performs the update operation to update the restaurant document in the collection
             UpdateResult result = restaurantCollection.updateOne(filter, new Document("$set", restaurantDocument));
 
-            // Check if the update was successful
+            // Checks if the update was successful
             if (result.getModifiedCount() > 0) {
                 System.out.println("Review added successfully.");
                 return true;
@@ -637,17 +635,17 @@ public class RestaurantDAO extends DriverDAO {
      */
     public static boolean deleteReviewById(String id) {
         try {
-            // Create a filter to match the review ID
+            // Creates a filter to match the review ID
             Bson filter = Filters.eq("reviews.review_id", id);
 
-            // Find the matching restaurant document in the collection
+            // Finds the matching restaurant document in the collection
             Document restaurantDocument = restaurantCollection.find(filter).first();
 
-            // Retrieve the existing reviews from the restaurant document
+            // Retrieves the existing reviews from the restaurant document
             assert restaurantDocument != null;
             List<Document> reviewsDocuments = restaurantDocument.getList("reviews", Document.class);
 
-            // Find the review to delete and retrieve its rating
+            // Finds the review to delete and retrieve its rating
             int reviewRating = 0;
             for (Document reviewDoc : reviewsDocuments) {
                 if (reviewDoc.getString("review_id").equals(id)) {
@@ -657,7 +655,7 @@ public class RestaurantDAO extends DriverDAO {
                 }
             }
 
-            // Calculate the new rest_rating
+            // Calculates the new rest_rating
             String restRatingString = String.valueOf(restaurantDocument.get("rest_rating"));
             double restRating = Double.parseDouble(restRatingString);
             double totalRating = restRating * reviewsDocuments.size();
@@ -665,14 +663,14 @@ public class RestaurantDAO extends DriverDAO {
             Double newRestRating = reviewsDocuments.isEmpty() ? null : (totalRating - reviewRating) / reviewsDocuments.size();
             Double roundedFinalRating = newRestRating == null ? null : Math.round(newRestRating * 2) /2.0;
 
-            // Update the restaurant document with the updated reviews list and rest_rating
+            // Updates the restaurant document with the updated reviews list and rest_rating
             restaurantDocument.append("reviews", reviewsDocuments)
                     .append("rest_rating", roundedFinalRating);
 
-            // Perform the update operation on the collection
+            // Performs the update operation on the collection
             UpdateResult result = restaurantCollection.updateOne(filter, new Document("$set", restaurantDocument));
 
-            // Check if the update was successful
+            // Checks if the update was successful
             if (result.getModifiedCount() > 0) {
                 System.out.println("Review deleted successfully. Rest_rating updated.");
                 return true;
@@ -696,16 +694,16 @@ public class RestaurantDAO extends DriverDAO {
      */
     public static ArrayList<ReservationDTO> getReservations(RestaurantDTO rest) {
         try {
-            // Find the user document
+            // Finds the user document
             Document restDocument = restaurantCollection.find(Filters.eq("username", rest.getUsername())).first();
 
-            // Check if the user document exists
+            // Checks if the user document exists
             if (restDocument == null) {
                 System.err.println("ERROR: Restaurant not found.");
                 return null;
             }
 
-            // retrieve reservations list
+            // Retrieves reservations list
             List<Document> reservationsDocuments = restDocument.getList("reservations", Document.class);
 
             ArrayList<ReservationDTO> result = new ArrayList<>();
@@ -722,6 +720,13 @@ public class RestaurantDAO extends DriverDAO {
         }
     }
 
+    /**
+     * Retrieves a list of free reservation time slots for a specific date in a restaurant.
+     *
+     * @param rest the RestaurantDTO object representing the restaurant
+     * @param date the date for which to retrieve the free time slots in the format "yyyy-MM-dd"
+     * @return an ArrayList of Strings representing the free time slots for the specified date, or null if an error occurs
+     */
     public static ArrayList<String> getFreeSlotsByDate(RestaurantDTO rest, String date) {
         try {
             if(rest == null) {
@@ -729,16 +734,16 @@ public class RestaurantDAO extends DriverDAO {
                 return null;
             }
 
-            // Find the user document
+            // Finds the user document
             Document restDocument = restaurantCollection.find(Filters.eq("username", rest.getUsername())).first();
 
-            // Check if the user document exists
+            // Checks if the user document exists
             if (restDocument == null) {
                 System.err.println("ERROR: Restaurant not found.");
                 return null;
             }
 
-            // retrieve reservations list
+            // Retrieves reservations
             List<Document> reservationsDocuments = restDocument.getList("reservations", Document.class);
 
             ArrayList<ReservationDTO> reservationsList = new ArrayList<>();
@@ -751,13 +756,8 @@ public class RestaurantDAO extends DriverDAO {
             ArrayList<String> result = new ArrayList<>();
 
             for(ReservationDTO reservation: reservationsList){
-                // Parsing della stringa in un oggetto LocalDateTime
                 LocalDateTime dateTime = LocalDateTime.parse(reservation.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-                // Formattazione della data nel formato desiderato "yyyy-MM-dd"
                 String dateString = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-                // Formattazione del timeslot nel formato desiderato "HH:mm"
                 String timeSlotString = dateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
 
                 if(dateString.equals(date)){
@@ -767,6 +767,7 @@ public class RestaurantDAO extends DriverDAO {
                     }
                 }
             }
+
             Collections.sort(result);
 
             return result;
@@ -797,16 +798,17 @@ public class RestaurantDAO extends DriverDAO {
             String time = scanner.next();
 
             date = date + " " + time + ":00";
-            // Find the user document
+
+            // Finds the user document
             Document restDocument = restaurantCollection.find(Filters.eq("username", rest.getUsername())).first();
 
-            // Check if the user document exists
+            // Checks if the user document exists
             if (restDocument == null) {
                 System.err.println("ERROR: Restaurant not found.");
                 return null;
             }
 
-            // retrieve reservations list
+            // Retrieves reservations list
             List<Document> reservationsDocuments = restDocument.getList("reservations", Document.class);
 
             ArrayList<ReservationDTO> reservationsList = new ArrayList<>();
@@ -847,7 +849,7 @@ public class RestaurantDAO extends DriverDAO {
                 return 0;
             }
 
-            // Find the user document
+            // Finds the user document
             Document restDocument = restaurantCollection.find(Filters.eq("username", rest.getUsername())).first();
 
             // Check if the user document exists
@@ -856,7 +858,7 @@ public class RestaurantDAO extends DriverDAO {
                 return 0;
             }
 
-            // retrieve reservations list
+            // Retrieves reservations
             List<Document> reservationsDocuments = restDocument.getList("reservations", Document.class);
 
             ArrayList<ReservationDTO> reservationsList = new ArrayList<>();
@@ -866,13 +868,15 @@ public class RestaurantDAO extends DriverDAO {
                 }
             }
 
-            int totalSeatsAvailable = restDocument.getInteger("max_number_of_client");
+            Integer totalSeatsAvailable = restDocument.getInteger("max_number_of_client");
+
+            if (totalSeatsAvailable == null) {
+                return 0;
+            }
+
 
             for (ReservationDTO reservation : reservationsList) {
-                // Parsing della stringa in un oggetto LocalDateTime
                 LocalDateTime dateTime = LocalDateTime.parse(reservation.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-                // Formattazione della data nel formato desiderato "yyyy-MM-dd"
                 String dateString = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                 if (dateString.equals(date)) {
@@ -900,7 +904,6 @@ public class RestaurantDAO extends DriverDAO {
      */
     public static boolean setMaxClient(int numberOfClient, RestaurantDTO rest){
         try{
-            // Insert the new reading_list
             restaurantCollection.updateOne(
                     Filters.eq("username", rest.getUsername()),
                     new Document().append(
@@ -923,154 +926,19 @@ public class RestaurantDAO extends DriverDAO {
      * @param rest The RestaurantDTO object representing the restaurant.
      * @return true if the free slots are successfully added, false otherwise.
      */
-    /*public static boolean addFreeSlot(RestaurantDTO rest) {
-        try {
-            ArrayList<String> timeSlotToAdd = new ArrayList<>();
-            ArrayList<String> availableTimeSlot = new ArrayList<>();
-
-            // Generating available time slots
-            for (int hour = 8; hour <= 23; hour++) {
-                availableTimeSlot.add(String.format("%02d:00", hour));
-                availableTimeSlot.add(String.format("%02d:30", hour));
-            }
-
-            System.out.println("Slots available:");
-            for (String time : availableTimeSlot) {
-                System.out.println(time);
-            }
-
-        Scanner scanner = new Scanner(System.in);
-
-            // Getting the number of slots to add
-            System.out.println("Enter how many slots you want to add");
-            int numberOfSlots = scanner.nextInt();
-
-            // Adding selected slots
-            for (int i = 0; i < numberOfSlots; i++) {
-                System.out.println("Slots available:");
-                for (String time : availableTimeSlot) {
-                    System.out.println(time);
-                }
-                System.out.println("Enter the time slot you want to add");
-                String timeSlot = scanner.next();
-
-                if (availableTimeSlot.contains(timeSlot)) {
-                    timeSlotToAdd.add(timeSlot);
-                } else {
-                    System.out.println("ERROR: Time Slot not valid or available");
-                }
-            }
-
-            // Getting the date for adding new slots
-            System.out.println("Enter the date in which you want to add the new slots in yyyy-MM-dd");
-            String inputDate = scanner.next();
-
-            String pattern = "yyyy-MM-dd";
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-            LocalDate currentDate = LocalDate.now();
-            LocalDate enteredDate = LocalDate.parse(inputDate, dateFormatter);
-
-            // Checking if the entered date is after the current date
-            if (enteredDate.isAfter(currentDate)) {
-                ArrayList<ReservationDTO> newReservationsList = new ArrayList<>();
-
-                for(String slot: timeSlotToAdd){
-                    String newDate = enteredDate.toString() + " " + slot + ":00";
-                    newReservationsList.add(new ReservationDTO(newDate));
-                }
-
-                ArrayList<Document> newReservationDocs = Utility.packRestaurantReservations(newReservationsList);
-
-                // Create a filter to match the username
-                Bson filter = Filters.eq("username", rest.getUsername());
-
-                // Find the matching restaurant document in the collection
-                Document restaurantDocument = restaurantCollection.find(filter).first();
-
-                if(restaurantDocument == null){
-                    System.out.println("Restaurant hasn't been found!");
-                    return false;
-                }
-
-                //check if the capacity of the restaurant is set
-                if(restaurantDocument.getInteger("max_number_of_client")!=null) {
-                    System.out.println("Would you like to change the total capacity of the restaurant? Y/n");
-                    String response = scanner.next();
-                    if (response.equals("Y")) {
-                        System.out.println("Enter the maximum capacity of the restaurant:");
-                        int n = scanner.nextInt();
-                        setMaxClient(n, rest);
-                    }
-                }else{
-                    System.out.println("Enter the maximum capacity of the restaurant:");
-                    int n = scanner.nextInt();
-                    setMaxClient(n, rest);
-                }
-
-                // Retrieve the existing reservations from the restaurant document
-                List<Document> reservationsDoc = restaurantDocument.getList("reservations", Document.class);
-                if(reservationsDoc == null){
-                    reservationsDoc = new ArrayList<>();
-                }
-
-                reservationsDoc.addAll(newReservationDocs);
-
-                // Update the restaurant document with the updated reservation list
-                restaurantDocument.append("reservations", reservationsDoc);
-
-                // Perform the update operation to update the restaurant document in the collection
-                UpdateResult result = restaurantCollection.updateOne(filter, new Document("$set", restaurantDocument));
-
-                // Check if the update was successful
-                if (result.getModifiedCount() > 0) {
-                    System.out.println("Time Slots added successfully.");
-                    return true;
-                } else {
-                    System.out.println("No matching restaurant document found.");
-                    return false;
-                }
-            } else {
-                System.out.println("ERROR: The date must be after the current date.");
-                return false;
-            }
-        } catch (Exception e) {
-            System.out.println("ERROR: An error occurred while adding FreeSlots");
-            e.printStackTrace();
-            return false;
-        }
-    }*/
-
     public static boolean addFreeSlot(RestaurantDTO rest, int numberOfSlots, String timeSlot, String inputDate) {
         try {
             ArrayList<String> timeSlotToAdd = new ArrayList<>();
             ArrayList<String> availableTimeSlot = new ArrayList<>();
 
-            // Generating available time slots
+            // Generating possible available time slots
             for (int hour = 8; hour <= 23; hour++) {
                 availableTimeSlot.add(String.format("%02d:00", hour));
                 availableTimeSlot.add(String.format("%02d:30", hour));
             }
 
-            /*System.out.println("Slots available:");
-            for (String time : availableTimeSlot) {
-                System.out.println(time);
-            } */
-
-            //Scanner scanner = new Scanner(System.in);
-
-            // Getting the number of slots to add
-            //System.out.println("Enter how many slots you want to add");
-            //int numberOfSlots = scanner.nextInt();
-
-            // Adding selected slots
+            // Adds selected slots
             for (int i = 0; i < numberOfSlots; i++) {
-                //System.out.println("Slots available:");
-                //for (String time : availableTimeSlot) {
-                   // System.out.println(time);
-                //}
-                //System.out.println("Enter the time slot you want to add");
-                //String timeSlot = scanner.next();
-
                 if (availableTimeSlot.contains(timeSlot)) {
                     timeSlotToAdd.add(timeSlot);
                 } else {
@@ -1079,16 +947,12 @@ public class RestaurantDAO extends DriverDAO {
                 }
             }
 
-            // Getting the date for adding new slots
-            //System.out.println("Enter the date in which you want to add the new slots in yyyy-MM-dd");
-            //String inputDate = scanner.next();
-
             String pattern = "yyyy-MM-dd";
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
             LocalDate currentDate = LocalDate.now();
             LocalDate enteredDate = LocalDate.parse(inputDate, dateFormatter);
 
-            // Checking if the entered date is after the current date
+            // Checks if the entered date is after the current date
             if (enteredDate.isAfter(currentDate)) {
                 ArrayList<ReservationDTO> newReservationsList = new ArrayList<>();
 
@@ -1099,10 +963,10 @@ public class RestaurantDAO extends DriverDAO {
 
                 ArrayList<Document> newReservationDocs = Utility.packRestaurantReservations(newReservationsList);
 
-                // Create a filter to match the username
+                // Creates a filter to match the username
                 Bson filter = Filters.eq("username", rest.getUsername());
 
-                // Find the matching restaurant document in the collection
+                // Finds the matching restaurant document in the collection
                 Document restaurantDocument = restaurantCollection.find(filter).first();
 
                 if(restaurantDocument == null){
@@ -1110,12 +974,12 @@ public class RestaurantDAO extends DriverDAO {
                     return false;
                 }
 
-                //check if the capacity of the restaurant is set
+                // Checks if the capacity of the restaurant is set
                 if(restaurantDocument.getInteger("max_number_of_client")==null) {
                     setMaxClient(20, rest);
                 }
 
-                // Retrieve the existing reservations from the restaurant document
+                // Retrieves the existing reservations from the restaurant document
                 List<Document> reservationsDoc = restaurantDocument.getList("reservations", Document.class);
                 if(reservationsDoc == null){
                     reservationsDoc = new ArrayList<>();
@@ -1123,13 +987,13 @@ public class RestaurantDAO extends DriverDAO {
 
                 reservationsDoc.addAll(newReservationDocs);
 
-                // Update the restaurant document with the updated reservation list
+                // Updates the restaurant document with the updated reservation list
                 restaurantDocument.append("reservations", reservationsDoc);
 
-                // Perform the update operation to update the restaurant document in the collection
+                // Performs the update operation to update the restaurant document in the collection
                 UpdateResult result = restaurantCollection.updateOne(filter, new Document("$set", restaurantDocument));
 
-                // Check if the update was successful
+                // Checks if the update was successful
                 if (result.getModifiedCount() > 0) {
                     System.out.println("Time Slots added successfully.");
                     return true;
@@ -1148,6 +1012,13 @@ public class RestaurantDAO extends DriverDAO {
         }
     }
 
+    /**
+     * Deletes a free slot (without a reservation) from a specified restaurant.
+     *
+     * @param rest          The RestaurantDTO object representing the restaurant
+     * @param dateToDelete  The date of the slot to be deleted
+     * @return true if the slot is successfully deleted, false otherwise
+     */
     public static boolean deleteFreeSlot(RestaurantDTO rest, String dateToDelete){
         try{
             Bson restFilter = Filters.eq("username", rest.getUsername());
@@ -1173,7 +1044,7 @@ public class RestaurantDAO extends DriverDAO {
 
             UpdateResult restResult = restaurantCollection.updateOne(restFilter, new Document("$set", restDocument));
 
-            // Check if the update was successful
+            // Checks if the update was successful
             if (restResult.getModifiedCount() > 0) {
                 System.out.println("The slot has been successfully removed!");
                 return true;
@@ -1197,38 +1068,34 @@ public class RestaurantDAO extends DriverDAO {
      * @return A list of Document objects representing the matching restaurants, sorted by rating in descending order.
      *         Returns null if no criteria are provided or an error occurs.
      */
-    public static List<Document> searchRestaurants(String location, String name, String cuisine, String keywords, String rating) {
+    /*public static List<Document> searchRestaurants(String location, String name, String cuisine, String keywords, String rating) {
         try {
+
             List<Bson> aggregationPipeline = new ArrayList<>();
 
-            // Match by location
             if (location != null && !location.isEmpty()) {
                 String[] locationArray = location.split(",");
                 Bson matchLocation = Aggregates.match(Filters.in("location", Arrays.asList(locationArray)));
                 aggregationPipeline.add(matchLocation);
             }
 
-            // Match by name
             if (name != null && !name.isEmpty()) {
                 Bson matchName = Aggregates.match(Filters.regex("restaurant_name", Pattern.quote(name), "i"));
                 aggregationPipeline.add(matchName);
             }
 
-            // Match by cuisine
             if (cuisine != null && !cuisine.isEmpty()) {
                 String[] cusineArray = cuisine.split(",");
                 Bson matchCuisine = Aggregates.match(Filters.in("tag", Arrays.asList(cusineArray)));
                 aggregationPipeline.add(matchCuisine);
             }
 
-            // Match by keywords
             if (keywords != null && !keywords.isEmpty()) {
                 String[] keywordArray = keywords.split(",");
                 Bson matchKeywords = Aggregates.match(Filters.in("tag", Arrays.asList(keywordArray)));
                 aggregationPipeline.add(matchKeywords);
             }
 
-            // Match by rating
             if (rating != null && !rating.isEmpty()) {
                 double minRating = Double.parseDouble(rating);
                 Bson matchRating = Aggregates.match(Filters.gte("rest_rating", minRating));
@@ -1242,22 +1109,83 @@ public class RestaurantDAO extends DriverDAO {
                 aggregationPipeline.add(addTotalReviews);
             }
 
-            // Check if any pipeline stages are added
             if (aggregationPipeline.isEmpty()) {
-                // Add a dummy match stage to avoid the error
                 Bson matchDummy = Aggregates.match(new Document());
                 aggregationPipeline.add(matchDummy);
             }
 
-            // Sort by rest_rating (nulls last) and restaurant_name
             Bson sortByRating = Sorts.orderBy(
                     Sorts.descending("rest_rating"),
                     Sorts.descending("totalReviews"),
                     Sorts.ascending("restaurant_name")
             );
+
             aggregationPipeline.add(Aggregates.sort(sortByRating));
 
-            // Perform aggregation
+            return restaurantCollection.aggregate(aggregationPipeline).into(new ArrayList<>());
+        } catch (Exception e) {
+            System.out.println("An error occurred while searching for restaurants");
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }*/
+
+    public static List<Document> searchRestaurants(String location, String name, String cuisine, String keywords, String rating, int page, int pageSize) {
+        try {
+            List<Bson> aggregationPipeline = new ArrayList<>();
+
+            if (location != null && !location.isEmpty()) {
+                String[] locationArray = location.split(",");
+                Bson matchLocation = Aggregates.match(Filters.in("location", Arrays.asList(locationArray)));
+                aggregationPipeline.add(matchLocation);
+            }
+
+            if (name != null && !name.isEmpty()) {
+                Bson matchName = Aggregates.match(Filters.regex("restaurant_name", Pattern.quote(name), "i"));
+                aggregationPipeline.add(matchName);
+            }
+
+            if (cuisine != null && !cuisine.isEmpty()) {
+                String[] cuisineArray = cuisine.split(",");
+                Bson matchCuisine = Aggregates.match(Filters.in("tag", Arrays.asList(cuisineArray)));
+                aggregationPipeline.add(matchCuisine);
+            }
+
+            if (keywords != null && !keywords.isEmpty()) {
+                String[] keywordArray = keywords.split(",");
+                Bson matchKeywords = Aggregates.match(Filters.in("tag", Arrays.asList(keywordArray)));
+                aggregationPipeline.add(matchKeywords);
+            }
+
+            if (rating != null && !rating.isEmpty()) {
+                double minRating = Double.parseDouble(rating);
+                Bson matchRating = Aggregates.match(Filters.gte("rest_rating", minRating));
+                aggregationPipeline.add(matchRating);
+            }
+
+            if (location != null && !location.isEmpty() || name != null && !name.isEmpty() || cuisine != null && !cuisine.isEmpty() || keywords != null && !keywords.isEmpty()) {
+                Bson addTotalReviews = Aggregates.addFields(
+                        new Field<>("totalReviews", new Document("$size", "$reviews"))
+                );
+                aggregationPipeline.add(addTotalReviews);
+            }
+
+            if (aggregationPipeline.isEmpty()) {
+                Bson matchDummy = Aggregates.match(new Document());
+                aggregationPipeline.add(matchDummy);
+            }
+
+            Bson sortByRating = Sorts.orderBy(
+                    Sorts.descending("rest_rating"),
+                    Sorts.descending("totalReviews"),
+                    Sorts.ascending("restaurant_name")
+            );
+
+            aggregationPipeline.add(Aggregates.sort(sortByRating));
+
+            aggregationPipeline.add(Aggregates.skip((page - 1) * pageSize));
+            aggregationPipeline.add(Aggregates.limit(pageSize));
+
             return restaurantCollection.aggregate(aggregationPipeline).into(new ArrayList<>());
         } catch (Exception e) {
             System.out.println("An error occurred while searching for restaurants");
@@ -1265,6 +1193,7 @@ public class RestaurantDAO extends DriverDAO {
             return new ArrayList<>();
         }
     }
+
 
     /* ********* ANALYTICS METHOD ********* */
     /**
@@ -1279,31 +1208,25 @@ public class RestaurantDAO extends DriverDAO {
         try {
             List<Bson> aggregationPipeline = new ArrayList<>();
 
-            // Match by cuisine
             if (cuisine != null && !cuisine.isEmpty()) {
                 Bson matchCuisine = Aggregates.match(Filters.in("tag", cuisine));
                 aggregationPipeline.add(matchCuisine);
             }
 
-            // Match by review rating
             Bson matchRating = Aggregates.match(Filters.elemMatch("reviews", Filters.eq("review_rating", 5)));
             aggregationPipeline.add(matchRating);
 
-            // Compute the total number of reviews of the restaurant and add the field
             Bson addTotalReviews = Aggregates.addFields(
                     new Field<>("totalReviews", new Document("$size", "$reviews"))
             );
             aggregationPipeline.add(addTotalReviews);
 
-            // Sort by totalReviews (descending)
             Bson sortTotalReviews = Aggregates.sort(Sorts.descending("totalReviews"));
             aggregationPipeline.add(sortTotalReviews);
 
-            // Limit results
             Bson limitResults = Aggregates.limit(k);
             aggregationPipeline.add(limitResults);
 
-            // Perform aggregation
             return restaurantCollection.aggregate(aggregationPipeline).into(new ArrayList<>());
         } catch (Exception e) {
             System.out.println("An error occurred while retrieving top-rated Italian restaurants");

@@ -4,7 +4,6 @@ import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dto.RestaurantDTO;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
-import org.neo4j.driver.TransactionWork;
 import org.neo4j.driver.exceptions.Neo4jException;
 import org.neo4j.driver.types.Node;
 
@@ -15,6 +14,12 @@ import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.neo4j.Neo4jD
 import static org.neo4j.driver.Values.parameters;
 
 public class Neo4jRestaurantDAO {
+    /**
+     * Adds a new restaurant to the Neo4j graph database.
+     *
+     * @param rest The RestaurantDTO object representing the restaurant to be added
+     * @return true if the restaurant is successfully added, false otherwise
+     */
     public static boolean addRestaurant(RestaurantDTO rest){
         boolean res;
         try (Session session = Neo4jDriverDAO.driver.session()){
@@ -31,6 +36,12 @@ public class Neo4jRestaurantDAO {
         return res;
     }
 
+    /**
+     * Deletes a restaurant from the Neo4j graph database.
+     *
+     * @param rest The RestaurantDTO object representing the restaurant to be deleted
+     * @return true if the restaurant is successfully deleted, false otherwise
+     */
     public static boolean deleteRestaurant(RestaurantDTO rest){
         boolean res;
         try (Session session = Neo4jDriverDAO.driver.session()){
@@ -47,6 +58,12 @@ public class Neo4jRestaurantDAO {
         return res;
     }
 
+    /**
+     * Retrieves the number of likes for a restaurant from the Neo4j graph database.
+     *
+     * @param rest_id The ID of the restaurant
+     * @return The number of likes for the restaurant
+     */
     public static int getNumLikesRestaurant(String rest_id) {
         int numLikes;
         try (Session session = driver.session()) {
@@ -59,6 +76,15 @@ public class Neo4jRestaurantDAO {
         return numLikes;
     }
 
+
+    /* ********* ANALYTICS METHOD ********* */
+
+    /**
+     * Retrieves a list of the most liked restaurants from the Neo4j graph database.
+     *
+     * @param limit The maximum number of restaurants to retrieve
+     * @return A list of Node objects representing the most liked restaurants
+     */
     public static List<Node> getMostLikedRestaurants(int limit){
         List<Node> restNode = new ArrayList<>();;
         try (Session session = driver.session()) {
@@ -81,6 +107,4 @@ public class Neo4jRestaurantDAO {
         }
         return restNode;
     }
-
-
 }

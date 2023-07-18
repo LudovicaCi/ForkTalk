@@ -55,7 +55,6 @@ public class UserDAO extends DriverDAO {
                 return false;
             }
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
         }
@@ -74,7 +73,7 @@ public class UserDAO extends DriverDAO {
 
             Bson filter = eq("username", username);
 
-            // Update the user's reservations in the restaurant collection
+            // Updates the user's reservations in the restaurant collection
             Bson reservationsFilter = eq("reservations.client_username", username);
             Bson reservationsUpdate = Updates.combine(
                     set("reservations.$[reservation].client_username", null),
@@ -86,7 +85,7 @@ public class UserDAO extends DriverDAO {
                     List.of(eq("reservation.client_username", username))
             );
 
-            // Delete the user document from the collection
+            // Deletes the user document from the collection
             DeleteResult userDeleteResult = userCollection.deleteOne(filter);
 
             UpdateResult reservationUpdateResult = restaurantCollection.updateMany(reservationsFilter, reservationsUpdate, updateOptions);
@@ -156,12 +155,12 @@ public class UserDAO extends DriverDAO {
                             return;
                         }
                     } else {
-                        //reservationsRestDocs = new ArrayList<>();
                         return;
                     }
 
                     reservationsRestDocs.add(newRestDocument);
-                    // Update the restaurant document with the updated reservation list
+
+                    // Updates the restaurant document with the updated reservation list
                     restDocument.append("reservations", reservationsRestDocs);
 
                     UpdateResult restResult = restaurantCollection.updateOne(restFilter, new Document("$set", restDocument));
@@ -189,6 +188,12 @@ public class UserDAO extends DriverDAO {
         }
     }
 
+    /**
+     * Suspends a user by setting their suspension status to 1.
+     *
+     * @param username The username of the user to be suspended
+     * @return true if the user is successfully suspended, false otherwise
+     */
     public static boolean suspendUser(String username){
         try{
             Bson userFilter = eq("username", username);
@@ -203,6 +208,12 @@ public class UserDAO extends DriverDAO {
         }
     }
 
+    /**
+     * Unsuspends a user by setting their suspension status to 0.
+     *
+     * @param username The username of the user to be unsuspended
+     * @return true if the user is successfully unsuspended, false otherwise
+     */
     public static boolean unsuspendUser(String username){
         try{
             Bson userFilter = eq("username", username);
@@ -217,6 +228,12 @@ public class UserDAO extends DriverDAO {
         }
     }
 
+    /**
+     * Makes a user an admin by setting their role to 2.
+     *
+     * @param username The username of the user to be made an admin
+     * @return true if the user is successfully made an admin, false otherwise
+     */
     public static boolean makeAdmin(String username){
         try{
             Bson userFilter = eq("username", username);
@@ -239,16 +256,15 @@ public class UserDAO extends DriverDAO {
      */
     public static boolean isUsernameTaken(String username) {
         try {
-            // Create a filter to match the username
+            // Creates a filter to match the username
             Bson filter = eq("username", username);
 
-            // Use the filter to find any user with the given username
+            // Uses the filter to find any user with the given username
             Document user = userCollection.find(filter).first();
 
-            // Check if a user with the given username already exists
+            // Checks if a user with the given username already exists
             return user != null;
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
         }
@@ -262,16 +278,15 @@ public class UserDAO extends DriverDAO {
      */
     public static boolean isEmailTaken(String email) {
         try {
-            // Create a filter to match the email
+            // Creates a filter to match the email
             Bson filter = eq("email", email);
 
-            // Use the filter to find any user with the given email
+            // Uses the filter to find any user with the given email
             Document user = userCollection.find(filter).first();
 
-            // Check if a user with the given email already exists
+            // Checks if a user with the given email already exists
             return user != null;
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
         }
@@ -287,10 +302,10 @@ public class UserDAO extends DriverDAO {
      */
     public static boolean updateUser(String username, UserDTO updatedUser) {
         try {
-            // Create a filter to match the username
+            // Creates a filter to match the username
             Bson filter = eq("username", username);
 
-            // Create a document with the updated fields
+            // Creates a document with the updated fields
             Document updateDoc = new Document("$set", new Document()
                     .append("name", updatedUser.getName())
                     .append("surname", updatedUser.getSurname())
@@ -301,10 +316,10 @@ public class UserDAO extends DriverDAO {
                     .append("suspended", updatedUser.getSuspended())
                     .append("role", updatedUser.getRole()));
 
-            // Update the user in the user collection
+            // Updates the user in the user collection
             UpdateResult updateResult = userCollection.updateOne(filter, updateDoc);
 
-            // Update the user's reservations in the restaurant collection
+            // Updates the user's reservations in the restaurant collection
             Bson reservationsFilter = eq("reservations.client_username", username);
             Bson reservationsUpdate = Updates.combine(
                     set("reservations.$[reservation].client_username", updatedUser.getUsername()),
@@ -316,7 +331,7 @@ public class UserDAO extends DriverDAO {
             );
             restaurantCollection.updateMany(reservationsFilter, reservationsUpdate, updateOptions);
 
-            // Update the user's reviews in the restaurant collection
+            // Updates the user's reviews in the restaurant collection
             Bson reviewsFilter = eq("reviews.reviewer_pseudo", username);
             Bson reviewsUpdate = set("reviews.$[review].reviewer_pseudo", updatedUser.getUsername());
             UpdateOptions reviewsUpdateOptions = new UpdateOptions().arrayFilters(
@@ -324,10 +339,9 @@ public class UserDAO extends DriverDAO {
             );
             restaurantCollection.updateMany(reviewsFilter, reviewsUpdate, reviewsUpdateOptions);
 
-            // Check if the update was successful
+            // Checks if the update was successful
             return updateResult.getModifiedCount() > 0;
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
         }
@@ -343,17 +357,16 @@ public class UserDAO extends DriverDAO {
     public static UserDTO loginUser(String username, String password) {
         UserDTO userDTO = new UserDTO();
         try {
-            // Creazione del filtro per corrispondere a username e password
+
             Bson filter = Filters.and(
                     eq("username", username),
                     eq("password", password));
 
-            // Utilizzo del filtro per trovare un documento utente corrispondente nella collezione
+
             Document userDocument = userCollection.find(filter).first();
 
-            // Controllo se il documento utente esiste
+
             if (userDocument != null) {
-                // Creazione di un nuovo oggetto UserDTO e impostazione delle informazioni dall'oggetto Document
                 userDTO.setName(userDocument.getString("name"));
                 userDTO.setSurname(userDocument.getString("surname"));
                 userDTO.setEmail(userDocument.getString("email"));
@@ -363,7 +376,6 @@ public class UserDAO extends DriverDAO {
                 userDTO.setSuspended(userDocument.getInteger("suspended"));
                 userDTO.setRole(userDocument.getInteger("role"));
 
-                // Recupero la lista dei ristoranti come Document
                 List<Document> restaurantListDocuments = userDocument.getList("restaurantsList", Document.class);
 
                 if (restaurantListDocuments != null) {
@@ -372,7 +384,6 @@ public class UserDAO extends DriverDAO {
                     }
                 }
 
-                //recupero la lista di reservation
                 List<Document> reservationsDocuments = userDocument.getList("reservations", Document.class);
 
                 if (reservationsDocuments != null) {
@@ -401,13 +412,13 @@ public class UserDAO extends DriverDAO {
     public static UserDTO getUserByUsername(String username){
         UserDTO user = new UserDTO();
         try{
-            // Create a filter to match the username
+            // Creates a filter to match the username
             Bson filter = eq("username", username);
 
-            // Use the filter to find a matching user document in the collection
+            // Uses the filter to find a matching user document in the collection
             Document userDocument = userCollection.find(filter).first();
 
-            // Check if a matching user document was found
+            // Checks if a matching user document was found
             if(userDocument != null){
                 user.setEmail(userDocument.getString("email"));
                 user.setUsername(userDocument.getString("username"));
@@ -418,7 +429,6 @@ public class UserDAO extends DriverDAO {
                 user.setSuspended(userDocument.getInteger("suspended"));
                 user.setRole(userDocument.getInteger("role"));
 
-                // Retrieve reservations
                 List<Document> reservationsDocuments = userDocument.getList("reservations", Document.class);
 
                 if (reservationsDocuments != null) {
@@ -427,7 +437,6 @@ public class UserDAO extends DriverDAO {
                     }
                 }
 
-                //retrieve restaurantList
                 List<Document> restaurantListDocuments = userDocument.getList("restaurantList", Document.class);
 
                 if (restaurantListDocuments != null) {
@@ -446,6 +455,12 @@ public class UserDAO extends DriverDAO {
         }
     }
 
+    /**
+     * Retrieves the user document from the collection based on the username.
+     *
+     * @param username The username of the user
+     * @return The user document if found, or null if not found or an exception occurs
+     */
     public static Document getUserDocumentByUsername(String username){
         try {
             Bson filter = Filters.eq("username", username);
@@ -466,37 +481,31 @@ public class UserDAO extends DriverDAO {
      * @param email    The email of the user to search for. If empty or null, no matching is performed.
      * @return A list of documents representing the users matching the search criteria.
      */
-    public static List<Document> searchUsers(String username, String name, String surname, String email) {
+    public static List<Document> searchUsers(String username, String name, String surname, String email, int page, int pageSize) {
         try {
             List<Bson> aggregationPipeline = new ArrayList<>();
 
-            // Match by username
             if (username != null && !username.isEmpty()) {
                 Bson matchUsername = match(eq("username", username));
                 aggregationPipeline.add(matchUsername);
             }
 
-            // Match by name (case-insensitive, partial match)
             if (name != null && !name.isEmpty()) {
                 Bson matchName = Aggregates.match(Filters.regex("name", Pattern.quote(name), "i"));
                 aggregationPipeline.add(matchName);
             }
 
-            // Match by surname (case-insensitive, partial match)
             if (surname != null && !surname.isEmpty()) {
                 Bson matchSurname = Aggregates.match(Filters.regex("surname", Pattern.quote(surname), "i"));
                 aggregationPipeline.add(matchSurname);
             }
 
-            // Match by email (case-insensitive, partial match)
             if (email != null && !email.isEmpty()) {
                 Bson matchEmail = Aggregates.match(Filters.regex("email", Pattern.quote(email), "i"));
                 aggregationPipeline.add(matchEmail);
             }
 
-            // Check if any pipeline stages are added
             if (aggregationPipeline.isEmpty()) {
-                // Add a dummy match stage to avoid the error
                 Bson matchDummy = match(new Document());
                 aggregationPipeline.add(matchDummy);
             }
@@ -510,7 +519,9 @@ public class UserDAO extends DriverDAO {
 
             aggregationPipeline.add(Aggregates.sort(sortByParameters));
 
-            // Perform aggregation
+            aggregationPipeline.add(Aggregates.skip((page - 1) * pageSize));
+            aggregationPipeline.add(Aggregates.limit(pageSize));
+
             return userCollection.aggregate(aggregationPipeline).into(new ArrayList<>());
         } catch (Exception e) {
             System.out.println("An error occurred while searching for users");
@@ -528,7 +539,6 @@ public class UserDAO extends DriverDAO {
      */
     public static boolean createRestaurantListToUser(UserDTO user, String title) {
         try {
-            // Check if there are other lists with the same name
             Document document = userCollection.find(Filters.and(eq("username", user.getUsername()),
                     eq("restaurantsList.title", title))).first();
             if (document != null) {
@@ -592,7 +602,6 @@ public class UserDAO extends DriverDAO {
                 return false;
             }
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
         }
@@ -607,22 +616,22 @@ public class UserDAO extends DriverDAO {
      */
     public static ArrayList<String> getTitlesRestaurantListsOfUser(UserDTO user) {
         try {
-            // Find the user document
+            // Finds the user document
             Document userDocument = userCollection.find(eq("username", user.getUsername())).first();
 
-            // Check if the user document exists
+            // Checks if the user document exists
             if (userDocument == null) {
                 System.err.println("ERROR: User not found.");
                 return null;
             }
 
-            // Get the restaurantsList field from the user document
+            // Gets the restaurantsList field from the user document
             List<Document> restaurantLists = userDocument.getList("restaurantsList", Document.class);
 
-            // Create an ArrayList to store titles
+            // Creates an ArrayList to store titles
             ArrayList<String> titles = new ArrayList<>();
 
-            // Iterate over the restaurantLists and convert them to RestaurantsListDTO objects
+            // Iterates over the restaurantLists and convert them to RestaurantsListDTO objects
             for (Document list : restaurantLists) {
                 String title = list.getString("title");
                 titles.add(title);
@@ -630,7 +639,6 @@ public class UserDAO extends DriverDAO {
 
             return titles;
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return null;
         }
@@ -702,7 +710,6 @@ public class UserDAO extends DriverDAO {
 
             Document userDocument = userCollection.find(filter).first();
 
-            // Check if the user document exists
             if (userDocument == null) {
                 System.err.println("ERROR: User not found.");
                 return null;
@@ -719,18 +726,18 @@ public class UserDAO extends DriverDAO {
                 restaurantLists = null;
             }
 
-            // Iterate over the restaurantLists and find the list with the given title
+            // Iterates over the restaurantLists and find the list with the given title
             assert restaurantLists != null;
             for (Document list : restaurantLists) {
                 String listTitle = list.getString("title");
                 if (listTitle.equals(title)) {
                     List<Document> restaurantsDocuments = list.getList("restaurants", Document.class);
 
-                    // Convert the restaurantsDocuments to Restaurant objects
+                    // Converts the restaurantsDocuments to Restaurant objects
                     ArrayList<RestaurantDTO> restaurants = new ArrayList<>();
                     if (restaurantsDocuments != null) {
                         for (Document restaurantDoc : restaurantsDocuments) {
-                            // Extract the necessary fields from the restaurantDoc and create a Restaurant object
+                            // Extracts the necessary fields
                             String restaurantId = restaurantDoc.getString("restaurant_id");
                             String restaurantName = restaurantDoc.getString("restaurant_name");
 
@@ -742,19 +749,16 @@ public class UserDAO extends DriverDAO {
                         }
                     }
 
-                    // Create a RestaurantsListDTO object and add it to the ArrayList
                     return new RestaurantsListDTO(listTitle, restaurants);
                 }
             }
 
-            // If the list with the given title is not found, return an empty restaurant list
             return new RestaurantsListDTO();
         } catch (MongoException e) {
             e.printStackTrace();
             return null;
         }
     }
-
 
     /**
      * Adds a restaurant to a specific restaurant list of a user.
@@ -770,22 +774,22 @@ public class UserDAO extends DriverDAO {
 
             Document userDocument = userCollection.find(filter).first();
 
-            // Check if the user document exists
+            // Checks if the user document exists
             if (userDocument == null) {
                 System.err.println("ERROR: User not found.");
                 return false;
             }
 
-            // Get the restaurantsList field from the user document
+            // Gets the restaurantsList field from the user document
             List<Document> restaurantLists = userDocument.getList("restaurantsList", Document.class);
 
-            // Iterate over the restaurantLists and find the list with the given title
+            // Iterates over the restaurantLists and find the list with the given title
             for (Document list : restaurantLists) {
                 String listTitle = list.getString("title");
                 if (listTitle.equals(title)) {
                     List<Document> restaurantsDocuments = list.getList("restaurants", Document.class);
 
-                    // Check if the restaurant already exists in the list
+                    // Checks if the restaurant already exists in the list
                     boolean isRestaurantAlreadyPresent = restaurantsDocuments.stream()
                             .anyMatch(doc -> doc.getString("restaurant_id").equals(restaurant.getId()));
 
@@ -800,7 +804,7 @@ public class UserDAO extends DriverDAO {
                             .append("restaurant_name", restaurant.getName());
                     restaurantsDocuments.add(newRestaurantDoc);
 
-                    // Update the user document in the database
+                    // Updates the user document in the database
                     userCollection.updateOne(eq("username", user.getUsername()),
                             set("restaurantsList", restaurantLists));
 
@@ -817,14 +821,20 @@ public class UserDAO extends DriverDAO {
         }
     }
 
+    /**
+     * Recovers the restaurant list of a user.
+     *
+     * @param username           The username of the user
+     * @param newRestaurantLists The new restaurant lists to be set for the user
+     */
     public static void recoverRestaurantList(String username, ArrayList<RestaurantsListDTO> newRestaurantLists) {
         try {
             Bson filter = eq("username", username);
 
-            // Create a new document with the updated restaurantList field
+            // Creates a new document with the updated restaurantList field
             Document updatedDocument = new Document("$set", new Document("restaurantsList", packRestaurantLists(newRestaurantLists)));
 
-            // Perform the update operation to replace the existing document with the updated one
+            // Performs the update operation to replace the existing document with the updated one
             UpdateResult result = userCollection.updateOne(filter, updatedDocument);
 
             if (result.getModifiedCount() > 0) {
@@ -848,16 +858,16 @@ public class UserDAO extends DriverDAO {
      */
     public static boolean removeRestaurantFromList(UserDTO user, String title, String restaurantId) {
         try {
-            // Find the user document
+            // Finds the user document
             Document userDocument = userCollection.find(eq("username", user.getUsername())).first();
 
-            // Check if the user document exists
+            // Checks if the user document exists
             if (userDocument == null) {
                 System.err.println("ERROR: User not found.");
                 return false;
             }
 
-            // Find the restaurantsList with the specified title
+            // Finds the restaurantsList with the specified title
             List<Document> restaurantLists = userDocument.getList("restaurantsList", Document.class);
             if (restaurantLists == null) {
                 System.err.println("ERROR: Restaurants list not found.");
@@ -872,13 +882,13 @@ public class UserDAO extends DriverDAO {
                 }
             }
 
-            // Check if the targetList exists
+            // Checks if the targetList exists
             if (targetList == null) {
                 System.err.println("ERROR: Restaurants list not found.");
                 return false;
             }
 
-            // Find the restaurant with the specified ID in the targetList
+            // Finds the restaurant with the specified ID in the targetList
             List<Document> restaurants = targetList.getList("restaurants", Document.class);
             if (restaurants == null) {
                 System.err.println("ERROR: Restaurants not found.");
@@ -893,21 +903,20 @@ public class UserDAO extends DriverDAO {
                 }
             }
 
-            // Check if the targetRestaurant exists
+            // Checks if the target Restaurant exists
             if (targetRestaurant == null) {
                 System.err.println("ERROR: Restaurant not found.");
                 return false;
             }
 
-            // Remove the restaurant from the targetList
+            // Removes the restaurant from the target List
             restaurants.remove(targetRestaurant);
 
-            // Update the user document in the collection
+            // Updates the user document in the collection
             userCollection.replaceOne(eq("username", user.getUsername()), userDocument);
 
             return true;
         } catch (MongoException e) {
-            // Handle any exceptions that occur during the database operation
             e.printStackTrace();
             return false;
         }
@@ -921,16 +930,16 @@ public class UserDAO extends DriverDAO {
      */
     public static ArrayList<ReservationDTO> getReservations(UserDTO user) {
         try {
-            // Find the user document
+            // Finds the user document
             Document userDocument = userCollection.find(eq("username", user.getUsername())).first();
 
-            // Check if the user document exists
+            // Checks if the user document exists
             if (userDocument == null) {
                 System.err.println("ERROR: User not found.");
                 return null;
             }
 
-            // retrieve reservations list
+            // Retrieves reservations list
             List<Document> reservationsDocuments = userDocument.getList("reservations", Document.class);
 
             ArrayList<ReservationDTO> result = new ArrayList<>();

@@ -82,7 +82,6 @@ public class LoginRestaurantPageController implements Initializable {
 
     private void login(ActionEvent event) {
         try {
-            //login restaurant
             RestaurantDTO loggedRest = RestaurantDAO.loginRestaurant(usernameLoginField.getText(), passwordLoginField.getText());
 
             if (loggedRest != null) {

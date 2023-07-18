@@ -49,25 +49,24 @@ public class FindRestaurantBarController implements Initializable {
     }
 
     public void searchRestaurants(ActionEvent event) {
-        currentIndex = 0; // Reimposta l'indice corrente a 0
-        restaurantContainer.getChildren().clear(); // Rimuovi i ristoranti precedenti dalla vista
+        currentIndex = 0;
+        restaurantContainer.getChildren().clear();
         String location = locationField.getText().isEmpty() ? null : locationField.getText();
         String name = nameField.getText().isEmpty() ? null : nameField.getText();
         String cuisine = cuisineField.getText().isEmpty() ? null : cuisineField.getText();
         String keywords = keywordsField.getText().isEmpty() ? null : keywordsField.getText();
         String rating = ratingField.getText().isEmpty() ? null : ratingField.getText();
 
-        allRestaurants = RestaurantDAO.searchRestaurants(location, name, cuisine, keywords, rating);
+        allRestaurants = RestaurantDAO.searchRestaurants(location, name, cuisine, keywords, rating,1, 50);
 
-        loadNextBatch(); // Carica il primo batch di ristoranti
+        loadNextBatch();
     }
 
     public void loadMoreRestaurants(ActionEvent event) {
-        loadNextBatch(); // Carica il prossimo batch di ristoranti
+        loadNextBatch();
     }
 
     public void loadNextBatch() {
-        // Numero di ristoranti da caricare in ogni batch
         int batchSize = 5;
         if(allRestaurants.size() == 0) {
             Text noListText = new Text("No Restaurant Found");
@@ -100,7 +99,6 @@ public class FindRestaurantBarController implements Initializable {
                 fxmlLoader.setController(widgetController);
                 HBox restaurantWidget = fxmlLoader.load();
 
-                // Imposta le informazioni del ristorante nel widget
                 widgetController.setRestaurant(rest);
 
                 restaurantContainer.getChildren().add(restaurantWidget);
@@ -111,11 +109,10 @@ public class FindRestaurantBarController implements Initializable {
 
         currentIndex += batchSize;
 
-        // Controlla se ci sono ulteriori ristoranti da caricare
         if (currentIndex >= allRestaurants.size()) {
-            loadMoreButton.setVisible(false); // Nascondi il pulsante "Carica altro" se non ci sono più ristoranti da caricare
+            loadMoreButton.setVisible(false);
         } else {
-            loadMoreButton.setVisible(true); // Mostra il pulsante "Carica altro" se ci sono ancora ristoranti da caricare
+            loadMoreButton.setVisible(true);
         }
 
         setupRestaurantView();
@@ -129,17 +126,15 @@ public class FindRestaurantBarController implements Initializable {
 
     private void setupRestaurantView() {
         ScrollPane scrollPane = new ScrollPane(restaurantContainer);
-        scrollPane.setFitToWidth(true); // Abilita la ridimensione automatica in larghezza
-        scrollPane.setFitToHeight(true); // Abilita la ridimensione automatica in altezza
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS); // Mostra sempre la barra di scorrimento verticale
-        scrollPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setStyle("-fx-background-color: transparent;");
 
-        // Rimuovi eventuali elementi precedenti dal dynamicPane
         dynamicPane.getChildren().clear();
 
         dynamicPane.setStyle("-fx-background-color: #F0F0F0;");
 
-        // Aggiungi lo ScrollPane contenente il GridPane all'AnchorPane e adatta alla grandezza dell'AnchorPane
         AnchorPane.setTopAnchor(scrollPane, 0.0);
         AnchorPane.setBottomAnchor(scrollPane, 0.0);
         AnchorPane.setLeftAnchor(scrollPane, 0.0);

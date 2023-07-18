@@ -7,7 +7,6 @@ import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.neo4j.Neo4jUserDAO;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.model.Session;
 import it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -57,7 +56,7 @@ public class AnalyticsPaneController implements Initializable{
         if(numberField.getText().isEmpty() || cuisineField.getText().isEmpty())
             Utils.showAlert("Please fill all the field!");
 
-        resultDocsList = RestaurantDAO.getTopKRatedRestaurantsByCuisine(Integer.parseInt(numberField.getText()), cuisineField.getText());
+        resultDocsList = RestaurantDAO.getTopKRatedRestaurantsByCuisine(Integer.parseInt(numberField.getText()), cuisineField.getText().toLowerCase());
 
         loadNextBatch();
     }
@@ -159,11 +158,11 @@ public class AnalyticsPaneController implements Initializable{
     }
 
     public void loadMoreResults(ActionEvent event) {
-        loadNextBatch(); // Carica il prossimo batch di ristoranti
+        loadNextBatch();
     }
 
     public void loadNextBatch() {
-        // Numero di ristoranti da caricare in ogni batch
+
         int batchSize = 5;
         if(resultDocsList.size() == 0) {
             Text noListText;
@@ -201,7 +200,6 @@ public class AnalyticsPaneController implements Initializable{
                     fxmlLoader.setController(widgetController);
                     HBox restaurantWidget = fxmlLoader.load();
 
-                    // Imposta le informazioni del ristorante nel widget
                     widgetController.setRestaurant(doc);
 
                     resultContainer.getChildren().add(restaurantWidget);
@@ -211,7 +209,6 @@ public class AnalyticsPaneController implements Initializable{
                     fxmlLoader.setController(widgetController);
                     HBox userWidget = fxmlLoader.load();
 
-                    // Imposta le informazioni del ristorante nel widget
                     widgetController.setUser(doc);
 
                     resultContainer.getChildren().add(userWidget);
@@ -299,17 +296,15 @@ public class AnalyticsPaneController implements Initializable{
 
     private void setupResultView() {
         ScrollPane scrollPane = new ScrollPane(resultContainer);
-        scrollPane.setFitToWidth(true); // Abilita la ridimensione automatica in larghezza
-        scrollPane.setFitToHeight(true); // Abilita la ridimensione automatica in altezza
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS); // Mostra sempre la barra di scorrimento verticale
-        scrollPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setStyle("-fx-background-color: transparent;");
 
-        // Rimuovi eventuali elementi precedenti dal dynamicPane
         dynamicPane.getChildren().clear();
 
         dynamicPane.setStyle("-fx-background-color: #F0F0F0;");
 
-        // Aggiungi lo ScrollPane contenente il GridPane all'AnchorPane e adatta alla grandezza dell'AnchorPane
         AnchorPane.setTopAnchor(scrollPane, 0.0);
         AnchorPane.setBottomAnchor(scrollPane, 0.0);
         AnchorPane.setLeftAnchor(scrollPane, 0.0);

@@ -149,10 +149,8 @@ public class PersonalPageController implements Initializable {
         GridPane reservationGridPane = new GridPane();
         reservationGridPane.setPadding(new Insets(10));
         reservationGridPane.setVgap(10);
-        reservationGridPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
+        reservationGridPane.setStyle("-fx-background-color: transparent;");
 
-
-        // Recupera la lista di prenotazioni dell'utente dalla classe Sessione
         List<ReservationDTO> reservationList = Session.getLoggedUser().getReservations();
 
         int row = 0;
@@ -163,7 +161,6 @@ public class PersonalPageController implements Initializable {
                 fxmlLoader.setController(widgetController);
                 VBox reservationWidget = fxmlLoader.load();
 
-                // Imposta le informazioni della prenotazione nel widget
                 widgetController.setReservation(reservation);
 
                 reservationGridPane.add(reservationWidget, 0, row);
@@ -175,18 +172,16 @@ public class PersonalPageController implements Initializable {
         }
 
         ScrollPane scrollPane = new ScrollPane(reservationGridPane);
-        scrollPane.setFitToWidth(true); // Abilita la ridimensione automatica in larghezza
-        scrollPane.setFitToHeight(true); // Abilita la ridimensione automatica in altezza
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS); // Mostra sempre la barra di scorrimento verticale
-        scrollPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setStyle("-fx-background-color: transparent;");
 
 
-        // Rimuovi eventuali elementi precedenti dal dynamicPane
         dynamicPane.getChildren().clear();
 
         dynamicPane.setStyle("-fx-background-color: #F0F0F0;");
 
-        // Aggiungi lo ScrollPane contenente il GridPane all'AnchorPane e adatta alla grandezza dell'AnchorPane
         AnchorPane.setTopAnchor(scrollPane, 0.0);
         AnchorPane.setBottomAnchor(scrollPane, 0.0);
         AnchorPane.setLeftAnchor(scrollPane, 0.0);

@@ -18,15 +18,15 @@ public class DriverDAO {
      */
     public static boolean connectToCluster() {
         try {
-            //Create a mongodbDB client
+            // Creates a mongodbDB client
             String clusterAddress = "mongodb://10.1.1.18:27017,10.1.1.19:27017,10.1.1.20:27017/" +
                     "?retryWrites=true&w=1&readPreferences=nearest&wtimeout=10000";
             mongoClient = MongoClients.create(clusterAddress);
 
-            //Connect to db database
+            // Connects to db database
             db = mongoClient.getDatabase("ForkTalk");
 
-            //Select the collection Users e Restaurants
+            // Selects the collection Users e Restaurants
             userCollection = db.getCollection("Users");
             restaurantCollection = db.getCollection("Restaurants");
 
@@ -44,16 +44,16 @@ public class DriverDAO {
      */
     public static boolean connectToLocal() {
         try {
-            // Create connection string
+            // Creates connection string
             ConnectionString uri = new ConnectionString("mongodb://localhost:27017/?retryWrites=false");
 
-            // Create a MongoDB client
+            // Creates a MongoDB client
             mongoClient = MongoClients.create(uri);
 
-            // Connect to the "ForkTalk" database
+            // Connects to the "ForkTalk" database
             db = mongoClient.getDatabase("ForkTalk");
 
-            // Select the "Users" collection
+            // Selects the "Users" collection
             userCollection = db.getCollection("Users");
             restaurantCollection = db.getCollection("Restaurants");
 

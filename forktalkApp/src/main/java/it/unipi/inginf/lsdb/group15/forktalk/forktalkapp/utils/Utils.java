@@ -10,6 +10,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Utils {
+    /**
+     * Changes the scene of the application to the specified file.
+     *
+     * @param fileName the name of the FXML file representing the new scene
+     * @param event    the event triggering the scene change
+     */
     public static void changeScene (String fileName, Event event) {
         Scene scene;
         FXMLLoader loader;
@@ -25,9 +31,26 @@ public class Utils {
         }
     }
 
+    /**
+     * Displays an error alert with the specified message.
+     *
+     * @param message the error message to display in the alert
+     */
     public static void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    /**
+     * Displays a confirmation with the specified message.
+     *
+     * @param message the error message to display in the alert
+     */
+    public static void showMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Message");
         alert.setContentText(message);
         alert.showAndWait();
     }

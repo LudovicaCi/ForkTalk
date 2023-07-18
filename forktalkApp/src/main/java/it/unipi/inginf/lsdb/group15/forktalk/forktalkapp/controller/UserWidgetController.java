@@ -65,7 +65,7 @@ public class UserWidgetController implements Initializable {
 
     private void makeAdmin(ActionEvent event) {
         if(UserDAO.makeAdmin(usernameField.getText()))
-            Utils.showAlert("User upgraded!");
+            Utils.showMessage("User upgraded!");
         else
             Utils.showAlert("Something went wrong! Please try again.");
     }

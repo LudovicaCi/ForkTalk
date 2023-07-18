@@ -34,7 +34,6 @@ public class AddReservationSlotsController implements Initializable {
                 return;
             }
 
-            // Get the selected date from the date picker
             LocalDate date = datePicker.getValue();
             LocalDate currentDate = LocalDate.now();
 
@@ -46,7 +45,6 @@ public class AddReservationSlotsController implements Initializable {
             assert date != null;
             String dateString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            // Get the entered time slot from the text field
             String slot = timeSlot.getText();
             if (!slot.matches("\\d{2}:\\d{2}")) {
                 Utils.showAlert("Incorrect time slot format. Please enter in HH:mm format.");
@@ -60,7 +58,6 @@ public class AddReservationSlotsController implements Initializable {
                 return;
             }
 
-            // Get the entered number of persons from the text field
             int numberOfSlots = Integer.parseInt(numberSlots.getText());
 
             if (RestaurantDAO.addFreeSlot(Session.loggedRestaurant, numberOfSlots, slot, dateString)){

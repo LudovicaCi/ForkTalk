@@ -60,7 +60,6 @@ public class WriteReviewController implements Initializable {
             String formattedDate = currentDate.format(DateTimeFormatter.ISO_DATE);
             newReview.setTimestamp(formattedDate);
 
-            //write review
             if(RestaurantDAO.writeReview(newReview, Session.getRestaurantPageController().restId)){
                 Session.getRestaurantPageController().refreshReviews();
             }else{

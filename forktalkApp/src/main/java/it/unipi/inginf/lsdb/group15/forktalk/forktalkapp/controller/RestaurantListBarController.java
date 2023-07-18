@@ -96,19 +96,6 @@ public class RestaurantListBarController implements Initializable {
             Utils.showAlert("Something went wrong! please try again.");
     }
 
-    /*public void setList(RestaurantsListDTO list, String author) throws IOException {
-        titleField.setText(list.getTitle());
-        nFollowers.setText(String.valueOf(Neo4jUserDAO.getNumFollowersRestaurantList(author, list.getTitle())));
-
-        loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/ListPage.fxml"));
-        root = loader.load();
-        listPageController = loader.getController();
-
-        listPageController.setListPageInfo(titleField.getText(), this.username.equals("") ? Session.getLoggedUser().getUsername() : this.username);
-
-        listPageController.showRestaurants();
-    } */
-
     public void setList(String title, String author) throws IOException {
         this.author = author;
         titleField.setText(title);

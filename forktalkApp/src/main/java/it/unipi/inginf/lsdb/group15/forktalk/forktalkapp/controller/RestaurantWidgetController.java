@@ -78,7 +78,6 @@ public class RestaurantWidgetController implements Initializable {
         root = loader.load();
         restPageController = loader.getController();
 
-        // Passa l'ID dell'utente al controller della nuova pagina
         restPageController.setRestaurantInfo(restaurant.getString("restaurant_name"), restaurant.getString("rest_id"), String.valueOf(restaurant.get("rest_rating")), String.valueOf(restaurant.get("reviews", ArrayList.class).size()),
                 restaurant.getString("address").trim() + ", " + restaurant.getString("city") + ", " + restaurant.getString("country"),
                 String.valueOf(restaurant.get("tag")), reviewsDocuments, String.valueOf(restaurant.get("price")));

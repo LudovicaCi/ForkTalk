@@ -7,6 +7,11 @@ import org.neo4j.driver.GraphDatabase;
 public class Neo4jDriverDAO {
     public static Driver driver;
 
+    /**
+     * Opens a connection to Neo4j graph database.
+     *
+     * @return true if the connection is successfully opened, false otherwise
+     */
     public static boolean openConnection() {
         try {
             driver = GraphDatabase.driver( "neo4j://10.1.1.18:7687", AuthTokens.basic( "neo4j", "12345678" ) );
@@ -17,6 +22,9 @@ public class Neo4jDriverDAO {
         }
     }
 
+    /**
+     * Closes the connection to the Neo4j graph database.
+     */
     public static void closeConnection() {
         try{
             driver.close();

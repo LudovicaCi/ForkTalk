@@ -95,7 +95,6 @@ public class LoginUserPageController implements Initializable {
 
     private void login(ActionEvent event){
         try {
-            //login user
             UserDTO loggedUser = UserDAO.loginUser(usernameLoginField.getText(), passwordLoginField.getText());
 
             if (loggedUser != null) {

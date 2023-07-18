@@ -125,11 +125,6 @@ public class RestaurantPageController implements Initializable {
         BorderPane borderPaneTop = (BorderPane) listRestController.topBox.getParent();
         borderPaneTop.getChildren().remove(listRestController.topBox);
 
-        //int index = parentContainer.getChildren().indexOf(bottomBox);
-        //BorderPane borderPaneBottom = (BorderPane) bottomBox.getParent();
-        //borderPaneBottom.getChildren().remove(bottomBox);
-        //parentContainer.getChildren().remove(bottomBox);
-
         Region restListsRegion = (Region) restListsRoot;
 
         restListsRegion.setPrefWidth(dynamicPane.getWidth());
@@ -254,11 +249,9 @@ public class RestaurantPageController implements Initializable {
             priceField.setText(price);
         this.rate = (rate.equals("null")) ? 0.0 : Double.parseDouble(rate);
 
-        // Creazione del Comparator
         Comparator<Document> comparator = Comparator.comparing((Document review) -> !review.getString("reviewer_pseudo").equals(Session.getLoggedUser().getUsername()))
                 .thenComparing((Document review) -> review.getString("review_date"), Comparator.reverseOrder());
 
-        // Ordinamento della lista
         reviews.sort(comparator);
 
         reviewsDocuments = reviews;
@@ -272,10 +265,10 @@ public class RestaurantPageController implements Initializable {
     }
 
     public void showReviews() {
-        currentIndex = 0; // Reimposta l'indice corrente a 0
-        pageContainer.getChildren().clear(); // Rimuovi i ristoranti precedenti dalla vista
+        currentIndex = 0;
+        pageContainer.getChildren().clear();
 
-        loadNextBatch(); // Carica il primo batch di ristoranti
+        loadNextBatch();
     }
 
     public void showReviews(ActionEvent event) {
@@ -283,11 +276,10 @@ public class RestaurantPageController implements Initializable {
     }
 
     public void loadMoreReviews(ActionEvent event) {
-        loadNextBatch(); // Carica il prossimo batch di ristoranti
+        loadNextBatch();
     }
 
     private void loadNextBatch() {
-        // Numero di ristoranti da caricare in ogni batch
         int batchSize = 5;
         if(reviewsDocuments.size() == 0) {
             Text noListText = new Text("No Reviews Yet");
@@ -319,7 +311,6 @@ public class RestaurantPageController implements Initializable {
                 fxmlLoader.setController(widgetController);
                 VBox reviewWidget = fxmlLoader.load();
 
-                // Imposta le informazioni del ristorante nel widget
                 widgetController.setReview(review);
                 widgetController.updateStarImages();
 
@@ -331,9 +322,7 @@ public class RestaurantPageController implements Initializable {
 
         currentIndex += batchSize;
 
-        // Controlla se ci sono ulteriori ristoranti da caricare
-        // Mostra il pulsante "Carica altro" se ci sono ancora ristoranti da caricare
-        loadMoreButton.setVisible(currentIndex < reviewsDocuments.size()); // Nascondi il pulsante "Carica altro" se non ci sono più ristoranti da caricare
+        loadMoreButton.setVisible(currentIndex < reviewsDocuments.size());
 
         setupReviewView();
     }
@@ -347,17 +336,15 @@ public class RestaurantPageController implements Initializable {
 
     private void setupReviewView() {
         ScrollPane scrollPane = new ScrollPane(pageContainer);
-        scrollPane.setFitToWidth(true); // Abilita la ridimensione automatica in larghezza
-        scrollPane.setFitToHeight(true); // Abilita la ridimensione automatica in altezza
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS); // Mostra sempre la barra di scorrimento verticale
-        scrollPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setStyle("-fx-background-color: transparent;");
 
-        // Rimuovi eventuali elementi precedenti dal dynamicPane
         dynamicPane.getChildren().clear();
 
         dynamicPane.setStyle("-fx-background-color: #F0F0F0;");
 
-        // Aggiungi lo ScrollPane contenente il GridPane all'AnchorPane e adatta alla grandezza dell'AnchorPane
         AnchorPane.setTopAnchor(scrollPane, 0.0);
         AnchorPane.setBottomAnchor(scrollPane, 0.0);
         AnchorPane.setLeftAnchor(scrollPane, 0.0);
@@ -366,10 +353,8 @@ public class RestaurantPageController implements Initializable {
     }
 
     public void refreshReviews() {
-        // Resetta la vista corrente
         resetView();
 
-        // Ricarica le recensioni aggiornate
         Document restaurant = RestaurantDAO.getRestaurantDocumentById(restId);
         if(restaurant ==null)
             return;

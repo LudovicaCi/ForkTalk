@@ -49,24 +49,23 @@ public class FindUserBarController implements Initializable {
     }
 
     public void searchUsers(ActionEvent event) {
-        currentIndex = 0; // Reimposta l'indice corrente a 0
-        userContainer.getChildren().clear(); // Rimuovi i ristoranti precedenti dalla vista
+        currentIndex = 0;
+        userContainer.getChildren().clear();
         String username = usernameField.getText().isEmpty() ? null : usernameField.getText();
         String name = nameField.getText().isEmpty() ? null : nameField.getText();
         String surname = surnameField.getText().isEmpty() ? null : surnameField.getText();
         String email = emailField.getText().isEmpty() ? null : emailField.getText();
 
-        allUsers = UserDAO.searchUsers(username, name, surname, email);
+        allUsers = UserDAO.searchUsers(username, name, surname, email, 1, 50);
 
-        loadNextBatch(); // Carica il primo batch di ristoranti
+        loadNextBatch();
     }
 
     public void loadMoreRestaurants(ActionEvent event) {
-        loadNextBatch(); // Carica il prossimo batch di ristoranti
+        loadNextBatch();
     }
 
     public void loadNextBatch() {
-        // Numero di ristoranti da caricare in ogni batch
         int batchSize = 5;
         if(allUsers.size() == 0) {
             Text noListText = new Text("No User Found");
@@ -98,7 +97,6 @@ public class FindUserBarController implements Initializable {
                 fxmlLoader.setController(widgetController);
                 HBox userWidget = fxmlLoader.load();
 
-                // Imposta le informazioni del ristorante nel widget
                 widgetController.setUser(user);
 
                 userContainer.getChildren().add(userWidget);
@@ -122,17 +120,15 @@ public class FindUserBarController implements Initializable {
 
     private void setupRestaurantView() {
         ScrollPane scrollPane = new ScrollPane(userContainer);
-        scrollPane.setFitToWidth(true); // Abilita la ridimensione automatica in larghezza
-        scrollPane.setFitToHeight(true); // Abilita la ridimensione automatica in altezza
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS); // Mostra sempre la barra di scorrimento verticale
-        scrollPane.setStyle("-fx-background-color: transparent;"); // Imposta lo sfondo trasparente
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setStyle("-fx-background-color: transparent;");
 
-        // Rimuovi eventuali elementi precedenti dal dynamicPane
         dynamicPane.getChildren().clear();
 
         dynamicPane.setStyle("-fx-background-color: #F0F0F0;");
 
-        // Aggiungi lo ScrollPane contenente il GridPane all'AnchorPane e adatta alla grandezza dell'AnchorPane
         AnchorPane.setTopAnchor(scrollPane, 0.0);
         AnchorPane.setBottomAnchor(scrollPane, 0.0);
         AnchorPane.setLeftAnchor(scrollPane, 0.0);
