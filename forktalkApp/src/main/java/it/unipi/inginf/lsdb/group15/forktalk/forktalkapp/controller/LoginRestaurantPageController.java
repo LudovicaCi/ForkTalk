@@ -140,6 +140,7 @@ public class LoginRestaurantPageController implements Initializable {
                     showMessage("Registration successful.");
                     Session.setLoggedUser(null);
                     Session.setLoggedRestaurant(newRest);
+                    Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/RestaurantLoggedPage.fxml", event);
                 }else{
                     RestaurantDAO.deleteRestaurant(newRest);
                     showAlert("Registration failed. Please try again.");
