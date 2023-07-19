@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils.showAlert;
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils.showMessage;
 
 public class LoginUserPageController implements Initializable {
     @FXML
@@ -79,7 +80,7 @@ public class LoginUserPageController implements Initializable {
             boolean success = UserDAO.registerUser(newUser);
             if (success) {
                 if(Neo4jUserDAO.addUser(newUser)) {
-                    showAlert("Registration successful.");
+                    showMessage("Registration successful.");
                     Session.setLoggedUser(newUser);
                     Session.setLoggedRestaurant(null);
                     Utils.changeScene("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/BrowserPage.fxml", event);

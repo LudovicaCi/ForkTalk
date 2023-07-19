@@ -19,6 +19,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils.showAlert;
+import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.utils.Utils.showMessage;
 
 public class LoginRestaurantPageController implements Initializable {
     @FXML
@@ -136,7 +137,7 @@ public class LoginRestaurantPageController implements Initializable {
             boolean success = RestaurantDAO.addRestaurant(newRest);
             if (success) {
                 if(Neo4jRestaurantDAO.addRestaurant(newRest)) {
-                    showAlert("Registration successful.");
+                    showMessage("Registration successful.");
                     Session.setLoggedUser(null);
                     Session.setLoggedRestaurant(newRest);
                 }else{
