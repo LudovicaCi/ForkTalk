@@ -135,6 +135,7 @@ public class RestaurantLoggedPageController implements Initializable {
     }
 
     public void openAddSlotsPage() throws IOException {
+        loadMoreButton.setVisible(false);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ it.unipi.inginf.lsdb.group15.forktalk.forktalkapp/layout/AddReservationSlots.fxml"));
         Parent editProfileRoot = loader.load();
 
@@ -265,6 +266,7 @@ public class RestaurantLoggedPageController implements Initializable {
     }
 
     public void createReservationGridPane(ActionEvent event) {
+        loadMoreButton.setVisible(false);
         pageContainer.getChildren().clear();
 
         List<ReservationDTO> reservationList = Session.getLoggedRestaurant().getReservations();
