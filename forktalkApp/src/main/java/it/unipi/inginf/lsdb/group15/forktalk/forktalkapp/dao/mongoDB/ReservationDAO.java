@@ -15,7 +15,6 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static it.unipi.inginf.lsdb.group15.forktalk.forktalkapp.dao.mongoDB.RestaurantDAO.*;
@@ -217,12 +216,30 @@ public class ReservationDAO extends DriverDAO{
      * Delete reservations with a date prior to the current date for all users.
      */
     public static void deleteOldReservations() {
-        LocalDate currentDate = LocalDate.now();
+        ClientSession clientSession = mongoClient.startSession();
 
-        Bson filter = Filters.lt("reservations.date", currentDate.toString());
-        Bson update = Updates.pull("reservations", filter);
+        try {
+            clientSession.startTransaction();
+            LocalDate currentDate = LocalDate.now();
 
-        userCollection.updateMany(new Document(), update);
-        restaurantCollection.updateMany(new Document(), update);
+            Bson filter = Filters.lt("reservations.date", currentDate.toString());
+            Bson update = Updates.pull("reservations", filter);
+
+            UpdateResult userResult = userCollection.updateMany(new Document(), update);
+            UpdateResult restResult = restaurantCollection.updateMany(new Document(), update);
+
+            // Checks if the update was successful
+            if (userResult.getModifiedCount() > 0 && restResult.getModifiedCount() > 0) {
+                System.out.println("The reservations have been successfully removed!");
+                clientSession.commitTransaction();
+            } else {
+                System.out.println("The reservations unfortunately could not be removed or are not present!");
+                clientSession.abortTransaction();
+            }
+        }catch (MongoException e){
+            System.out.println("An error occurred while deleting the reservation");
+            clientSession.abortTransaction();
+            e.printStackTrace();
+        }
     }
 }
