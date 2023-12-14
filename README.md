@@ -1,4 +1,4 @@
-# ForkTalk - Project for Large Scale and Multi-Structured Databases Course
+# Large Scale and Multi-Structured Databases Project
 
 This project was developed for the Large Scale and Multi-Structured Databases course at the University of Pisa.
 
